@@ -1,0 +1,133 @@
+{% load static %}
+{% load widget_tweaks %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>{{ profile.college_name | default:"Gurukulsetu" }}</title>
+
+  <!-- Favicon -->
+  <link rel="icon" href="{% static 'dist/img/ashoka-chakra.svg' %}" type="image/svg+xml">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="{% static 'plugins/fontawesome-free/css/all.min.css' %}">
+  <link rel="stylesheet" href="{% static 'plugins/toastr/toastr.min.css' %}">
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="{% static 'dist/css/indian-login.css' %}">
+</head>
+
+<body>
+  <div class="login-container">
+    <!-- Indian Flag Colors Strip -->
+    <div class="indian-flag-colors">
+      <div class="color-saffron"></div>
+      <div class="color-white"></div>
+      <div class="color-green"></div>
+    </div>
+
+    <div class="login-left">
+      <div class="school-logo">
+        {% if profile.college_logo %}
+          <img src="{{ profile.college_logo.url }}" alt="School Logo">
+        {% else %}
+          <img src="{% static 'dist/img/ashoka-chakra.svg' %}" alt="Default Logo">
+        {% endif %}
+      </div>
+      <h1>{{ profile.college_name | default:"Gurukulsetu" }}</h1>
+      <h3>भारतीय शिक्षा का आधुनिक मंच</h3>
+      <p>Modern Platform for Indian Education</p>
+    </div>
+
+    <div class="login-right">
+      <h1>स्वागत है / Welcome</h1>
+      <h3>Login to access your account</h3>
+
+      {% if form.errors %}
+        <div class="error-msg">
+          <i class="fas fa-exclamation-circle"></i> Invalid username or password. Please try again.
+        </div>
+      {% endif %}
+
+      {% if next and user.is_authenticated %}
+        <div class="error-msg">
+          <i class="fas fa-exclamation-circle"></i> You do not have permission to access this page. Please login with an authorized account.
+        </div>
+      {% endif %}
+
+      <form method="post" action="{% url 'login' %}" class="login-form">
+        {% csrf_token %}
+        <div class="form-group">
+          <input type="text" id="id_username" name="username" placeholder="Username" aria-label="Username">
+        </div>
+
+        <div class="form-group password-field">
+          <input type="password" id="id_password" name="password" placeholder="Password" aria-label="Password">
+          <span id="togglePassword" class="toggle-password">
+            <i class="fas fa-eye"></i>
+          </span>
+        </div>
+
+        <div class="remember-me">
+          <input type="checkbox" name="remember_me" id="remember_me">
+          <label for="remember_me">Remember Me</label>
+        </div>
+
+        <button type="submit" class="login-btn">
+          <i class="fas fa-sign-in-alt"></i> Login
+        </button>
+
+        <input type="hidden" name="next" value="{{ next }}">
+      </form>
+
+      <a class="forgot-link" href="#">Forgot Username / Password?</a>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="{% static 'plugins/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'plugins/toastr/toastr.min.js' %}"></script>
+  <script>
+    document.getElementById("togglePassword").addEventListener("click", function() {
+      var passwordInput = document.getElementById("id_password");
+      if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+        this.innerHTML = '<i class="fas fa-eye-slash"></i>';
+      } else {
+        passwordInput.type = "password";
+        this.innerHTML = '<i class="fas fa-eye"></i>';
+      }
+    });
+
+    // Add animation classes
+    document.addEventListener('DOMContentLoaded', function() {
+      const loginContainer = document.querySelector('.login-container');
+      loginContainer.classList.add('fade-in');
+
+      // Animate elements sequentially
+      setTimeout(function() {
+        document.querySelector('.school-logo').classList.add('bounce-in');
+      }, 300);
+
+      setTimeout(function() {
+        document.querySelector('.login-left h1').classList.add('slide-in');
+        document.querySelector('.login-left h3').classList.add('slide-in');
+        document.querySelector('.login-left p').classList.add('slide-in');
+      }, 600);
+
+      setTimeout(function() {
+        document.querySelector('.login-right h1').classList.add('slide-in');
+        document.querySelector('.login-right h3').classList.add('slide-in');
+        document.querySelector('.login-form').classList.add('fade-in');
+      }, 900);
+    });
+  </script>
+</body>
+</html>

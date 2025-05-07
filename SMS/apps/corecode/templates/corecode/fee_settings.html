@@ -1,0 +1,319 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block breadcrumb-left %}
+<div class="breadcrumb-container">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb breadcrumb-chevron">
+      <li class="breadcrumb-item">
+        <a href="{% url 'home' %}" class="text-decoration-none fw-bold">
+          <i class="fas fa-home"></i> Home
+        </a>
+      </li>
+      <li class="breadcrumb-item">
+        <a href="#" class="text-decoration-none fw-bold">
+          <i class="fas fa-copy"></i> Management
+        </a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">
+        <i class="fas fa-money-bill-wave"></i> Fee Settings
+      </li>
+    </ol>
+  </nav>
+</div>
+{% endblock breadcrumb-left %}
+
+{% block title-icon %}fas fa-money-bill-wave{% endblock title-icon %}
+
+{% block title %}Fee Settings{% endblock title %}
+
+{% block subtitle %}Configure and manage fee structure for different classes{% endblock subtitle %}
+
+{% block page-actions %}
+<a href="{% url 'fee_settings_list' %}" class="btn btn-outline-primary">
+  <i class="fas fa-list me-2"></i>View All Settings
+</a>
+{% endblock page-actions %}
+
+{% block content %}
+<head>
+    <style>
+        body {
+            background-color: #f4f6f9;
+        }
+
+        .fee-settings-container {
+            padding: 40px 0;
+        }
+
+        .card-custom {
+            background-color: #fff;
+            padding: 25px 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+        }
+
+        .card-header-custom {
+            background: linear-gradient(135deg, #4e73df, #224abe);
+            color: white;
+            padding: 25px;
+            border-radius: 12px 12px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-header-custom h2 {
+            margin: 0;
+            font-weight: 700;
+        }
+
+        .card-header-custom p {
+            margin: 0;
+            font-size: 14px;
+            color: #dfe3ee;
+        }
+
+        .btn-view {
+            background-color: white;
+            color: #4e73df;
+            font-weight: 600;
+            border-radius: 6px;
+            padding: 10px 20px;
+            transition: 0.3s ease;
+        }
+
+        .btn-view:hover {
+            background-color: #f8f9fc;
+            transform: translateY(-1px);
+        }
+
+        .table thead th {
+            background-color: #343a40;
+            color: white;
+        }
+
+        .btn-add-fee {
+            background-color: #4e73df;
+            color: white;
+            font-weight: 600;
+        }
+
+        .btn-add-fee:hover {
+            background-color: #2e59d9;
+        }
+
+        .save-btn {
+            background-color: #1cc88a;
+            color: white;
+            padding: 10px 30px;
+            font-weight: bold;
+            font-size: 16px;
+            border-radius: 8px;
+            margin-top: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .total-amount {
+            background-color: #f8f9fc;
+            padding: 20px 25px;
+            margin-top: 25px;
+            border-radius: 10px;
+        }
+
+        .total-amount h3 {
+            color: #4e73df;
+            font-weight: 700;
+        }
+
+        .alert-custom {
+            background-color: #e2e3e5;
+            border-left: 5px solid #4e73df;
+            color: #333;
+        }
+
+        .btn-remove-fee {
+            background-color: transparent;
+            border: none;
+            color: red;
+            font-size: 20px;
+            transition: 0.2s;
+        }
+
+        .btn-remove-fee:hover {
+            color: darkred;
+            transform: scale(1.1);
+        }
+
+        .form-label {
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<div class="fee-settings-container">
+    <div class="container">
+        {% if messages %}
+        <div class="messages mb-4">
+            {% for message in messages %}
+            <div class="alert alert-custom alert-dismissible fade show" role="alert">
+                <i class="fas fa-info-circle me-2"></i>{{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+
+
+        <!-- Filter Card -->
+        <div class="card-custom">
+            <h5 class="mb-3"><i class="fas fa-filter me-2"></i>Select Class & Section</h5>
+            {% include 'includes/class_section_filter.html' with filter_form=filter_form show_search=False %}
+        </div>
+
+        <!-- Settings Form -->
+        <div class="card-custom">
+            {% if selected_class %}
+            <form method="post" action="" id="feeSettingsForm">
+                {% csrf_token %}
+                <input type="hidden" name="class_id" id="selectedClassId" value="{{ selected_class.id }}">
+                <input type="hidden" name="section" id="selectedSection" value="{{ selected_section|default:'' }}">
+
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <label for="frequency" class="form-label">Fee Frequency</label>
+                        <select class="form-select" id="frequency" name="frequency" required>
+                            <option value="">Select Frequency...</option>
+                            <option value="Monthly" {% if fee_settings.frequency == 'Monthly' %}selected{% endif %}>Monthly</option>
+                            <option value="Quarterly" {% if fee_settings.frequency == 'Quarterly' %}selected{% endif %}>Quarterly</option>
+                            <option value="Half-Yearly" {% if fee_settings.frequency == 'Half-Yearly' %}selected{% endif %}>Half-Yearly</option>
+                            <option value="Annually" {% if fee_settings.frequency == 'Annually' %}selected{% endif %}>Annually</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="due_date" class="form-label">Due Date</label>
+                        <input type="date" class="form-control" id="due_date" name="due_date" value="{{ fee_settings.due_date|date:'Y-m-d' }}" required>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover" id="feeTable">
+                        <thead>
+                            <tr>
+                                <th>Fee Type</th>
+                                <th>Amount (₹)</th>
+                                <th>Late Fee (₹)</th>
+                                <th>Discount (%)</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if existing_fees %}
+                                {% for fee in existing_fees %}
+                                <tr class="fee-row">
+                                    <td><input type="text" class="form-control" name="fee_type[]" value="{{ fee.fee_type }}" required></td>
+                                    <td><input type="number" class="form-control amount" name="amount[]" value="{{ fee.amount }}" min="0" step="0.01" required></td>
+                                    <td><input type="number" class="form-control" name="late_fee[]" value="{{ fee.late_fee|default:0 }}" min="0" step="0.01"></td>
+                                    <td><input type="number" class="form-control discount" name="discount[]" value="{{ fee.discount|default:0 }}" min="0" step="0.01"></td>
+                                    <td><button type="button" class="btn-remove-fee"><i class="fas fa-trash"></i></button></td>
+                                </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr class="fee-row">
+                                    <td><input type="text" class="form-control" name="fee_type[]" placeholder="e.g., Tuition Fee" required></td>
+                                    <td><input type="number" class="form-control amount" name="amount[]" min="0" step="0.01" required></td>
+                                    <td><input type="number" class="form-control" name="late_fee[]" min="0" step="0.01" value="0"></td>
+                                    <td><input type="number" class="form-control discount" name="discount[]" min="0" step="0.01" value="0"></td>
+                                    <td><button type="button" class="btn-remove-fee"><i class="fas fa-trash"></i></button></td>
+                                </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <button type="button" class="btn btn-add-fee mt-3" id="add-fee">
+                    <i class="fas fa-plus me-2"></i>Add More Fee
+                </button>
+
+                <div class="total-amount mt-4">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h4 class="mb-0">Total Fees</h4>
+                            <small class="text-muted">Including all discounts</small>
+                        </div>
+                        <div class="col-auto">
+                            <h3 class="mb-0">₹<span id="total-amount">0</span></h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-end">
+                    <button type="submit" class="save-btn"><i class="fas fa-save me-2"></i>Save Fee Settings</button>
+                </div>
+            </form>
+            {% else %}
+            <div class="text-center py-5">
+                <img src="{% static 'img/select-class.svg' %}" alt="Select Class" style="width: 200px; margin-bottom: 20px;">
+                <h4>Please Select a Class</h4>
+                <p class="text-muted">Choose a class from the filter above to configure fee settings.</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+$(document).ready(function () {
+    function calculateTotal() {
+        let total = 0;
+        $(".amount").each(function () {
+            let amount = parseFloat($(this).val()) || 0;
+            let discount = parseFloat($(this).closest("tr").find(".discount").val()) || 0;
+            total += (amount - (amount * discount / 100));
+        });
+        $("#total-amount").text(total.toFixed(2));
+    }
+
+    calculateTotal();
+
+    $("#add-fee").on('click', function () {
+        const newRow = `
+        <tr class="fee-row">
+            <td><input type="text" class="form-control" name="fee_type[]" placeholder="e.g., Tuition Fee" required></td>
+            <td><input type="number" class="form-control amount" name="amount[]" min="0" step="0.01" required></td>
+            <td><input type="number" class="form-control" name="late_fee[]" min="0" step="0.01" value="0"></td>
+            <td><input type="number" class="form-control discount" name="discount[]" min="0" step="0.01" value="0"></td>
+            <td><button type="button" class="btn-remove-fee"><i class="fas fa-trash"></i></button></td>
+        </tr>`;
+        $("#feeTable tbody").append(newRow);
+    });
+
+    $(document).on('click', '.btn-remove-fee', function () {
+        $(this).closest('tr').remove();
+        calculateTotal();
+    });
+
+    $(document).on('input', '.amount, .discount', function () {
+        calculateTotal();
+    });
+
+    $('#class-filter').change(function () {
+        $('#selectedClassId').val($(this).val());
+        // Don't auto-submit, wait for Apply Filter button
+    });
+
+    $('#section-filter').change(function () {
+        $('#selectedSection').val($(this).val());
+        // Don't auto-submit, wait for Apply Filter button
+    });
+
+    // Update hidden fields when form is submitted
+    $('#filter-form').on('submit', function() {
+        $('#selectedClassId').val($('#class-filter').val());
+        $('#selectedSection').val($('#section-filter').val());
+    });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+  <style>
+    .chakra-bg { fill: #000080; }
+    .chakra-ring { fill: none; stroke: #FFFFFF; stroke-width: 2; }
+    .chakra-spoke { fill: none; stroke: #FFFFFF; stroke-width: 2; }
+    .chakra-center { fill: #FFFFFF; }
+  </style>
+  
+  <!-- Background Circle -->
+  <circle class="chakra-bg" cx="100" cy="100" r="90"/>
+  
+  <!-- Outer Ring -->
+  <circle class="chakra-ring" cx="100" cy="100" r="85"/>
+  
+  <!-- Inner Ring -->
+  <circle class="chakra-ring" cx="100" cy="100" r="15"/>
+  
+  <!-- 24 Spokes -->
+  <line class="chakra-spoke" x1="100" y1="15" x2="100" y2="85"/>
+  <line class="chakra-spoke" x1="100" y1="115" x2="100" y2="185"/>
+  
+  <line class="chakra-spoke" x1="15" y1="100" x2="85" y2="100"/>
+  <line class="chakra-spoke" x1="115" y1="100" x2="185" y2="100"/>
+  
+  <line class="chakra-spoke" x1="29.3" y1="29.3" x2="85.4" y2="85.4"/>
+  <line class="chakra-spoke" x1="114.6" y1="114.6" x2="170.7" y2="170.7"/>
+  
+  <line class="chakra-spoke" x1="29.3" y1="170.7" x2="85.4" y2="114.6"/>
+  <line class="chakra-spoke" x1="114.6" y1="85.4" x2="170.7" y2="29.3"/>
+  
+  <line class="chakra-spoke" x1="50" y1="13.4" x2="93.3" y2="87.3"/>
+  <line class="chakra-spoke" x1="106.7" y1="112.7" x2="150" y2="186.6"/>
+  
+  <line class="chakra-spoke" x1="13.4" y1="50" x2="87.3" y2="93.3"/>
+  <line class="chakra-spoke" x1="112.7" y1="106.7" x2="186.6" y2="150"/>
+  
+  <line class="chakra-spoke" x1="13.4" y1="150" x2="87.3" y2="106.7"/>
+  <line class="chakra-spoke" x1="112.7" y1="93.3" x2="186.6" y2="50"/>
+  
+  <line class="chakra-spoke" x1="50" y1="186.6" x2="93.3" y2="112.7"/>
+  <line class="chakra-spoke" x1="106.7" y1="87.3" x2="150" y2="13.4"/>
+  
+  <line class="chakra-spoke" x1="36.3" y1="20.7" x2="89.3" y2="89.3"/>
+  <line class="chakra-spoke" x1="110.7" y1="110.7" x2="163.7" y2="179.3"/>
+  
+  <line class="chakra-spoke" x1="20.7" y1="36.3" x2="89.3" y2="89.3"/>
+  <line class="chakra-spoke" x1="110.7" y1="110.7" x2="179.3" y2="163.7"/>
+  
+  <line class="chakra-spoke" x1="20.7" y1="163.7" x2="89.3" y2="110.7"/>
+  <line class="chakra-spoke" x1="110.7" y1="89.3" x2="179.3" y2="36.3"/>
+  
+  <line class="chakra-spoke" x1="36.3" y1="179.3" x2="89.3" y2="110.7"/>
+  <line class="chakra-spoke" x1="110.7" y1="89.3" x2="163.7" y2="20.7"/>
+  
+  <!-- Center Circle -->
+  <circle class="chakra-center" cx="100" cy="100" r="10"/>
+</svg>
