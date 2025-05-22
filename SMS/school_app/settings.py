@@ -11,9 +11,13 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+import sys
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# Add the parent directory to the Python path
+sys.path.insert(0, os.path.dirname(BASE_DIR))
 
 
 # Quick-start development settings - unsuitable for production
@@ -48,6 +52,7 @@ INSTALLED_APPS = [
     'apps.exams',
     'apps.documents',
     'django_filters',
+    'website',  # Added website app
 ]
 
 MIDDLEWARE = [
@@ -68,6 +73,7 @@ TEMPLATES = [
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [
             os.path.join(BASE_DIR, "templates"),
+            os.path.join(BASE_DIR, "website", "templates"),
         ],
         "APP_DIRS": True,
         "OPTIONS": {
@@ -145,7 +151,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 MEDIA_URL = "/media/"
 
-LOGIN_REDIRECT_URL = "/"
+LOGIN_REDIRECT_URL = "/dashboard/"
 
 LOGOUT_REDIRECT_URL = "/"
 

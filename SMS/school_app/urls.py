@@ -18,18 +18,24 @@ from django.conf.urls.static import static
 from django.urls import include, path
 
 urlpatterns = [
+    # Landing page from website app
+    path("", include("website.urls")),
+
+    # Authentication URLs
     path("accounts/", include("django.contrib.auth.urls")),
-    path("", include("apps.corecode.urls")),
+
+    # Dashboard and core functionality
+    path("dashboard/", include("apps.corecode.urls")),
+
+    # Other app URLs
     path("student/", include("apps.students.urls")),
-
-     path('attendance/', include(('apps.attendance.urls', 'attendance'))),
-
+    path('attendance/', include(('apps.attendance.urls', 'attendance'))),
     path("staff/", include("apps.staffs.urls")),
     # Finance app removed
     # Result app removed
     path("non-teaching-staffs/", include("apps.NonTeachingStaffs.urls")),
-   # Added namespace
-     path('fees/', include('apps.fees.urls', namespace='fees')),
+    # Added namespace
+    path('fees/', include('apps.fees.urls', namespace='fees')),
     # Exams app
     path('exams/', include('apps.exams.urls', namespace='exams')),
     # Documents app
