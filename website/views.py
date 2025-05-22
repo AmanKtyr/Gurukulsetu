@@ -1,5 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
+from django.template.loader import render_to_string
+from django.utils import timezone
 from datetime import datetime, timedelta
 
 def landing_page(request):
@@ -60,3 +63,42 @@ def demo(request):
         'tomorrow_date': tomorrow_date
     }
     return render(request, 'website/demo.html', context)
+
+def testimonials(request):
+    """
+    View for the testimonials page
+    """
+    return render(request, 'website/testimonials.html')
+
+def faq(request):
+    """
+    View for the FAQ page
+    """
+    return render(request, 'website/faq.html')
+
+def careers(request):
+    """
+    View for the careers page
+    """
+    return render(request, 'website/careers.html')
+
+def sitemap(request):
+    """
+    View for the sitemap page
+    """
+    return render(request, 'website/sitemap.html')
+
+def sitemap_xml(request):
+    """
+    View for the XML sitemap
+    """
+    site_url = request.build_absolute_uri('/').rstrip('/')
+    last_modified = timezone.now().strftime('%Y-%m-%d')
+
+    context = {
+        'site_url': site_url,
+        'last_modified': last_modified,
+    }
+
+    content = render_to_string('sitemap.xml', context, request)
+    return HttpResponse(content, content_type='application/xml')

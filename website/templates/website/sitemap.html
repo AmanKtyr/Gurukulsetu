@@ -1,0 +1,216 @@
+{% extends 'website/base.html' %}
+{% load static %}
+
+{% block title %}Sitemap - Gurukul Setu{% endblock %}
+
+{% block content %}
+<!-- Page Banner -->
+<section class="page-banner">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="page-banner-content">
+                    <h1>Sitemap</h1>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{% url 'landing_page' %}">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Sitemap</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Sitemap Section -->
+<section class="sitemap-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="sitemap-content">
+                    <div class="row">
+                        <!-- Main Pages -->
+                        <div class="col-lg-4 col-md-6">
+                            <div class="sitemap-category">
+                                <h3>Main Pages</h3>
+                                <ul class="sitemap-links">
+                                    <li><a href="{% url 'landing_page' %}"><i class="fas fa-angle-right"></i> Home</a></li>
+                                    <li><a href="{% url 'features' %}"><i class="fas fa-angle-right"></i> Features</a></li>
+                                    <li><a href="{% url 'pricing' %}"><i class="fas fa-angle-right"></i> Pricing</a></li>
+                                    <li><a href="{% url 'about' %}"><i class="fas fa-angle-right"></i> About Us</a></li>
+                                    <li><a href="{% url 'contact' %}"><i class="fas fa-angle-right"></i> Contact Us</a></li>
+                                    <li><a href="{% url 'demo' %}"><i class="fas fa-angle-right"></i> Request Demo</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- Resources -->
+                        <div class="col-lg-4 col-md-6">
+                            <div class="sitemap-category">
+                                <h3>Resources</h3>
+                                <ul class="sitemap-links">
+                                    <li><a href="{% url 'blog' %}"><i class="fas fa-angle-right"></i> Blog</a></li>
+                                    <li><a href="{% url 'testimonials' %}"><i class="fas fa-angle-right"></i> Testimonials</a></li>
+                                    <li><a href="{% url 'faq' %}"><i class="fas fa-angle-right"></i> FAQ</a></li>
+                                    <li><a href="#"><i class="fas fa-angle-right"></i> Documentation</a></li>
+                                    <li><a href="#"><i class="fas fa-angle-right"></i> Knowledge Base</a></li>
+                                    <li><a href="#"><i class="fas fa-angle-right"></i> Video Tutorials</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- Company -->
+                        <div class="col-lg-4 col-md-6">
+                            <div class="sitemap-category">
+                                <h3>Company</h3>
+                                <ul class="sitemap-links">
+                                    <li><a href="{% url 'about' %}"><i class="fas fa-angle-right"></i> About Us</a></li>
+                                    <li><a href="{% url 'careers' %}"><i class="fas fa-angle-right"></i> Careers</a></li>
+                                    <li><a href="#"><i class="fas fa-angle-right"></i> Our Team</a></li>
+                                    <li><a href="#"><i class="fas fa-angle-right"></i> Partners</a></li>
+                                    <li><a href="#"><i class="fas fa-angle-right"></i> Press Kit</a></li>
+                                    <li><a href="#"><i class="fas fa-angle-right"></i> News & Updates</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- Features -->
+                        <div class="col-lg-4 col-md-6">
+                            <div class="sitemap-category">
+                                <h3>Features</h3>
+                                <ul class="sitemap-links">
+                                    <li><a href="#"><i class="fas fa-angle-right"></i> Student Management</a></li>
+                                    <li><a href="#"><i class="fas fa-angle-right"></i> Staff Management</a></li>
+                                    <li><a href="#"><i class="fas fa-angle-right"></i> Fee Management</a></li>
+                                    <li><a href="#"><i class="fas fa-angle-right"></i> Examination System</a></li>
+                                    <li><a href="#"><i class="fas fa-angle-right"></i> Attendance Tracking</a></li>
+                                    <li><a href="#"><i class="fas fa-angle-right"></i> Document Management</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- Legal -->
+                        <div class="col-lg-4 col-md-6">
+                            <div class="sitemap-category">
+                                <h3>Legal</h3>
+                                <ul class="sitemap-links">
+                                    <li><a href="#"><i class="fas fa-angle-right"></i> Terms of Service</a></li>
+                                    <li><a href="#"><i class="fas fa-angle-right"></i> Privacy Policy</a></li>
+                                    <li><a href="#"><i class="fas fa-angle-right"></i> Cookie Policy</a></li>
+                                    <li><a href="#"><i class="fas fa-angle-right"></i> GDPR Compliance</a></li>
+                                    <li><a href="#"><i class="fas fa-angle-right"></i> Security Policy</a></li>
+                                    <li><a href="#"><i class="fas fa-angle-right"></i> Acceptable Use Policy</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- Support -->
+                        <div class="col-lg-4 col-md-6">
+                            <div class="sitemap-category">
+                                <h3>Support</h3>
+                                <ul class="sitemap-links">
+                                    <li><a href="{% url 'contact' %}"><i class="fas fa-angle-right"></i> Contact Support</a></li>
+                                    <li><a href="#"><i class="fas fa-angle-right"></i> Help Center</a></li>
+                                    <li><a href="#"><i class="fas fa-angle-right"></i> System Status</a></li>
+                                    <li><a href="#"><i class="fas fa-angle-right"></i> Maintenance Schedule</a></li>
+                                    <li><a href="#"><i class="fas fa-angle-right"></i> Report a Bug</a></li>
+                                    <li><a href="#"><i class="fas fa-angle-right"></i> Feature Request</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- XML Sitemap Section -->
+<section class="xml-sitemap-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="xml-sitemap-content">
+                    <h2>XML Sitemap</h2>
+                    <p>For search engines, we provide an XML sitemap that lists all pages on our website. This helps search engines discover and index our content more efficiently.</p>
+                    <div class="xml-sitemap-link">
+                        <a href="/sitemap.xml" class="btn btn-primary" target="_blank">View XML Sitemap</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .sitemap-section {
+        padding: 80px 0;
+    }
+    
+    .sitemap-category {
+        margin-bottom: 40px;
+    }
+    
+    .sitemap-category h3 {
+        font-size: 22px;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid var(--primary-color);
+        color: var(--primary-color);
+    }
+    
+    .sitemap-links {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    
+    .sitemap-links li {
+        margin-bottom: 10px;
+    }
+    
+    .sitemap-links li a {
+        color: var(--text-color);
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+    }
+    
+    .sitemap-links li a i {
+        color: var(--primary-color);
+        margin-right: 8px;
+        font-size: 12px;
+        transition: var(--transition);
+    }
+    
+    .sitemap-links li a:hover {
+        color: var(--primary-color);
+        padding-left: 5px;
+    }
+    
+    .sitemap-links li a:hover i {
+        margin-right: 12px;
+    }
+    
+    .xml-sitemap-section {
+        padding: 50px 0 80px;
+        background-color: var(--gray-light);
+    }
+    
+    .xml-sitemap-content {
+        text-align: center;
+    }
+    
+    .xml-sitemap-content h2 {
+        margin-bottom: 20px;
+    }
+    
+    .xml-sitemap-content p {
+        max-width: 700px;
+        margin: 0 auto 30px;
+    }
+</style>
+{% endblock %}

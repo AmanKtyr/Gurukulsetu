@@ -3,6 +3,79 @@
 
 {% block title %}Pricing - Gurukul Setu{% endblock %}
 
+{% block extra_css %}
+<style>
+    .pricing-calculator {
+        background-color: var(--white);
+        border-radius: 15px;
+        padding: 30px;
+        box-shadow: var(--shadow);
+        margin-bottom: 50px;
+    }
+
+    .pricing-calculator h3 {
+        margin-bottom: 25px;
+        text-align: center;
+    }
+
+    .calculator-form {
+        margin-bottom: 30px;
+    }
+
+    .calculator-result {
+        background-color: rgba(48, 152, 152, 0.05);
+        border-radius: 10px;
+        padding: 20px;
+        margin-top: 30px;
+        display: none;
+    }
+
+    .calculator-result.active {
+        display: block;
+    }
+
+    .result-plan {
+        font-weight: 600;
+        color: var(--primary-color);
+    }
+
+    .result-price {
+        font-size: 24px;
+        font-weight: 700;
+        color: var(--primary-color);
+        margin: 10px 0;
+    }
+
+    .result-features {
+        margin-top: 15px;
+    }
+
+    .result-features li {
+        margin-bottom: 8px;
+    }
+
+    .range-labels {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 5px;
+        font-size: 12px;
+        color: var(--text-light);
+    }
+
+    .form-range::-webkit-slider-thumb {
+        background: var(--primary-color);
+    }
+
+    .form-range::-moz-range-thumb {
+        background: var(--primary-color);
+    }
+
+    .form-range::-ms-thumb {
+        background: var(--primary-color);
+    }
+</style>
+{% endblock %}
+
 {% block content %}
 <!-- Page Banner -->
 <section class="page-banner">
@@ -23,6 +96,138 @@
     </div>
 </section>
 
+<!-- Pricing Calculator Section -->
+<section class="pricing-calculator-section">
+    <div class="container">
+        <div class="section-header text-center">
+            <h6>Find Your Plan</h6>
+            <h2>Pricing Calculator</h2>
+            <p>Use our calculator to find the perfect plan for your institution's needs and budget.</p>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="pricing-calculator">
+                    <h3>Calculate Your Price</h3>
+                    <form id="calculatorForm" class="calculator-form">
+                        <div class="mb-4">
+                            <label for="institutionType" class="form-label">Institution Type</label>
+                            <select class="form-select" id="institutionType">
+                                <option value="school">School</option>
+                                <option value="college">College</option>
+                                <option value="university">University</option>
+                            </select>
+                        </div>
+                        <div class="mb-4">
+                            <label for="studentCount" class="form-label">Number of Students: <span id="studentCountValue">500</span></label>
+                            <input type="range" class="form-range" min="100" max="5000" step="100" value="500" id="studentCount">
+                            <div class="range-labels">
+                                <span>100</span>
+                                <span>1000</span>
+                                <span>2000</span>
+                                <span>3000</span>
+                                <span>4000</span>
+                                <span>5000+</span>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <label for="staffCount" class="form-label">Number of Staff: <span id="staffCountValue">50</span></label>
+                            <input type="range" class="form-range" min="10" max="500" step="10" value="50" id="staffCount">
+                            <div class="range-labels">
+                                <span>10</span>
+                                <span>100</span>
+                                <span>200</span>
+                                <span>300</span>
+                                <span>400</span>
+                                <span>500+</span>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label">Required Modules</label>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" type="checkbox" value="" id="studentManagement" checked disabled>
+                                        <label class="form-check-label" for="studentManagement">
+                                            Student Management
+                                        </label>
+                                    </div>
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" type="checkbox" value="" id="staffManagement" checked disabled>
+                                        <label class="form-check-label" for="staffManagement">
+                                            Staff Management
+                                        </label>
+                                    </div>
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input module-checkbox" type="checkbox" value="" id="feeManagement" checked>
+                                        <label class="form-check-label" for="feeManagement">
+                                            Fee Management
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input module-checkbox" type="checkbox" value="" id="examSystem" checked>
+                                        <label class="form-check-label" for="examSystem">
+                                            Examination System
+                                        </label>
+                                    </div>
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input module-checkbox" type="checkbox" value="" id="attendanceTracking" checked>
+                                        <label class="form-check-label" for="attendanceTracking">
+                                            Attendance Tracking
+                                        </label>
+                                    </div>
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input module-checkbox" type="checkbox" value="" id="documentManagement">
+                                        <label class="form-check-label" for="documentManagement">
+                                            Document Management
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label">Billing Cycle</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="billingCycle" id="monthly" value="monthly" checked>
+                                <label class="form-check-label" for="monthly">
+                                    Monthly
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="billingCycle" id="yearly" value="yearly">
+                                <label class="form-check-label" for="yearly">
+                                    Yearly (Save 20%)
+                                </label>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Calculate Price</button>
+                        </div>
+                    </form>
+
+                    <div id="calculatorResult" class="calculator-result">
+                        <h4>Recommended Plan: <span class="result-plan">Standard Plan</span></h4>
+                        <p>Based on your requirements, we recommend our Standard Plan.</p>
+                        <div class="result-price">₹<span id="resultPrice">9,999</span> <span id="resultBilling">per month</span></div>
+                        <p>This includes:</p>
+                        <ul class="result-features">
+                            <li><i class="fas fa-check-circle text-success"></i> <span id="resultStudents">Up to 1000 students</span></li>
+                            <li><i class="fas fa-check-circle text-success"></i> <span id="resultStaff">Up to 100 staff members</span></li>
+                            <li><i class="fas fa-check-circle text-success"></i> All selected modules</li>
+                            <li><i class="fas fa-check-circle text-success"></i> Email and chat support</li>
+                            <li><i class="fas fa-check-circle text-success"></i> Regular updates and maintenance</li>
+                        </ul>
+                        <div class="text-center mt-4">
+                            <a href="{% url 'demo' %}" class="btn btn-primary">Request a Demo</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 <!-- Pricing Section -->
 <section class="pricing-section">
     <div class="container">
@@ -31,7 +236,7 @@
             <h2>Choose the Right Plan for Your Institution</h2>
             <p>We offer flexible pricing options to meet the needs of educational institutions of all sizes.</p>
         </div>
-        
+
         <!-- Pricing Toggle -->
         <div class="pricing-toggle text-center">
             <span class="monthly active">Monthly</span>
@@ -41,7 +246,7 @@
             </label>
             <span class="yearly">Yearly <span class="discount">Save 20%</span></span>
         </div>
-        
+
         <div class="row">
             <!-- Basic Plan -->
             <div class="col-lg-4 col-md-6">
@@ -72,7 +277,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Standard Plan -->
             <div class="col-lg-4 col-md-6">
                 <div class="pricing-card popular">
@@ -103,7 +308,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Premium Plan -->
             <div class="col-lg-4 col-md-6">
                 <div class="pricing-card">
@@ -362,31 +567,120 @@
 {% block extra_js %}
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // Pricing toggle
         const pricingSwitch = document.getElementById('pricing-switch');
         const monthlySpan = document.querySelector('.pricing-toggle .monthly');
         const yearlySpan = document.querySelector('.pricing-toggle .yearly');
         const monthlyPrices = document.querySelectorAll('.monthly-price');
         const yearlyPrices = document.querySelectorAll('.yearly-price');
-        
+
         // Initialize
         monthlyPrices.forEach(price => price.style.display = 'block');
         yearlyPrices.forEach(price => price.style.display = 'none');
-        
-        pricingSwitch.addEventListener('change', function() {
-            if (this.checked) {
-                // Yearly pricing
-                monthlySpan.classList.remove('active');
-                yearlySpan.classList.add('active');
-                monthlyPrices.forEach(price => price.style.display = 'none');
-                yearlyPrices.forEach(price => price.style.display = 'block');
-            } else {
-                // Monthly pricing
-                monthlySpan.classList.add('active');
-                yearlySpan.classList.remove('active');
-                monthlyPrices.forEach(price => price.style.display = 'block');
-                yearlyPrices.forEach(price => price.style.display = 'none');
-            }
-        });
+
+        if (pricingSwitch) {
+            pricingSwitch.addEventListener('change', function() {
+                if (this.checked) {
+                    // Yearly pricing
+                    monthlySpan.classList.remove('active');
+                    yearlySpan.classList.add('active');
+                    monthlyPrices.forEach(price => price.style.display = 'none');
+                    yearlyPrices.forEach(price => price.style.display = 'block');
+                } else {
+                    // Monthly pricing
+                    monthlySpan.classList.add('active');
+                    yearlySpan.classList.remove('active');
+                    monthlyPrices.forEach(price => price.style.display = 'block');
+                    yearlyPrices.forEach(price => price.style.display = 'none');
+                }
+            });
+        }
+
+        // Range sliders
+        const studentCount = document.getElementById('studentCount');
+        const studentCountValue = document.getElementById('studentCountValue');
+        const staffCount = document.getElementById('staffCount');
+        const staffCountValue = document.getElementById('staffCountValue');
+
+        if (studentCount && studentCountValue) {
+            studentCount.addEventListener('input', function() {
+                studentCountValue.textContent = this.value;
+            });
+        }
+
+        if (staffCount && staffCountValue) {
+            staffCount.addEventListener('input', function() {
+                staffCountValue.textContent = this.value;
+            });
+        }
+
+        // Calculator form
+        const calculatorForm = document.getElementById('calculatorForm');
+        const calculatorResult = document.getElementById('calculatorResult');
+        const resultPlan = document.querySelector('.result-plan');
+        const resultPrice = document.getElementById('resultPrice');
+        const resultBilling = document.getElementById('resultBilling');
+        const resultStudents = document.getElementById('resultStudents');
+        const resultStaff = document.getElementById('resultStaff');
+
+        if (calculatorForm) {
+            calculatorForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                // Get form values
+                const institutionType = document.getElementById('institutionType').value;
+                const students = parseInt(document.getElementById('studentCount').value);
+                const staff = parseInt(document.getElementById('staffCount').value);
+                const modules = document.querySelectorAll('.module-checkbox:checked').length;
+                const billingCycle = document.querySelector('input[name="billingCycle"]:checked').value;
+
+                // Determine plan based on inputs
+                let plan = 'Basic Plan';
+                let price = 4999;
+
+                if (students > 300 || staff > 50 || modules >= 3) {
+                    plan = 'Standard Plan';
+                    price = 9999;
+                }
+
+                if (students > 800 || staff > 100 || (modules >= 3 && (students > 500 || staff > 75))) {
+                    plan = 'Premium Plan';
+                    price = 19999;
+                }
+
+                // Apply yearly discount
+                if (billingCycle === 'yearly') {
+                    price = Math.round(price * 0.8);
+                    resultBilling.textContent = 'per month (billed annually)';
+                } else {
+                    resultBilling.textContent = 'per month';
+                }
+
+                // Format price with commas
+                resultPrice.textContent = price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+                // Update result
+                resultPlan.textContent = plan;
+
+                // Update student and staff counts
+                if (plan === 'Basic Plan') {
+                    resultStudents.textContent = 'Up to 300 students';
+                    resultStaff.textContent = 'Up to 50 staff members';
+                } else if (plan === 'Standard Plan') {
+                    resultStudents.textContent = 'Up to 800 students';
+                    resultStaff.textContent = 'Up to 100 staff members';
+                } else {
+                    resultStudents.textContent = 'Unlimited students';
+                    resultStaff.textContent = 'Unlimited staff members';
+                }
+
+                // Show result
+                calculatorResult.classList.add('active');
+
+                // Scroll to result
+                calculatorResult.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            });
+        }
     });
 </script>
 {% endblock %}

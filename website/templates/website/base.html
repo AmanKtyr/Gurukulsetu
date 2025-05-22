@@ -1,6 +1,7 @@
 {% load static %}
+{% load i18n %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ LANGUAGE_CODE|default:'en' }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -32,7 +33,7 @@
             <nav class="navbar navbar-expand-lg">
                 <div class="container-fluid">
                     <a class="navbar-brand" href="{% url 'landing_page' %}">
-                        <img src="{% static 'img/logo.png' %}" alt="Gurukul Setu Logo" class="logo">
+                        <img src="{% static 'img/Gurukul_Setu.png' %}" alt="Gurukul Setu Logo" class="logo">
                         <span>Gurukul Setu</span>
                     </a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -49,20 +50,84 @@
                             <li class="nav-item">
                                 <a class="nav-link {% if request.resolver_match.url_name == 'pricing' %}active{% endif %}" href="{% url 'pricing' %}">Pricing</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link {% if request.resolver_match.url_name == 'blog' or request.resolver_match.url_name == 'blog_detail' %}active{% endif %}" href="{% url 'blog' %}">Blog</a>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle {% if request.resolver_match.url_name == 'blog' or request.resolver_match.url_name == 'blog_detail' or request.resolver_match.url_name == 'testimonials' %}active{% endif %}" href="#" id="resourcesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Resources
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="resourcesDropdown">
+                                    <li><a class="dropdown-item {% if request.resolver_match.url_name == 'blog' or request.resolver_match.url_name == 'blog_detail' %}active{% endif %}" href="{% url 'blog' %}">Blog</a></li>
+                                    <li><a class="dropdown-item {% if request.resolver_match.url_name == 'testimonials' %}active{% endif %}" href="{% url 'testimonials' %}">Testimonials</a></li>
+                                    <li><a class="dropdown-item {% if request.resolver_match.url_name == 'faq' %}active{% endif %}" href="{% url 'faq' %}">FAQ</a></li>
+                                </ul>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link {% if request.resolver_match.url_name == 'about' %}active{% endif %}" href="{% url 'about' %}">About</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link {% if request.resolver_match.url_name == 'contact' %}active{% endif %}" href="{% url 'contact' %}">Contact</a>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle {% if request.resolver_match.url_name == 'about' or request.resolver_match.url_name == 'contact' or request.resolver_match.url_name == 'careers' %}active{% endif %}" href="#" id="companyDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Company
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="companyDropdown">
+                                    <li><a class="dropdown-item {% if request.resolver_match.url_name == 'about' %}active{% endif %}" href="{% url 'about' %}">About Us</a></li>
+                                    <li><a class="dropdown-item {% if request.resolver_match.url_name == 'careers' %}active{% endif %}" href="{% url 'careers' %}">Careers</a></li>
+                                    <li><a class="dropdown-item {% if request.resolver_match.url_name == 'contact' %}active{% endif %}" href="{% url 'contact' %}">Contact Us</a></li>
+                                </ul>
                             </li>
                             <li class="nav-item">
                                 <a class="btn btn-login" href="{% url 'login' %}">Login</a>
                             </li>
                             <li class="nav-item ms-2">
                                 <a class="btn btn-outline-primary" href="{% url 'demo' %}">Request Demo</a>
+                            </li>
+                            <li class="nav-item ms-2">
+                                <div class="language-switcher">
+                                    <div class="dropdown">
+                                        <button class="btn dropdown-toggle" type="button" id="languageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                            {% if LANGUAGE_CODE == 'en' %}
+                                                <img src="{% static 'img/flags/en.png' %}" alt="English" width="20"> EN
+                                            {% elif LANGUAGE_CODE == 'hi' %}
+                                                <img src="{% static 'img/flags/hi.png' %}" alt="Hindi" width="20"> HI
+                                            {% elif LANGUAGE_CODE == 'ta' %}
+                                                <img src="{% static 'img/flags/ta.png' %}" alt="Tamil" width="20"> TA
+                                            {% elif LANGUAGE_CODE == 'te' %}
+                                                <img src="{% static 'img/flags/te.png' %}" alt="Telugu" width="20"> TE
+                                            {% elif LANGUAGE_CODE == 'kn' %}
+                                                <img src="{% static 'img/flags/kn.png' %}" alt="Kannada" width="20"> KN
+                                            {% else %}
+                                                <img src="{% static 'img/flags/en.png' %}" alt="English" width="20"> EN
+                                            {% endif %}
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
+                                            <form action="{% url 'set_language' %}" method="post" id="language-form">
+                                                {% csrf_token %}
+                                                <input name="next" type="hidden" value="{{ request.path }}">
+
+                                                <li>
+                                                    <button type="submit" name="language" value="en" class="dropdown-item {% if LANGUAGE_CODE == 'en' %}active{% endif %}">
+                                                        <img src="{% static 'img/flags/en.png' %}" alt="English" width="20"> English
+                                                    </button>
+                                                </li>
+                                                <li>
+                                                    <button type="submit" name="language" value="hi" class="dropdown-item {% if LANGUAGE_CODE == 'hi' %}active{% endif %}">
+                                                        <img src="{% static 'img/flags/hi.png' %}" alt="Hindi" width="20"> हिन्दी
+                                                    </button>
+                                                </li>
+                                                <li>
+                                                    <button type="submit" name="language" value="ta" class="dropdown-item {% if LANGUAGE_CODE == 'ta' %}active{% endif %}">
+                                                        <img src="{% static 'img/flags/ta.png' %}" alt="Tamil" width="20"> தமிழ்
+                                                    </button>
+                                                </li>
+                                                <li>
+                                                    <button type="submit" name="language" value="te" class="dropdown-item {% if LANGUAGE_CODE == 'te' %}active{% endif %}">
+                                                        <img src="{% static 'img/flags/te.png' %}" alt="Telugu" width="20"> తెలుగు
+                                                    </button>
+                                                </li>
+                                                <li>
+                                                    <button type="submit" name="language" value="kn" class="dropdown-item {% if LANGUAGE_CODE == 'kn' %}active{% endif %}">
+                                                        <img src="{% static 'img/flags/kn.png' %}" alt="Kannada" width="20"> ಕನ್ನಡ
+                                                    </button>
+                                                </li>
+                                            </form>
+                                        </ul>
+                                    </div>
+                                </div>
                             </li>
                         </ul>
                     </div>
@@ -83,7 +148,7 @@
                 <div class="col-lg-4 col-md-6">
                     <div class="footer-widget">
                         <div class="footer-logo">
-                            <img src="{% static 'img/logo-white.png' %}" alt="Gurukul Setu Logo">
+                            <img src="{% static 'img/Gurukul_Setu.png' %}" alt="Gurukul Setu Logo">
                             <span>Gurukul Setu</span>
                         </div>
                         <p>Empowering educational institutions with modern technology solutions for better administration and enhanced learning experiences.</p>
@@ -103,10 +168,14 @@
                             <li><a href="{% url 'features' %}"><i class="fas fa-angle-right"></i> Features</a></li>
                             <li><a href="{% url 'pricing' %}"><i class="fas fa-angle-right"></i> Pricing</a></li>
                             <li><a href="{% url 'blog' %}"><i class="fas fa-angle-right"></i> Blog</a></li>
+                            <li><a href="{% url 'testimonials' %}"><i class="fas fa-angle-right"></i> Testimonials</a></li>
+                            <li><a href="{% url 'faq' %}"><i class="fas fa-angle-right"></i> FAQ</a></li>
                             <li><a href="{% url 'about' %}"><i class="fas fa-angle-right"></i> About</a></li>
+                            <li><a href="{% url 'careers' %}"><i class="fas fa-angle-right"></i> Careers</a></li>
                             <li><a href="{% url 'contact' %}"><i class="fas fa-angle-right"></i> Contact</a></li>
                             <li><a href="{% url 'demo' %}"><i class="fas fa-angle-right"></i> Request Demo</a></li>
                             <li><a href="{% url 'login' %}"><i class="fas fa-angle-right"></i> Login</a></li>
+                            <li><a href="{% url 'sitemap' %}"><i class="fas fa-angle-right"></i> Sitemap</a></li>
                         </ul>
                     </div>
                 </div>
@@ -140,7 +209,7 @@
             <div class="copyright-area">
                 <div class="row">
                     <div class="col-md-6">
-                        <p>&copy; 2023 Gurukul Setu. All Rights Reserved.</p>
+                        <p>&copy; 2025 Gurukul Setu. All Rights Reserved.</p>
                     </div>
                     <div class="col-md-6">
                         <ul class="footer-bottom-links">
@@ -164,5 +233,11 @@
     <script src="{% static 'js/main.js' %}"></script>
 
     {% block extra_js %}{% endblock %}
+
+    <!-- Chatbot Widget -->
+    {% include 'website/includes/chatbot.html' %}
+
+    <!-- Cookie Consent Banner -->
+    {% include 'website/includes/cookie_consent.html' %}
 </body>
 </html>

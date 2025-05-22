@@ -16,8 +16,15 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import include, path
+from django.conf.urls.i18n import i18n_patterns
 
+# URLs that don't need to be translated
 urlpatterns = [
+    path('i18n/', include('django.conf.urls.i18n')),  # Language switcher URL
+]
+
+# URLs that should be translated
+urlpatterns += i18n_patterns(
     # Landing page from website app
     path("", include("website.urls")),
 
@@ -40,4 +47,10 @@ urlpatterns = [
     path('exams/', include('apps.exams.urls', namespace='exams')),
     # Documents app
     path('documents/', include('apps.documents.urls', namespace='documents')),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+    prefix_default_language=False,  # Don't add language prefix for default language
+)
+
+# Add static/media files handling
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

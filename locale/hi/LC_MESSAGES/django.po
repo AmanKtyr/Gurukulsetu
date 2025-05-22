@@ -1,0 +1,94 @@
+# Hindi translation for Gurukul Setu
+# Copyright (C) 2023 Gurukul Setu
+# This file is distributed under the same license as the Gurukul Setu package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Gurukul Setu 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-05-22 12:00+0530\n"
+"PO-Revision-Date: 2023-05-22 12:00+0530\n"
+"Last-Translator: Gurukul Setu Team <support@gurukulsetu.com>\n"
+"Language-Team: Hindi <hi@li.org>\n"
+"Language: hi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+# Common words and phrases
+msgid "Home"
+msgstr "होम"
+
+msgid "Features"
+msgstr "विशेषताएं"
+
+msgid "Pricing"
+msgstr "मूल्य निर्धारण"
+
+msgid "Blog"
+msgstr "ब्लॉग"
+
+msgid "About"
+msgstr "हमारे बारे में"
+
+msgid "Contact"
+msgstr "संपर्क करें"
+
+msgid "Login"
+msgstr "लॉगिन"
+
+msgid "Request Demo"
+msgstr "डेमो अनुरोध करें"
+
+msgid "Resources"
+msgstr "संसाधन"
+
+msgid "Company"
+msgstr "कंपनी"
+
+msgid "Testimonials"
+msgstr "प्रशंसापत्र"
+
+msgid "FAQ"
+msgstr "अक्सर पूछे जाने वाले प्रश्न"
+
+msgid "Careers"
+msgstr "करियर"
+
+msgid "About Us"
+msgstr "हमारे बारे में"
+
+msgid "Contact Us"
+msgstr "संपर्क करें"
+
+# Landing page
+msgid "Transform Your Educational Institution with Gurukul Setu"
+msgstr "गुरुकुल सेतु के साथ अपने शैक्षिक संस्थान को बदलें"
+
+msgid "The Complete School & College Management System"
+msgstr "पूर्ण स्कूल और कॉलेज प्रबंधन प्रणाली"
+
+msgid "Streamline administration, enhance teaching, and improve student outcomes with our comprehensive SaaS platform designed specifically for Indian educational institutions."
+msgstr "हमारे व्यापक SaaS प्लेटफॉर्म के साथ प्रशासन को सुव्यवस्थित करें, शिक्षण को बढ़ावा दें, और छात्र परिणामों में सुधार करें, जो विशेष रूप से भारतीय शैक्षिक संस्थानों के लिए डिज़ाइन किया गया है।"
+
+# Footer
+msgid "Quick Links"
+msgstr "त्वरित लिंक"
+
+msgid "Contact Info"
+msgstr "संपर्क जानकारी"
+
+msgid "Newsletter"
+msgstr "न्यूज़लेटर"
+
+msgid "Subscribe to our newsletter to receive updates and news."
+msgstr "अपडेट और समाचार प्राप्त करने के लिए हमारे न्यूज़लेटर की सदस्यता लें।"
+
+msgid "Subscribe"
+msgstr "सदस्यता लें"
+
+msgid "Follow Us"
+msgstr "हमें फॉलो करें"
+
+msgid "All Rights Reserved"
+msgstr "सर्वाधिकार सुरक्षित"
