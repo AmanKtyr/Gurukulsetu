@@ -24,6 +24,33 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
+    <style>
+        /* Super Admin Badge Styles */
+        .super-admin-badge {
+            background-color: #309898;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            transition: all 0.3s ease;
+            text-decoration: none !important;
+            display: inline-flex;
+            align-items: center;
+            margin-left: 10px;
+        }
+
+        .super-admin-badge:hover {
+            background-color: #1a5555;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .super-admin-badge i {
+            margin-right: 4px;
+        }
+    </style>
+
     {% block extra_css %}{% endblock %}
 </head>
 <body>
@@ -208,8 +235,11 @@
             </div>
             <div class="copyright-area">
                 <div class="row">
-                    <div class="col-md-6">
-                        <p>&copy; 2025 Gurukul Setu. All Rights Reserved.</p>
+                    <div class="col-md-6 d-flex align-items-center">
+                        <p class="mb-0">&copy; 2025 Gurukul Setu. All Rights Reserved.</p>
+                        <a href="{% url 'super_admin:login' %}" class="super-admin-badge">
+                            <i class="fas fa-user-shield"></i> Super Admin
+                        </a>
                     </div>
                     <div class="col-md-6">
                         <ul class="footer-bottom-links">

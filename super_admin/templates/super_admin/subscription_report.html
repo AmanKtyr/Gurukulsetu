@@ -1,0 +1,241 @@
+{% extends 'super_admin/base.html' %}
+{% load i18n %}
+
+{% block title %}Subscription Reports | Gurukul Setu{% endblock %}
+
+{% block page_title %}Subscription Reports{% endblock %}
+
+{% block extra_css %}
+<style>
+    .report-card {
+        transition: all 0.3s;
+    }
+    
+    .report-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    
+    .chart-container {
+        position: relative;
+        height: 300px;
+        width: 100%;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <!-- Summary Cards -->
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card report-card mb-4">
+                <div class="card-body text-center">
+                    <i class="fas fa-university fa-3x mb-3 text-primary"></i>
+                    <h5 class="card-title">Total Colleges</h5>
+                    <h2 class="mb-0">{{ colleges.count }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card report-card mb-4">
+                <div class="card-body text-center">
+                    <i class="fas fa-calendar-times fa-3x mb-3 text-danger"></i>
+                    <h5 class="card-title">Expired Subscriptions</h5>
+                    <h2 class="mb-0">{{ expired_subscriptions }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card report-card mb-4">
+                <div class="card-body text-center">
+                    <i class="fas fa-calendar-day fa-3x mb-3 text-warning"></i>
+                    <h5 class="card-title">Expiring Soon</h5>
+                    <h2 class="mb-0">{{ expiring_soon }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card report-card mb-4">
+                <div class="card-body text-center">
+                    <i class="fas fa-tags fa-3x mb-3 text-success"></i>
+                    <h5 class="card-title">Subscription Plans</h5>
+                    <h2 class="mb-0">{{ colleges_by_plan.count }}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Colleges by Plan -->
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-tags me-2"></i> Colleges by Subscription Plan
+                </div>
+                <div class="card-body">
+                    <div class="chart-container">
+                        <canvas id="planChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Subscription Status -->
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-chart-pie me-2"></i> Subscription Status
+                </div>
+                <div class="card-body">
+                    <div class="chart-container">
+                        <canvas id="statusChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Subscription List -->
+    <div class="card">
+        <div class="card-header">
+            <i class="fas fa-list me-2"></i> Subscription Details
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover" id="subscriptionTable">
+                    <thead>
+                        <tr>
+                            <th>College</th>
+                            <th>Plan</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for college in colleges %}
+                            <tr>
+                                <td>{{ college.name }}</td>
+                                <td>{{ college.subscription_plan|default:"N/A" }}</td>
+                                <td>{{ college.subscription_start_date|default:"N/A" }}</td>
+                                <td>{{ college.subscription_end_date|default:"N/A" }}</td>
+                                <td>
+                                    {% if college.subscription_end_date %}
+                                        {% if college.subscription_end_date < today %}
+                                            <span class="badge bg-danger">Expired</span>
+                                        {% elif college.subscription_end_date < thirty_days_later %}
+                                            <span class="badge bg-warning">Expiring Soon</span>
+                                        {% else %}
+                                            <span class="badge bg-success">Active</span>
+                                        {% endif %}
+                                    {% else %}
+                                        <span class="badge bg-secondary">Not Set</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a href="{% url 'super_admin:college_detail' college.pk %}" class="btn btn-sm btn-primary">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a href="{% url 'super_admin:college_update' college.pk %}" class="btn btn-sm btn-warning">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Colleges by Plan Chart
+        const planCtx = document.getElementById('planChart').getContext('2d');
+        const planData = {
+            labels: [
+                {% for item in colleges_by_plan %}
+                    '{{ item.subscription_plan|default:"Not Set" }}',
+                {% endfor %}
+            ],
+            datasets: [{
+                label: 'Number of Colleges',
+                data: [
+                    {% for item in colleges_by_plan %}
+                        {{ item.count }},
+                    {% endfor %}
+                ],
+                backgroundColor: [
+                    '#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#e74a3b',
+                    '#5a5c69', '#858796', '#6f42c1', '#20c9a6', '#f8f9fc'
+                ],
+                borderWidth: 1
+            }]
+        };
+        
+        new Chart(planCtx, {
+            type: 'bar',
+            data: planData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            precision: 0
+                        }
+                    }
+                }
+            }
+        });
+        
+        // Subscription Status Chart
+        const statusCtx = document.getElementById('statusChart').getContext('2d');
+        const statusData = {
+            labels: ['Active', 'Expiring Soon', 'Expired', 'Not Set'],
+            datasets: [{
+                data: [
+                    {{ colleges.count|default:0 }} - {{ expired_subscriptions|default:0 }} - {{ expiring_soon|default:0 }},
+                    {{ expiring_soon|default:0 }},
+                    {{ expired_subscriptions|default:0 }},
+                    {{ colleges.filter(subscription_end_date__isnull=True).count|default:0 }}
+                ],
+                backgroundColor: ['#1cc88a', '#f6c23e', '#e74a3b', '#858796'],
+                hoverBackgroundColor: ['#17a673', '#dda20a', '#d52a1a', '#6e707e'],
+                hoverBorderColor: "rgba(234, 236, 244, 1)",
+            }]
+        };
+        
+        new Chart(statusCtx, {
+            type: 'doughnut',
+            data: statusData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '70%',
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+        
+        // Initialize DataTable
+        $(document).ready(function() {
+            $('#subscriptionTable').DataTable({
+                order: [[3, 'asc']]
+            });
+        });
+    });
+</script>
+{% endblock %}

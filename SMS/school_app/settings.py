@@ -35,6 +35,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    "django.contrib.admin",  # Added Django admin
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
@@ -53,6 +54,7 @@ INSTALLED_APPS = [
     'apps.documents',
     'django_filters',
     'website',  # Added website app
+    'super_admin',  # Added super admin app
 ]
 
 MIDDLEWARE = [
@@ -74,6 +76,7 @@ TEMPLATES = [
         "DIRS": [
             os.path.join(BASE_DIR, "templates"),
             os.path.join(BASE_DIR, "website", "templates"),
+            os.path.join(BASE_DIR, "super_admin", "templates"),
         ],
         "APP_DIRS": True,
         "OPTIONS": {
@@ -151,9 +154,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 MEDIA_URL = "/media/"
 
-LOGIN_REDIRECT_URL = "/dashboard/"
-
-LOGOUT_REDIRECT_URL = "/"
+# Authentication settings
+LOGIN_REDIRECT_URL = '/dashboard/'
+LOGOUT_REDIRECT_URL = '/'
 
 
 SESSION_SAVE_EVERY_REQUEST = True

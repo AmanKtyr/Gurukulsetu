@@ -1,0 +1,158 @@
+{% extends 'super_admin/base.html' %}
+{% load i18n %}
+
+{% block title %}{{ college.name }} - College Details | Gurukul Setu{% endblock %}
+
+{% block page_title %}College Details{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <!-- Action Buttons -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="btn-group">
+                <a href="{% url 'super_admin:college_list' %}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left me-2"></i> Back to List
+                </a>
+                <a href="{% url 'super_admin:college_update' college.pk %}" class="btn btn-warning">
+                    <i class="fas fa-edit me-2"></i> Edit College
+                </a>
+                <a href="{% url 'super_admin:toggle_college_status' college.pk %}" class="btn {% if college.is_active %}btn-danger{% else %}btn-success{% endif %}">
+                    <i class="fas {% if college.is_active %}fa-times{% else %}fa-check{% endif %} me-2"></i>
+                    {% if college.is_active %}Deactivate{% else %}Activate{% endif %} College
+                </a>
+                <a href="{% url 'super_admin:college_delete' college.pk %}" class="btn btn-danger">
+                    <i class="fas fa-trash me-2"></i> Delete College
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- College Information -->
+        <div class="col-md-8">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-university me-2"></i> College Information
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3 text-center mb-4">
+                            {% if college.logo %}
+                                <img src="{{ college.logo.url }}" alt="{{ college.name }}" class="img-fluid rounded mb-3" style="max-height: 150px;">
+                            {% else %}
+                                <div class="bg-light rounded d-flex align-items-center justify-content-center" style="height: 150px; width: 100%;">
+                                    <i class="fas fa-university fa-4x text-muted"></i>
+                                </div>
+                            {% endif %}
+                            <span class="badge {% if college.is_active %}bg-success{% else %}bg-danger{% endif %} p-2">
+                                {% if college.is_active %}Active{% else %}Inactive{% endif %}
+                            </span>
+                        </div>
+                        <div class="col-md-9">
+                            <h3>{{ college.name }}</h3>
+                            <p class="text-muted">Code: {{ college.code }}</p>
+
+                            <div class="row mt-4">
+                                <div class="col-md-6">
+                                    <h5>Contact Information</h5>
+                                    <ul class="list-unstyled">
+                                        <li><i class="fas fa-map-marker-alt me-2"></i> {{ college.address }}, {{ college.city }}, {{ college.state }} - {{ college.pincode }}</li>
+                                        <li><i class="fas fa-envelope me-2"></i> {{ college.email }}</li>
+                                        <li><i class="fas fa-phone me-2"></i> {{ college.phone }}</li>
+                                        {% if college.website %}
+                                            <li><i class="fas fa-globe me-2"></i> <a href="{{ college.website }}" target="_blank">{{ college.website }}</a></li>
+                                        {% endif %}
+                                    </ul>
+                                </div>
+                                <div class="col-md-6">
+                                    <h5>Subscription Details</h5>
+                                    <ul class="list-unstyled">
+                                        <li><strong>Plan:</strong> {{ college.subscription_plan|default:"Not set" }}</li>
+                                        <li><strong>Start Date:</strong> {{ college.subscription_start_date|default:"Not set" }}</li>
+                                        <li><strong>End Date:</strong> {{ college.subscription_end_date|default:"Not set" }}</li>
+                                        <li>
+                                            <strong>Status:</strong>
+                                            {% if college.subscription_end_date %}
+                                                {% if college.subscription_end_date < today %}
+                                                    <span class="badge bg-danger">Expired</span>
+                                                {% elif college.subscription_end_date < thirty_days_later %}
+                                                    <span class="badge bg-warning">Expiring Soon</span>
+                                                {% else %}
+                                                    <span class="badge bg-success">Active</span>
+                                                {% endif %}
+                                            {% else %}
+                                                <span class="badge bg-secondary">Not Set</span>
+                                            {% endif %}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% if college.description %}
+                        <div class="mt-4">
+                            <h5>Description</h5>
+                            <p>{{ college.description }}</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Admin Information -->
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-user-shield me-2"></i> Admin Information
+                </div>
+                <div class="card-body">
+                    {% if college.admin_username %}
+                        <div class="text-center mb-4">
+                            <i class="fas fa-user-circle fa-4x text-primary mb-3"></i>
+                            <h5>{{ college.admin_username }}</h5>
+                            <p>{{ college.admin_email }}</p>
+                        </div>
+
+                        <div class="alert alert-info">
+                            <h6 class="alert-heading"><i class="fas fa-info-circle me-2"></i> Login Information</h6>
+                            <hr>
+                            <p class="mb-1"><strong>Username:</strong> {{ college.admin_username }}</p>
+                            <p class="mb-1"><strong>Email:</strong> {{ college.admin_email }}</p>
+                            <p class="mb-0"><strong>Password:</strong> <em>(Password is hidden for security)</em></p>
+                        </div>
+
+                        <div class="d-grid gap-2 mt-3">
+                            <a href="{% url 'super_admin:reset_college_admin_password' college.pk %}" class="btn btn-warning">
+                                <i class="fas fa-key me-2"></i> Reset Password
+                            </a>
+                        </div>
+                    {% else %}
+                        <div class="text-center py-4">
+                            <i class="fas fa-user-plus fa-4x text-muted mb-3"></i>
+                            <h5>No Admin Created</h5>
+                            <p>Create an admin user for this college</p>
+                            <a href="{% url 'super_admin:create_college_admin' college.pk %}" class="btn btn-primary mt-2">
+                                <i class="fas fa-user-plus me-2"></i> Create Admin
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- College Stats -->
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-chart-pie me-2"></i> College Stats
+                </div>
+                <div class="card-body">
+                    <div class="text-center py-4">
+                        <p class="text-muted">Stats will be available once the college is active and has data.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

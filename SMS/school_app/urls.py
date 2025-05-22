@@ -17,10 +17,12 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import include, path
 from django.conf.urls.i18n import i18n_patterns
+from django.contrib import admin
 
 # URLs that don't need to be translated
 urlpatterns = [
     path('i18n/', include('django.conf.urls.i18n')),  # Language switcher URL
+    path('admin/', admin.site.urls),  # Django admin
 ]
 
 # URLs that should be translated
@@ -47,6 +49,8 @@ urlpatterns += i18n_patterns(
     path('exams/', include('apps.exams.urls', namespace='exams')),
     # Documents app
     path('documents/', include('apps.documents.urls', namespace='documents')),
+    # Super Admin app
+    path('super-admin/', include('super_admin.urls', namespace='super_admin')),
 
     prefix_default_language=False,  # Don't add language prefix for default language
 )

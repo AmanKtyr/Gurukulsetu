@@ -1,0 +1,107 @@
+{% extends 'super_admin/base.html' %}
+{% load i18n %}
+
+{% block title %}Create Admin for {{ college.name }} | Gurukul Setu{% endblock %}
+
+{% block page_title %}Create College Admin{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-user-plus me-2"></i> Create Admin for {{ college.name }}
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle me-2"></i>
+                            Create an admin user for this college. This user will have access to manage all aspects of the college.
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Username *</label>
+                            <input type="text" class="form-control" id="username" name="username" value="{{ suggested_username }}" required>
+                            <small class="form-text text-muted">Username must be unique and will be used for login.</small>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email *</label>
+                            <input type="email" class="form-control" id="email" name="email" value="{{ college.email }}" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password *</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="password" name="password" value="{{ suggested_password }}" required>
+                                <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                    <i class="fas fa-eye-slash"></i>
+                                </button>
+                                <button class="btn btn-outline-secondary" type="button" id="generatePassword">
+                                    Generate
+                                </button>
+                            </div>
+                            <small class="form-text text-muted">Password should be at least 8 characters long and include letters, numbers, and special characters.</small>
+                        </div>
+
+                        <div class="alert alert-info mt-4">
+                            <i class="fas fa-info-circle me-2"></i>
+                            <strong>Important:</strong> Please save these credentials and share them with the college administrator. They will need these to log in to the system.
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-4">
+                            <a href="{% url 'super_admin:college_detail' college.pk %}" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left me-2"></i> Back to College
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-user-plus me-2"></i> Create Admin
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Toggle password visibility
+        const togglePassword = document.getElementById('togglePassword');
+        const password = document.getElementById('password');
+
+        togglePassword.addEventListener('click', function() {
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+            this.querySelector('i').classList.toggle('fa-eye');
+            this.querySelector('i').classList.toggle('fa-eye-slash');
+        });
+
+        // Generate random password
+        const generatePassword = document.getElementById('generatePassword');
+
+        generatePassword.addEventListener('click', function() {
+            const length = 12;
+            const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+";
+            let generatedPassword = "";
+
+            for (let i = 0; i < length; i++) {
+                const randomIndex = Math.floor(Math.random() * charset.length);
+                generatedPassword += charset[randomIndex];
+            }
+
+            password.value = generatedPassword;
+
+            // Show password after generating
+            password.setAttribute('type', 'text');
+            togglePassword.querySelector('i').classList.remove('fa-eye');
+            togglePassword.querySelector('i').classList.add('fa-eye-slash');
+        });
+    });
+</script>
+{% endblock %}
