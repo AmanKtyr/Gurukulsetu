@@ -5,9 +5,20 @@
 document.addEventListener('DOMContentLoaded', function() {
     'use strict';
 
+    // Sticky Header
+    const headerArea = document.querySelector('.header-area');
+
+    window.addEventListener('scroll', function() {
+        if (window.scrollY > 100) {
+            headerArea.classList.add('sticky');
+        } else {
+            headerArea.classList.remove('sticky');
+        }
+    });
+
     // Back to Top Button
     const backToTopButton = document.querySelector('.back-to-top');
-    
+
     window.addEventListener('scroll', function() {
         if (window.scrollY > 300) {
             backToTopButton.classList.add('active');
@@ -15,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
             backToTopButton.classList.remove('active');
         }
     });
-    
+
     backToTopButton.addEventListener('click', function(e) {
         e.preventDefault();
         window.scrollTo({
@@ -29,19 +40,19 @@ document.addEventListener('DOMContentLoaded', function() {
         anchor.addEventListener('click', function(e) {
             if (this.getAttribute('href') !== '#') {
                 e.preventDefault();
-                
+
                 const targetId = this.getAttribute('href');
                 const targetElement = document.querySelector(targetId);
-                
+
                 if (targetElement) {
                     const headerHeight = document.querySelector('.header-area').offsetHeight;
                     const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY - headerHeight;
-                    
+
                     window.scrollTo({
                         top: targetPosition,
                         behavior: 'smooth'
                     });
-                    
+
                     // Update active nav item
                     document.querySelectorAll('.nav-link').forEach(navLink => {
                         navLink.classList.remove('active');
@@ -54,16 +65,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Active Navigation on Scroll
     const sections = document.querySelectorAll('section[id]');
-    
+
     window.addEventListener('scroll', function() {
         const scrollY = window.scrollY;
         const headerHeight = document.querySelector('.header-area').offsetHeight;
-        
+
         sections.forEach(section => {
             const sectionTop = section.offsetTop - headerHeight - 50;
             const sectionHeight = section.offsetHeight;
             const sectionId = section.getAttribute('id');
-            
+
             if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
                 document.querySelector('.navbar-nav .nav-link[href="#' + sectionId + '"]').classList.add('active');
             } else {
@@ -75,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Navbar Toggler
     const navbarToggler = document.querySelector('.navbar-toggler');
     const navbarCollapse = document.querySelector('.navbar-collapse');
-    
+
     if (navbarToggler) {
         navbarToggler.addEventListener('click', function() {
             navbarCollapse.classList.toggle('show');
@@ -100,15 +111,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Form Submission (Contact Form)
     const contactForm = document.querySelector('.contact-form form');
-    
+
     if (contactForm) {
         contactForm.addEventListener('submit', function(e) {
             e.preventDefault();
-            
+
             // Simple form validation
             let isValid = true;
             const formInputs = this.querySelectorAll('input, textarea');
-            
+
             formInputs.forEach(input => {
                 if (!input.value.trim()) {
                     isValid = false;
@@ -117,7 +128,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     input.classList.remove('is-invalid');
                 }
             });
-            
+
             if (isValid) {
                 // Here you would typically send the form data to a server
                 // For now, we'll just show a success message
@@ -127,7 +138,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         formElements[i].value = '';
                     }
                 }
-                
+
                 alert('Thank you for your message! We will get back to you soon.');
             } else {
                 alert('Please fill in all fields.');
@@ -137,14 +148,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Newsletter Form
     const newsletterForm = document.querySelector('.newsletter-form');
-    
+
     if (newsletterForm) {
         newsletterForm.addEventListener('submit', function(e) {
             e.preventDefault();
-            
+
             const emailInput = this.querySelector('input[type="email"]');
             const emailValue = emailInput.value.trim();
-            
+
             if (emailValue && isValidEmail(emailValue)) {
                 // Here you would typically send the email to a server
                 // For now, we'll just show a success message
