@@ -1,0 +1,57 @@
+{% extends 'super_admin/base.html' %}
+{% load i18n %}
+
+{% block title %}Delete Subscription Plan | Gurukul Setu{% endblock %}
+
+{% block page_title %}Delete Subscription Plan{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-6 mx-auto">
+            <div class="card">
+                <div class="card-header bg-danger text-white">
+                    <i class="fas fa-exclamation-triangle me-2"></i> Confirm Deletion
+                </div>
+                <div class="card-body">
+                    <p class="mb-4">Are you sure you want to delete the subscription plan <strong>"{{ object.name }}"</strong>?</p>
+                    
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-circle me-2"></i> This action cannot be undone. Any colleges currently using this plan will keep their subscription details, but the plan will no longer be available for new subscriptions.
+                    </div>
+                    
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            Plan Details
+                        </div>
+                        <div class="card-body">
+                            <p><strong>Name:</strong> {{ object.name }}</p>
+                            <p><strong>Duration:</strong> {{ object.duration_months }} months</p>
+                            <p><strong>Price:</strong> ₹{{ object.price }}</p>
+                            <p><strong>Status:</strong> 
+                                {% if object.is_active %}
+                                    <span class="badge bg-success">Active</span>
+                                {% else %}
+                                    <span class="badge bg-danger">Inactive</span>
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="d-flex justify-content-between">
+                            <a href="{% url 'super_admin:subscription_plan_list' %}" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left me-2"></i> Cancel
+                            </a>
+                            <button type="submit" class="btn btn-danger">
+                                <i class="fas fa-trash me-2"></i> Delete Plan
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

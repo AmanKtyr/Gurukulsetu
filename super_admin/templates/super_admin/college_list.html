@@ -1,9 +1,14 @@
 {% extends 'super_admin/base.html' %}
 {% load i18n %}
+{% load static %}
 
 {% block title %}Colleges - Super Admin | Gurukul Setu{% endblock %}
 
 {% block page_title %}Manage Colleges{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/college-management.css' %}">
+{% endblock %}
 
 {% block content %}
 <div class="container-fluid">

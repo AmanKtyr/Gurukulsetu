@@ -1,6 +1,7 @@
 {% extends 'super_admin/base.html' %}
 {% load i18n %}
 {% load widget_tweaks %}
+{% load static %}
 
 {% block title %}
     {% if form.instance.pk %}
@@ -17,6 +18,10 @@
     {% else %}
         Add New College
     {% endif %}
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/college-management.css' %}">
 {% endblock %}
 
 {% block content %}

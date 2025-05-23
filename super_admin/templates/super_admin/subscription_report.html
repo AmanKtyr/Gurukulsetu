@@ -1,27 +1,13 @@
 {% extends 'super_admin/base.html' %}
 {% load i18n %}
+{% load static %}
 
 {% block title %}Subscription Reports | Gurukul Setu{% endblock %}
 
 {% block page_title %}Subscription Reports{% endblock %}
 
 {% block extra_css %}
-<style>
-    .report-card {
-        transition: all 0.3s;
-    }
-    
-    .report-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-    }
-    
-    .chart-container {
-        position: relative;
-        height: 300px;
-        width: 100%;
-    }
-</style>
+<link rel="stylesheet" href="{% static 'css/subscription-management.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -180,7 +166,7 @@
                 borderWidth: 1
             }]
         };
-        
+
         new Chart(planCtx, {
             type: 'bar',
             data: planData,
@@ -197,7 +183,7 @@
                 }
             }
         });
-        
+
         // Subscription Status Chart
         const statusCtx = document.getElementById('statusChart').getContext('2d');
         const statusData = {
@@ -207,14 +193,14 @@
                     {{ colleges.count|default:0 }} - {{ expired_subscriptions|default:0 }} - {{ expiring_soon|default:0 }},
                     {{ expiring_soon|default:0 }},
                     {{ expired_subscriptions|default:0 }},
-                    {{ colleges.filter(subscription_end_date__isnull=True).count|default:0 }}
+                    {{ no_subscription_end_date|default:0 }}
                 ],
                 backgroundColor: ['#1cc88a', '#f6c23e', '#e74a3b', '#858796'],
                 hoverBackgroundColor: ['#17a673', '#dda20a', '#d52a1a', '#6e707e'],
                 hoverBorderColor: "rgba(234, 236, 244, 1)",
             }]
         };
-        
+
         new Chart(statusCtx, {
             type: 'doughnut',
             data: statusData,
@@ -229,7 +215,7 @@
                 }
             }
         });
-        
+
         // Initialize DataTable
         $(document).ready(function() {
             $('#subscriptionTable').DataTable({

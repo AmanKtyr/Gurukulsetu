@@ -27,4 +27,16 @@ urlpatterns = [
     # Reports
     path('reports/colleges/', views.CollegeReportView.as_view(), name='college_report'),
     path('reports/subscriptions/', views.SubscriptionReportView.as_view(), name='subscription_report'),
+
+    # Subscription Plans
+    path('subscription-plans/', views.SubscriptionPlanListView.as_view(), name='subscription_plan_list'),
+    path('subscription-plans/add/', views.SubscriptionPlanCreateView.as_view(), name='subscription_plan_create'),
+    path('subscription-plans/<int:pk>/edit/', views.SubscriptionPlanUpdateView.as_view(), name='subscription_plan_update'),
+    path('subscription-plans/<int:pk>/delete/', views.SubscriptionPlanDeleteView.as_view(), name='subscription_plan_delete'),
+
+    # Subscription History
+    path('subscription-history/', views.SubscriptionHistoryView.as_view(), name='subscription_history'),
+
+    # College Subscription Management
+    path('colleges/<int:pk>/subscription/', views.CollegeSubscriptionView.as_view(), name='college_subscription'),
 ]

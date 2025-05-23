@@ -107,18 +107,19 @@
                                 <div class="language-switcher">
                                     <div class="dropdown">
                                         <button class="btn dropdown-toggle" type="button" id="languageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-globe"></i>
                                             {% if LANGUAGE_CODE == 'en' %}
-                                                <img src="{% static 'img/flags/en.png' %}" alt="English" width="20"> EN
+                                                <span>EN</span>
                                             {% elif LANGUAGE_CODE == 'hi' %}
-                                                <img src="{% static 'img/flags/hi.png' %}" alt="Hindi" width="20"> HI
+                                                <span>HI</span>
                                             {% elif LANGUAGE_CODE == 'ta' %}
-                                                <img src="{% static 'img/flags/ta.png' %}" alt="Tamil" width="20"> TA
+                                                <span>TA</span>
                                             {% elif LANGUAGE_CODE == 'te' %}
-                                                <img src="{% static 'img/flags/te.png' %}" alt="Telugu" width="20"> TE
+                                                <span>TE</span>
                                             {% elif LANGUAGE_CODE == 'kn' %}
-                                                <img src="{% static 'img/flags/kn.png' %}" alt="Kannada" width="20"> KN
+                                                <span>KN</span>
                                             {% else %}
-                                                <img src="{% static 'img/flags/en.png' %}" alt="English" width="20"> EN
+                                                <span>EN</span>
                                             {% endif %}
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
@@ -128,27 +129,27 @@
 
                                                 <li>
                                                     <button type="submit" name="language" value="en" class="dropdown-item {% if LANGUAGE_CODE == 'en' %}active{% endif %}">
-                                                        <img src="{% static 'img/flags/en.png' %}" alt="English" width="20"> English
+                                                        <i class="fas fa-language"></i> English
                                                     </button>
                                                 </li>
                                                 <li>
                                                     <button type="submit" name="language" value="hi" class="dropdown-item {% if LANGUAGE_CODE == 'hi' %}active{% endif %}">
-                                                        <img src="{% static 'img/flags/hi.png' %}" alt="Hindi" width="20"> हिन्दी
+                                                        <i class="fas fa-language"></i> हिन्दी
                                                     </button>
                                                 </li>
                                                 <li>
                                                     <button type="submit" name="language" value="ta" class="dropdown-item {% if LANGUAGE_CODE == 'ta' %}active{% endif %}">
-                                                        <img src="{% static 'img/flags/ta.png' %}" alt="Tamil" width="20"> தமிழ்
+                                                        <i class="fas fa-language"></i> தமிழ்
                                                     </button>
                                                 </li>
                                                 <li>
                                                     <button type="submit" name="language" value="te" class="dropdown-item {% if LANGUAGE_CODE == 'te' %}active{% endif %}">
-                                                        <img src="{% static 'img/flags/te.png' %}" alt="Telugu" width="20"> తెలుగు
+                                                        <i class="fas fa-language"></i> తెలుగు
                                                     </button>
                                                 </li>
                                                 <li>
                                                     <button type="submit" name="language" value="kn" class="dropdown-item {% if LANGUAGE_CODE == 'kn' %}active{% endif %}">
-                                                        <img src="{% static 'img/flags/kn.png' %}" alt="Kannada" width="20"> ಕನ್ನಡ
+                                                        <i class="fas fa-language"></i> ಕನ್ನಡ
                                                     </button>
                                                 </li>
                                             </form>

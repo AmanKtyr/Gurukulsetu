@@ -1,0 +1,191 @@
+/* College Management specific styles */
+
+/* College List */
+.college-card {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    margin-bottom: 20px;
+}
+
+.college-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+}
+
+.college-card .card-header {
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.college-card .card-body {
+    padding: 20px;
+}
+
+.college-card .college-logo {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    border-radius: 5px;
+    margin-right: 15px;
+}
+
+.college-card .college-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.college-card .college-details h5 {
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.college-card .college-details p {
+    margin-bottom: 0;
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+.college-card .college-meta {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+
+.college-card .college-meta .meta-item {
+    text-align: center;
+}
+
+.college-card .college-meta .meta-item .value {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.college-card .college-meta .meta-item .label {
+    font-size: 0.8rem;
+    color: #6c757d;
+}
+
+/* College Detail */
+.college-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.college-header .college-logo {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    border-radius: 10px;
+    margin-right: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.college-header .college-title h2 {
+    margin-bottom: 5px;
+    font-weight: 700;
+}
+
+.college-header .college-title p {
+    margin-bottom: 0;
+    color: #6c757d;
+}
+
+.college-section {
+    margin-bottom: 30px;
+}
+
+.college-section h4 {
+    margin-bottom: 15px;
+    font-weight: 600;
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--light-color);
+    padding-bottom: 10px;
+}
+
+.college-section .info-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.college-section .info-list li {
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+    display: flex;
+}
+
+.college-section .info-list li:last-child {
+    border-bottom: none;
+}
+
+.college-section .info-list li .label {
+    font-weight: 600;
+    width: 150px;
+    color: #495057;
+}
+
+.college-section .info-list li .value {
+    flex: 1;
+}
+
+/* Subscription Status */
+.subscription-status {
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.subscription-status.active {
+    background-color: rgba(40, 167, 69, 0.1);
+    border: 1px solid rgba(40, 167, 69, 0.2);
+}
+
+.subscription-status.expiring {
+    background-color: rgba(255, 193, 7, 0.1);
+    border: 1px solid rgba(255, 193, 7, 0.2);
+}
+
+.subscription-status.expired {
+    background-color: rgba(220, 53, 69, 0.1);
+    border: 1px solid rgba(220, 53, 69, 0.2);
+}
+
+.subscription-status.not-set {
+    background-color: rgba(108, 117, 125, 0.1);
+    border: 1px solid rgba(108, 117, 125, 0.2);
+}
+
+.subscription-status h5 {
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.subscription-status p {
+    margin-bottom: 0;
+}
+
+/* College Form */
+.form-section {
+    margin-bottom: 30px;
+}
+
+.form-section h5 {
+    margin-bottom: 15px;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.form-section hr {
+    margin-top: 0;
+    margin-bottom: 20px;
+    border-color: var(--light-color);
+}

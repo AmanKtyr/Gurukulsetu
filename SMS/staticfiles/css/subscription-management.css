@@ -1,0 +1,215 @@
+/* Subscription Management specific styles */
+
+/* Subscription Plans */
+.plan-card {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.plan-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+}
+
+.plan-card .card-header {
+    padding: 20px;
+    text-align: center;
+}
+
+.plan-card .card-body {
+    padding: 20px;
+}
+
+.plan-card .price {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: var(--primary-color);
+}
+
+.plan-card .duration {
+    font-size: 1rem;
+    color: #6c757d;
+    margin-bottom: 20px;
+}
+
+.plan-card .features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 20px 0;
+}
+
+.plan-card .features li {
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.plan-card .features li:last-child {
+    border-bottom: none;
+}
+
+.plan-card .features li i {
+    color: var(--primary-color);
+    margin-right: 10px;
+}
+
+.plan-card .btn {
+    width: 100%;
+    padding: 12px;
+    font-weight: 600;
+}
+
+.plan-card .ribbon {
+    position: absolute;
+    top: 20px;
+    right: -30px;
+    transform: rotate(45deg);
+    background-color: var(--primary-color);
+    color: white;
+    padding: 5px 30px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Subscription Form */
+.subscription-form {
+    background-color: white;
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.subscription-form h4 {
+    margin-bottom: 20px;
+    font-weight: 600;
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--light-color);
+    padding-bottom: 10px;
+}
+
+.subscription-form .form-group {
+    margin-bottom: 20px;
+}
+
+.subscription-form label {
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: #495057;
+}
+
+.subscription-form .help-text {
+    font-size: 0.85rem;
+    color: #6c757d;
+    margin-top: 5px;
+}
+
+/* Subscription Status */
+.subscription-status-card {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.subscription-status-card .card-header {
+    padding: 15px 20px;
+}
+
+.subscription-status-card .card-body {
+    padding: 20px;
+}
+
+.subscription-status-card .status-badge {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.subscription-status-card .status-badge.active {
+    background-color: rgba(40, 167, 69, 0.1);
+    color: #28a745;
+}
+
+.subscription-status-card .status-badge.expiring {
+    background-color: rgba(255, 193, 7, 0.1);
+    color: #ffc107;
+}
+
+.subscription-status-card .status-badge.expired {
+    background-color: rgba(220, 53, 69, 0.1);
+    color: #dc3545;
+}
+
+.subscription-status-card .status-badge.not-set {
+    background-color: rgba(108, 117, 125, 0.1);
+    color: #6c757d;
+}
+
+.subscription-status-card .info-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.subscription-status-card .info-list li {
+    display: flex;
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.subscription-status-card .info-list li:last-child {
+    border-bottom: none;
+}
+
+.subscription-status-card .info-list li .label {
+    font-weight: 500;
+    width: 120px;
+    color: #495057;
+}
+
+.subscription-status-card .info-list li .value {
+    flex: 1;
+    font-weight: 600;
+}
+
+/* Subscription Reports */
+.report-card {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    margin-bottom: 20px;
+    text-align: center;
+    padding: 20px;
+}
+
+.report-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+}
+
+.report-card i {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    color: var(--primary-color);
+}
+
+.report-card h5 {
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+.report-card h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0;
+    color: var(--primary-color);
+}

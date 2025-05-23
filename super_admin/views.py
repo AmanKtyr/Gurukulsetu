@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView, FormView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.urls import reverse_lazy
@@ -14,7 +14,8 @@ from django.contrib.auth import authenticate, login
 import random
 import string
 
-from .models import College, UserProfile
+from .models import College, UserProfile, SubscriptionPlan
+from .forms import SubscriptionPlanForm, CollegeSubscriptionForm
 
 
 # Super Admin Login View
@@ -113,6 +114,17 @@ class CollegeDetailView(LoginRequiredMixin, SuperUserRequiredMixin, DetailView):
     model = College
     template_name = 'super_admin/college_detail.html'
     context_object_name = 'college'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # Add today and thirty_days_later for subscription status display
+        today = datetime.now().date()
+        thirty_days_later = today + timedelta(days=30)
+        context['today'] = today
+        context['thirty_days_later'] = thirty_days_later
+
+        return context
 
 
 # College Create View
@@ -305,6 +317,127 @@ class CollegeReportView(LoginRequiredMixin, SuperUserRequiredMixin, TemplateView
         return context
 
 
+# Subscription Plan List View
+class SubscriptionPlanListView(LoginRequiredMixin, SuperUserRequiredMixin, ListView):
+    model = SubscriptionPlan
+    template_name = 'super_admin/subscription_plan_list.html'
+    context_object_name = 'plans'
+    ordering = ['price']
+
+
+# Subscription Plan Create View
+class SubscriptionPlanCreateView(LoginRequiredMixin, SuperUserRequiredMixin, CreateView):
+    model = SubscriptionPlan
+    form_class = SubscriptionPlanForm
+    template_name = 'super_admin/subscription_plan_form.html'
+    success_url = reverse_lazy('super_admin:subscription_plan_list')
+
+    def form_valid(self, form):
+        messages.success(self.request, _('Subscription plan created successfully.'))
+        return super().form_valid(form)
+
+
+# Subscription Plan Update View
+class SubscriptionPlanUpdateView(LoginRequiredMixin, SuperUserRequiredMixin, UpdateView):
+    model = SubscriptionPlan
+    form_class = SubscriptionPlanForm
+    template_name = 'super_admin/subscription_plan_form.html'
+    success_url = reverse_lazy('super_admin:subscription_plan_list')
+
+    def form_valid(self, form):
+        messages.success(self.request, _('Subscription plan updated successfully.'))
+        return super().form_valid(form)
+
+
+# Subscription Plan Delete View
+class SubscriptionPlanDeleteView(LoginRequiredMixin, SuperUserRequiredMixin, DeleteView):
+    model = SubscriptionPlan
+    template_name = 'super_admin/subscription_plan_confirm_delete.html'
+    success_url = reverse_lazy('super_admin:subscription_plan_list')
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(request, _('Subscription plan deleted successfully.'))
+        return super().delete(request, *args, **kwargs)
+
+
+# College Subscription Management View
+class CollegeSubscriptionView(LoginRequiredMixin, SuperUserRequiredMixin, FormView):
+    template_name = 'super_admin/college_subscription.html'
+    form_class = CollegeSubscriptionForm
+
+    def get_success_url(self):
+        return reverse_lazy('super_admin:college_detail', kwargs={'pk': self.kwargs['pk']})
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        self.college = get_object_or_404(College, pk=self.kwargs['pk'])
+        kwargs['college'] = self.college
+        return kwargs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['college'] = self.college
+        return context
+
+    def form_valid(self, form):
+        college = get_object_or_404(College, pk=self.kwargs['pk'])
+        plan = form.cleaned_data['subscription_plan']
+        start_date = form.cleaned_data['start_date']
+
+        # Extend subscription
+        college.extend_subscription(plan, start_date)
+
+        messages.success(self.request, _(f'Subscription updated successfully. New end date: {college.subscription_end_date}'))
+        return super().form_valid(form)
+
+
+# Subscription History View
+class SubscriptionHistoryView(LoginRequiredMixin, SuperUserRequiredMixin, ListView):
+    model = SubscriptionHistory
+    template_name = 'super_admin/subscription_history.html'
+    context_object_name = 'histories'
+    paginate_by = 20
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+
+        # Filter by college if specified
+        college_id = self.request.GET.get('college')
+        if college_id:
+            queryset = queryset.filter(college_id=college_id)
+
+        # Filter by action if specified
+        action = self.request.GET.get('action')
+        if action:
+            queryset = queryset.filter(action=action)
+
+        # Filter by date range if specified
+        start_date = self.request.GET.get('start_date')
+        end_date = self.request.GET.get('end_date')
+        if start_date and end_date:
+            try:
+                start_date = datetime.strptime(start_date, '%Y-%m-%d').date()
+                end_date = datetime.strptime(end_date, '%Y-%m-%d').date()
+                queryset = queryset.filter(created_at__date__range=[start_date, end_date])
+            except ValueError:
+                pass
+
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['colleges'] = College.objects.all()
+        context['actions'] = dict(SubscriptionHistory.ACTION_CHOICES)
+
+        # Add filter values to context
+        context['selected_college'] = self.request.GET.get('college', '')
+        context['selected_action'] = self.request.GET.get('action', '')
+        context['selected_start_date'] = self.request.GET.get('start_date', '')
+        context['selected_end_date'] = self.request.GET.get('end_date', '')
+
+        return context
+
+
 # Subscription Report View
 class SubscriptionReportView(LoginRequiredMixin, SuperUserRequiredMixin, TemplateView):
     template_name = 'super_admin/subscription_report.html'
@@ -328,5 +461,46 @@ class SubscriptionReportView(LoginRequiredMixin, SuperUserRequiredMixin, Templat
         context['expiring_soon'] = College.objects.filter(
             subscription_end_date__range=[today, thirty_days_later]
         ).count()
+
+        # Get colleges with no subscription end date
+        context['no_subscription_end_date'] = College.objects.filter(subscription_end_date__isnull=True).count()
+
+        # Add today and thirty_days_later to context for template use
+        context['today'] = today
+        context['thirty_days_later'] = thirty_days_later
+
+        # Get all subscription plans
+        context['subscription_plans'] = SubscriptionPlan.objects.filter(is_active=True)
+
+        # Get recent subscription activities
+        context['recent_activities'] = SubscriptionHistory.objects.all().order_by('-created_at')[:10]
+
+        # Calculate total revenue
+        total_revenue = SubscriptionHistory.objects.filter(
+            action__in=['created', 'extended'],
+            created_at__gte=today - timedelta(days=365)  # Last year
+        ).aggregate(total=Sum('amount'))['total'] or 0
+        context['total_revenue'] = total_revenue
+
+        # Calculate monthly revenue for the last 6 months
+        monthly_revenue = []
+        for i in range(5, -1, -1):
+            month_start = (today.replace(day=1) - timedelta(days=i*30)).replace(day=1)
+            if i > 0:
+                month_end = (today.replace(day=1) - timedelta(days=(i-1)*30)).replace(day=1) - timedelta(days=1)
+            else:
+                month_end = today
+
+            amount = SubscriptionHistory.objects.filter(
+                action__in=['created', 'extended'],
+                created_at__date__range=[month_start, month_end]
+            ).aggregate(total=Sum('amount'))['total'] or 0
+
+            monthly_revenue.append({
+                'month': month_start.strftime('%b %Y'),
+                'amount': amount
+            })
+
+        context['monthly_revenue'] = monthly_revenue
 
         return context

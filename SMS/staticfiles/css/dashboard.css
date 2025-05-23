@@ -1,0 +1,149 @@
+/* Dashboard specific styles */
+
+.stats-card {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.stats-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+}
+
+.stats-card .icon {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+}
+
+.stats-card .card-title {
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.stats-card .card-value {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0;
+}
+
+.stats-card.primary {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+}
+
+.stats-card.success {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: white;
+}
+
+.stats-card.warning {
+    background: linear-gradient(135deg, #ffc107, #fd7e14);
+    color: white;
+}
+
+.stats-card.danger {
+    background: linear-gradient(135deg, #dc3545, #e74c3c);
+    color: white;
+}
+
+.recent-item {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    transition: all 0.2s ease;
+}
+
+.recent-item:last-child {
+    border-bottom: none;
+}
+
+.recent-item:hover {
+    background-color: var(--light-color);
+}
+
+.recent-item .title {
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.recent-item .meta {
+    font-size: 0.85rem;
+    color: #6c757d;
+}
+
+.quick-actions .btn {
+    margin-bottom: 10px;
+    padding: 15px;
+    font-weight: 500;
+    text-align: left;
+    transition: all 0.3s ease;
+}
+
+.quick-actions .btn i {
+    margin-right: 10px;
+    font-size: 1.2rem;
+}
+
+.quick-actions .btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Activity Timeline */
+.timeline {
+    position: relative;
+    padding-left: 30px;
+}
+
+.timeline:before {
+    content: '';
+    position: absolute;
+    left: 10px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background-color: var(--primary-color);
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.timeline-item:last-child {
+    margin-bottom: 0;
+}
+
+.timeline-item:before {
+    content: '';
+    position: absolute;
+    left: -30px;
+    top: 0;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    border: 2px solid white;
+}
+
+.timeline-item .time {
+    font-size: 0.8rem;
+    color: #6c757d;
+    margin-bottom: 5px;
+}
+
+.timeline-item .content {
+    padding: 10px 15px;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+/* Charts */
+.chart-container {
+    position: relative;
+    height: 300px;
+    margin-bottom: 20px;
+}

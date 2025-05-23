@@ -1,9 +1,14 @@
 {% extends 'super_admin/base.html' %}
 {% load i18n %}
+{% load static %}
 
 {% block title %}{{ college.name }} - College Details | Gurukul Setu{% endblock %}
 
 {% block page_title %}College Details{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/college-management.css' %}">
+{% endblock %}
 
 {% block content %}
 <div class="container-fluid">
@@ -86,6 +91,11 @@
                                             {% endif %}
                                         </li>
                                     </ul>
+                                    <div class="mt-3">
+                                        <a href="{% url 'super_admin:college_subscription' college.pk %}" class="btn btn-primary btn-sm">
+                                            <i class="fas fa-calendar-check me-2"></i> Manage Subscription
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>

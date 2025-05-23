@@ -24,12 +24,15 @@ sys.path.insert(0, os.path.dirname(BASE_DIR))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "__$1ud47e&nyso5h5o3fwnqu4+hfqcply9h$k*h2s34)hn5@nc"
+# In production, set this from environment variable
+import os
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "__$1ud47e&nyso5h5o3fwnqu4+hfqcply9h$k*h2s34)hn5@nc")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# In production, set DEBUG=False
+DEBUG = os.environ.get("DJANGO_DEBUG", "True") == "True"
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '*']  # In production, specify your domain
 
 
 # Application definition
@@ -160,11 +163,21 @@ LOGIN_REDIRECT_URL = '/dashboard/'
 LOGOUT_REDIRECT_URL = '/'
 
 
+# Session settings
 SESSION_SAVE_EVERY_REQUEST = True
-
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SESSION_COOKIE_AGE = 10800  # 3 hours in seconds
 
-SESSION_COOKIE_AGE = 10800
+# Security settings
+CSRF_COOKIE_SECURE = not DEBUG  # Set to True in production
+SESSION_COOKIE_SECURE = not DEBUG  # Set to True in production
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+X_FRAME_OPTIONS = 'DENY'  # Prevents clickjacking
+SECURE_HSTS_SECONDS = 0  # Set to at least 31536000 in production (1 year)
+SECURE_HSTS_INCLUDE_SUBDOMAINS = not DEBUG  # Set to True in production
+SECURE_HSTS_PRELOAD = not DEBUG  # Set to True in production
+SECURE_SSL_REDIRECT = not DEBUG  # Set to True in production
 
 
 LOGGING = {

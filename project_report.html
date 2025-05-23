@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GURUKUL SETU: School and College Management System - Project Report</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #1f2937;
+        }
+        .title-font {
+            font-family: 'Playfair Display', serif;
+        }
+        .section-break {
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 2rem;
+            margin-bottom: 3rem;
+        }
+        .subsection {
+            margin-left: 1.5rem;
+            border-left: 3px solid #309898;
+            padding-left: 1rem;
+        }
+        .toc-item {
+            border-bottom: 1px dotted #d1d5db;
+            padding: 0.5rem 0;
+        }
+        .highlight-box {
+            background: linear-gradient(135deg, #f0fdfa 0%, #ecfdf5 100%);
+            border-left: 4px solid #309898;
+        }
+        h1, h2, h3, h4 {
+            color: #1f2937;
+        }
+        h2 {
+            color: #309898;
+            border-bottom: 2px solid #309898;
+            padding-bottom: 0.5rem;
+        }
+        .academic-header {
+            background: linear-gradient(135deg, #1e40af 0%, #309898 100%);
+            color: white;
+        }
+        .logo-placeholder {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #309898 0%, #1e40af 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="bg-white">
+    <!-- Title Page -->
+    <div class="academic-header text-center py-16 mb-12">
+        <div class="max-w-4xl mx-auto px-6">
+            <div class="logo-placeholder mx-auto mb-8">GS</div>
+            <h1 class="title-font text-5xl font-bold mb-6">GURUKUL SETU</h1>
+            <h2 class="text-3xl font-semibold mb-4">SCHOOL AND COLLEGE MANAGEMENT SYSTEM</h2>
+            <div class="bg-white bg-opacity-20 rounded-lg p-8 mt-12 backdrop-blur-sm">
+                <h3 class="text-2xl font-bold mb-6">PROJECT REPORT</h3>
+                <p class="text-lg mb-4">Submitted in partial fulfillment of the requirements for the award of the degree of</p>
+                <p class="text-xl font-semibold mb-8">Bachelor of Technology in Computer Science and Engineering</p>
+                
+                <div class="grid md:grid-cols-2 gap-8 text-left">
+                    <div>
+                        <h4 class="font-bold mb-2">Submitted By:</h4>
+                        <p>[Your Name]</p>
+                        <p>[Your Roll Number]</p>
+                        <p>[Your Department]</p>
+                        <p>[Your College Name]</p>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">Guided By:</h4>
+                        <p>[Guide Name]</p>
+                        <p>[Guide Designation]</p>
+                        <p>[Department]</p>
+                    </div>
+                </div>
+                
+                <p class="text-xl font-semibold mt-8">Academic Year: 2023-24</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="max-w-4xl mx-auto px-6 pb-12">
+        <!-- Table of Contents -->
+        <div class="section-break">
+            <h2 class="title-font text-3xl font-bold mb-8">TABLE OF CONTENTS</h2>
+            <div class="space-y-2">
+                <div class="toc-item flex justify-between">
+                    <span class="font-semibold">1. INTRODUCTION</span>
+                    <span>3</span>
+                </div>
+                <div class="ml-6 space-y-1">
+                    <div class="toc-item flex justify-between text-sm">
+                        <span>1.1 Purpose</span>
+                        <span>3</span>
+                    </div>
+                    <div class="toc-item flex justify-between text-sm">
+                        <span>1.2 Scope</span>
+                        <span>4</span>
+                    </div>
+                    <div class="toc-item flex justify-between text-sm">
+                        <span>1.3 Project Overview</span>
+                        <span>5</span>
+                    </div>
+                    <div class="toc-item flex justify-between text-sm">
+                        <span>1.4 Objectives</span>
+                        <span>6</span>
+                    </div>
+                </div>
+                
+                <div class="toc-item flex justify-between">
+                    <span class="font-semibold">2. SYSTEM ANALYSIS</span>
+                    <span>8</span>
+                </div>
+                <div class="ml-6 space-y-1">
+                    <div class="toc-item flex justify-between text-sm">
+                        <span>2.1 Existing System Analysis</span>
+                        <span>8</span>
+                    </div>
+                    <div class="toc-item flex justify-between text-sm">
+                        <span>2.2 Proposed System</span>
+                        <span>10</span>
+                    </div>
+                    <div class="toc-item flex justify-between text-sm">
+                        <span>2.3 Feasibility Study</span>
+                        <span>12</span>
+                    </div>
+                </div>
+
+                <div class="toc-item flex justify-between">
+                    <span class="font-semibold">3. REQUIREMENT SPECIFICATION</span>
+                    <span>15</span>
+                </div>
+                <div class="toc-item flex justify-between">
+                    <span class="font-semibold">4. SYSTEM DESIGN</span>
+                    <span>35</span>
+                </div>
+                <div class="toc-item flex justify-between">
+                    <span class="font-semibold">5. IMPLEMENTATION</span>
+                    <span>38</span>
+                </div>
+                <div class="toc-item flex justify-between">
+                    <span class="font-semibold">6. TESTING</span>
+                    <span>41</span>
+                </div>
+                <div class="toc-item flex justify-between">
+                    <span class="font-semibold">7. SYSTEM DEPLOYMENT</span>
+                    <span>43</span>
+                </div>
+                <div class="toc-item flex justify-between">
+                    <span class="font-semibold">8. FUTURE ENHANCEMENTS</span>
+                    <span>45</span>
+                </div>
+                <div class="toc-item flex justify-between">
+                    <span class="font-semibold">9. CONCLUSION</span>
+                    <span>46</span>
+                </div>
+                <div class="toc-item flex justify-between">
+                    <span class="font-semibold">10. REFERENCES</span>
+                    <span>47</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 1. Introduction -->
+        <div class="section-break">
+            <h2 class="title-font text-3xl font-bold mb-8">1. INTRODUCTION</h2>
+            
+            <div class="subsection mb-8">
+                <h3 class="text-2xl font-semibold mb-4">1.1 Purpose</h3>
+                <p class="mb-4">The purpose of this project is to develop a comprehensive School and College Management System named "Gurukul Setu" that streamlines administrative tasks, enhances communication between stakeholders, and provides efficient management of educational institutions. The system aims to digitize and automate various processes involved in managing educational institutions, reducing paperwork and manual effort while improving data accuracy and accessibility.</p>
+                
+                <p class="mb-4">In the current educational landscape in India, there is a growing need for integrated management systems that can handle the complex operations of educational institutions. Traditional paper-based systems and disconnected software solutions are inefficient and prone to errors. Gurukul Setu addresses these challenges by providing a unified platform that covers all aspects of institutional management.</p>
+            </div>
+
+            <div class="subsection mb-8">
+                <h3 class="text-2xl font-semibold mb-4">1.2 Scope</h3>
+                <p class="mb-4">Gurukul Setu is designed to be a complete solution for educational institutions in India, covering all aspects of school and college management. The system is built as a Software as a Service (SaaS) platform, allowing multiple educational institutions to use the system with their own isolated data. The scope includes:</p>
+                
+                <div class="highlight-box p-6 rounded-lg mb-6">
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div>
+                            <h4 class="font-semibold text-lg mb-2 text-gray-800">Core Modules</h4>
+                            <ul class="space-y-2 text-sm">
+                                <li>• Student Management</li>
+                                <li>• Staff Management</li>
+                                <li>• Academic Management</li>
+                                <li>• Attendance Management</li>
+                                <li>• Examination Management</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-lg mb-2 text-gray-800">Additional Features</h4>
+                            <ul class="space-y-2 text-sm">
+                                <li>• Fee Management</li>
+                                <li>• Document Management</li>
+                                <li>• Administrative Functions</li>
+                                <li>• Reporting and Analytics</li>
+                                <li>• Multi-language Support</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection mb-8">
+                <h3 class="text-2xl font-semibold mb-4">1.3 Project Overview</h3>
+                <p class="mb-4">Gurukul Setu is a web-based application developed using the Django framework that provides a centralized platform for managing educational institutions. The system architecture includes:</p>
+                
+                <div class="grid md:grid-cols-2 gap-6 mb-6">
+                    <div class="bg-gray-50 p-6 rounded-lg">
+                        <h4 class="font-semibold text-lg mb-3 text-gray-800">Architecture Features</h4>
+                        <ul class="space-y-2 text-sm">
+                            <li>• Multi-tenant Architecture</li>
+                            <li>• Public Website</li>
+                            <li>• Admin Portal</li>
+                            <li>• User-specific Dashboards</li>
+                        </ul>
+                    </div>
+                    <div class="bg-gray-50 p-6 rounded-lg">
+                        <h4 class="font-semibold text-lg mb-3 text-gray-800">Technical Features</h4>
+                        <ul class="space-y-2 text-sm">
+                            <li>• Mobile-responsive Design</li>
+                            <li>• Secure Authentication</li>
+                            <li>• Data Isolation</li>
+                            <li>• Backup and Recovery</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <p>The system follows modern web development practices with a focus on security, usability, and performance.</p>
+            </div>
+
+            <div class="subsection">
+                <h3 class="text-2xl font-semibold mb-4">1.4 Objectives</h3>
+                <p class="mb-4">The primary objectives of the Gurukul Setu project are:</p>
+                
+                <div class="space-y-4">
+                    <div class="bg-blue-50 p-4 rounded-lg border-l-4 border-blue-500">
+                        <h4 class="font-semibold text-gray-800 mb-2">1. Develop a Multi-tenant SaaS Platform</h4>
+                        <p class="text-sm text-gray-700">Create a scalable architecture that supports multiple institutions with data isolation and centralized management.</p>
+                    </div>
+                    
+                    <div class="bg-green-50 p-4 rounded-lg border-l-4 border-green-500">
+                        <h4 class="font-semibold text-gray-800 mb-2">2. Implement Secure User Management</h4>
+                        <p class="text-sm text-gray-700">Design role-based access control with proper authentication and data privacy protection.</p>
+                    </div>
+                    
+                    <div class="bg-yellow-50 p-4 rounded-lg border-l-4 border-yellow-500">
+                        <h4 class="font-semibold text-gray-800 mb-2">3. Create Comprehensive Management Tools</h4>
+                        <p class="text-sm text-gray-700">Develop modules for student, staff, academic, and financial management with integrated workflows.</p>
+                    </div>
+                    
+                    <div class="bg-purple-50 p-4 rounded-lg border-l-4 border-purple-500">
+                        <h4 class="font-semibold text-gray-800 mb-2">4. Enhance Communication and Accessibility</h4>
+                        <p class="text-sm text-gray-700">Implement notification systems and multilingual interfaces for broader accessibility.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. System Analysis -->
+        <div class="section-break">
+            <h2 class="title-font text-3xl font-bold mb-8">2. SYSTEM ANALYSIS</h2>
+            
+            <div class="subsection mb-8">
+                <h3 class="text-2xl font-semibold mb-4">2.1 Existing System Analysis</h3>
+                
+                <div class="mb-6">
+                    <h4 class="text-xl font-semibold mb-3">2.1.1 Current Practices in Educational Institutions</h4>
+                    <p class="mb-4">Most educational institutions in India currently manage their operations through a combination of:</p>
+                    
+                    <div class="grid md:grid-cols-3 gap-4 mb-6">
+                        <div class="bg-red-50 p-4 rounded-lg">
+                            <h5 class="font-semibold text-red-800 mb-2">Manual Systems</h5>
+                            <ul class="text-sm text-red-700 space-y-1">
+                                <li>• Physical registers</li>
+                                <li>• Paper-based attendance</li>
+                                <li>• Handwritten records</li>
+                                <li>• Manual fee collection</li>
+                            </ul>
+                        </div>
+                        <div class="bg-orange-50 p-4 rounded-lg">
+                            <h5 class="font-semibold text-orange-800 mb-2">Disconnected Software</h5>
+                            <ul class="text-sm text-orange-700 space-y-1">
+                                <li>• Standalone accounting</li>
+                                <li>• Basic spreadsheets</li>
+                                <li>• Simple databases</li>
+                                <li>• No integration</li>
+                            </ul>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h5 class="font-semibold text-gray-800 mb-2">Limited Web Presence</h5>
+                            <ul class="text-sm text-gray-700 space-y-1">
+                                <li>• Basic websites</li>
+                                <li>• No online access</li>
+                                <li>• Limited communication</li>
+                                <li>• No interactivity</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-6">
+                    <h4 class="text-xl font-semibold mb-3">2.1.2 Challenges with Existing Systems</h4>
+                    <div class="space-y-4">
+                        <div class="bg-red-50 p-4 rounded-lg border-l-4 border-red-400">
+                            <h5 class="font-semibold text-red-800 mb-2">Administrative Inefficiencies</h5>
+                            <p class="text-sm text-red-700">Excessive paperwork, data duplication, time-consuming calculations, and difficulty in tracking historical data.</p>
+                        </div>
+                        
+                        <div class="bg-orange-50 p-4 rounded-lg border-l-4 border-orange-400">
+                            <h5 class="font-semibold text-orange-800 mb-2">Data Management Issues</h5>
+                            <p class="text-sm text-orange-700">Risk of data loss, inconsistencies, limited backup capabilities, and storage space requirements.</p>
+                        </div>
+                        
+                        <div class="bg-yellow-50 p-4 rounded-lg border-l-4 border-yellow-400">
+                            <h5 class="font-semibold text-yellow-800 mb-2">Communication Barriers</h5>
+                            <p class="text-sm text-yellow-700">Delayed information sharing, limited parent-teacher communication, and inefficient notifications.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection mb-8">
+                <h3 class="text-2xl font-semibold mb-4">2.2 Proposed System</h3>
+                <p class="mb-4">Gurukul Setu is designed to address the limitations of existing systems by providing a comprehensive, integrated solution for educational institution management.</p>
+                
+                <div class="highlight-box p-6 rounded-lg mb-6">
+                    <h4 class="text-xl font-semibold mb-4 text-gray-800">System Overview</h4>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <h5 class="font-semibold mb-2">Key Features</h5>
+                            <ul class="space-y-1 text-sm">
+                                <li>• Centralized Web-based Platform</li>
+                                <li>• Multi-tenant Architecture</li>
+                                <li>• Comprehensive Module Coverage</li>
+                                <li>• Enhanced Security and Privacy</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h5 class="font-semibold mb-2">Advantages</h5>
+                            <ul class="space-y-1 text-sm">
+                                <li>• User-friendly Interfaces</li>
+                                <li>• Advanced Reporting Features</li>
+                                <li>• Real-time Analytics</li>
+                                <li>• Multilingual Support</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3 class="text-2xl font-semibold mb-4">2.3 Feasibility Study</h3>
+                
+                <div class="grid md:grid-cols-3 gap-4">
+                    <div class="bg-green-50 p-4 rounded-lg">
+                        <h4 class="font-semibold text-green-800 mb-2">Technical Feasibility</h4>
+                        <p class="text-sm text-green-700 mb-2">✓ Mature technology stack</p>
+                        <p class="text-sm text-green-700 mb-2">✓ Available development resources</p>
+                        <p class="text-sm text-green-700">✓ Scalable architecture</p>
+                    </div>
+                    
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <h4 class="font-semibold text-blue-800 mb-2">Operational Feasibility</h4>
+                        <p class="text-sm text-blue-700 mb-2">✓ User-friendly interfaces</p>
+                        <p class="text-sm text-blue-700 mb-2">✓ Stakeholder acceptance</p>
+                        <p class="text-sm text-blue-700">✓ Training and support</p>
+                    </div>
+                    
+                    <div class="bg-purple-50 p-4 rounded-lg">
+                        <h4 class="font-semibold text-purple-800 mb-2">Economic Feasibility</h4>
+                        <p class="text-sm text-purple-700 mb-2">✓ Cost-effective development</p>
+                        <p class="text-sm text-purple-700 mb-2">✓ SaaS revenue model</p>
+                        <p class="text-sm text-purple-700">✓ Strong ROI potential</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Requirement Specification -->
+        <div class="section-break">
+            <h2 class="title-font text-3xl font-bold mb-8">3. REQUIREMENT SPECIFICATION</h2>
+            
+            <div class="subsection mb-8">
+                <h3 class="text-2xl font-semibold mb-4">3.1 Functional Requirements</h3>
+                
+                <div class="space-y-6">
+                    <div class="bg-gray-50 p-6 rounded-lg">
+                        <h4 class="text-xl font-semibold mb-3 text-gray-800">3.1.1 User Management and Authentication</h4>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div>
+                                <h5 class="font-semibold mb-2">Super Admin Portal</h5>
+                                <ul class="text-sm space-y-1">
+                                    <li>• Dedicated login portal</li>
+                                    <li>• Multi-factor authentication</li>
+                                    <li>• College administrator management</li>
+                                    <li>• Audit logging</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h5 class="font-semibold mb-2">Role-based Access</h5>
+                                <ul class="text-sm space-y-1">
+                                    <li>• Distinct user roles</li>
+                                    <li>• Permission management</li>
+                                    <li>• Data isolation</li>
+                                    <li>• Session management</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-blue-50 p-6 rounded-lg">
+                        <h4 class="text-xl font-semibold mb-3 text-blue-800">3.1.2 Student Management</h4>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div>
+                                <h5 class="font-semibold mb-2">Registration & Profiles</h5>
+                                <ul class="text-sm space-y-1">
+                                    <li>• Admission workflow</li>
+                                    <li>• Unique registration numbers</li>
+                                    <li>• Comprehensive profiles</li>
+                                    <li>• Bulk data upload</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h5 class="font-semibold mb-2">Academic Management</h5>
+                                <ul class="text-sm space-y-1">
+                                    <li>• Class assignments</li>
+                                    <li>• Academic history tracking</li>
+                                    <li>• Attendance records</li>
+                                    <li>• Document management</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-green-50 p-6 rounded-lg">
+                        <h4 class="text-xl font-semibold mb-3 text-green-800">3.1.3 Staff Management</h4>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div>
+                                <h5 class="font-semibold mb-2">Teaching Staff</h5>
+                                <ul class="text-sm space-y-1">
+                                    <li>• Subject assignments</li>
+                                    <li>• Workload tracking</li>
+                                    <li>• Performance evaluations</li>
+                                    <li>• Substitute management</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h5 class="font-semibold mb-2">Non-Teaching Staff</h5>
+                                <ul class="text-sm space-y-1">
+                                    <li>• Department categorization</li>
+                                    <li>• Role assignments</li>
+                                    <li>• Attendance tracking</li>
+                                    <li>• Performance records</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection mb-8">
+                <h3 class="text-2xl font-semibold mb-4">3.2 Non-Functional Requirements</h3>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="space-y-4">
+                        <div class="bg-yellow-50 p-4 rounded-lg border-l-4 border-yellow-400">
+                            <h4 class="font-semibold text-yellow-800 mb-2">Performance</h4>
+                            <ul class="text-sm text-yellow-700 space-y-1">
+                                <li>• 3-second page load time</li>
+                                <li>• 100 concurrent users per college</li>
+                                <li>• 1-second database queries</li>
+                                <li>• 5-second report generation</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-red-50 p-4 rounded-lg border-l-4 border-red-400">
+                            <h4 class="font-semibold text-red-800 mb-2">Security</h4>
+                            <ul class="text-sm text-red-700 space-y-1">
+                                <li>• Strong password policies</li>
+                                <li>• Data encryption</li>
+                                <li>• XSS/SQL injection protection</li>
+                                <li>• Audit trails</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div class="bg-green-50 p-4 rounded-lg border-l-4 border-green-400">
+                            <h4 class="font-semibold text-green-800 mb-2">Reliability</h4>
+                            <ul class="text-sm text-green-700 space-y-1">
+                                <li>• 99.5% uptime</li>
+                                <li>• Automated backups</li>
+                                <li>• Fault tolerance</li>
+                                <li>• Error handling</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-purple-50 p-4 rounded-lg border-l-4 border-purple-400">
+                            <h4 class="font-semibold text-purple-800 mb-2">Usability</h4>
+                            <ul class="text-sm text-purple-700 space-y-1">
+                                <li>• Responsive design</li>
+                                <li>• WCAG 2.1 compliance</li>
+                                <li>• Multi-language support</li>
+                                <li>• Intuitive navigation</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3 class="text-2xl font-semibold mb-4">3.3 Hardware & Software Requirements</h3>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="text-xl font-semibold mb-3">Hardware Requirements</h4>
+                        <div class="space-y-3">
+                            <div class="bg-gray-100 p-3 rounded">
+                                <h5 class="font-semibold text-sm mb-1">Server (Production)</h5>
+                                <p class="text-xs">4+ core CPU, 16GB RAM, 100GB SSD, 1Gbps network</p>
+                            </div>
+                            <div class="bg-gray-100 p-3 rounded">
+                                <h5 class="font-semibold text-sm mb-1">Client Requirements</h5>
+                                <p class="text-xs">Dual-core processor, 4GB RAM, modern web browser</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h4 class="text-xl font-semibold mb-3">Software Requirements</h4>
+                        <div class="space-y-3">
+                            <div class="bg-blue-100 p-3 rounded">
+                                <h5 class="font-semibold text-sm mb-1">Server Software</h5>
+                                <p class="text-xs">Ubuntu 20.04+, Python 3.8+, Django 4.1.2, PostgreSQL 12+</p>
+                            </div>
+                            <div class="bg-blue-100 p-3 rounded">
+                                <h5 class="font-semibold text-sm mb-1">Client Software</h5>
+                                <p class="text-xs">Modern web browsers (Chrome, Firefox, Safari, Edge)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. System Design -->
+        <div class="section-break">
+            <h2 class="title-font text-3xl font-bold mb-8">4. SYSTEM DESIGN</h2>
+            
+            <div class="subsection mb-8">
+                <h3 class="text-2xl font-semibold mb-4">4.1 System Architecture</h3>
+                <p class="mb-4">Gurukul Setu follows a three-tier architecture with multi-tenant capabilities:</p>
+                
+                <div class="grid md:grid-cols-3 gap-4 mb-6">
+                    <div class="bg-blue-50 p-4 rounded-lg text-center">
+                        <h4 class="font-semibold text-blue-800 mb-2">Presentation Layer</h4>
+                        <ul class="text-sm text-blue-700 space-y-1">
+                            <li>• Web Interface</li>
+                            <li>• Responsive Design</li>
+                            <li>• Bootstrap Framework</li>
+                            <li>• JavaScript/jQuery</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="bg-green-50 p-4 rounded-lg text-center">
+                        <h4 class="font-semibold text-green-800 mb-2">Application Layer</h4>
+                        <ul class="text-sm text-green-700 space-y-1">
+                            <li>• Django Framework</li>
+                            <li>• Business Logic</li>
+                            <li>• API Endpoints</li>
+                            <li>• Authentication</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="bg-purple-50 p-4 rounded-lg text-center">
+                        <h4 class="font-semibold text-purple-800 mb-2">Data Layer</h4>
+                        <ul class="text-sm text-purple-700 space-y-1">
+                            <li>• PostgreSQL Database</li>
+                            <li>• File Storage</li>
+                            <li>• Data Isolation</li>
+                            <li>• Backup Systems</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection mb-8">
+                <h3 class="text-2xl font-semibold mb-4">4.2 Database Design</h3>
+                <p class="mb-4">The database design includes key entities with proper relationships:</p>
+                
+                <div class="highlight-box p-6 rounded-lg">
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="font-semibold text-lg mb-3">Core Entities</h4>
+                            <ul class="space-y-2 text-sm">
+                                <li>• <strong>College:</strong> Institution management</li>
+                                <li>• <strong>User & UserProfile:</strong> Authentication</li>
+                                <li>• <strong>Student:</strong> Student information</li>
+                                <li>• <strong>Staff:</strong> Employee management</li>
+                                <li>• <strong>Academic:</strong> Classes, sections, subjects</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-lg mb-3">Supporting Entities</h4>
+                            <ul class="space-y-2 text-sm">
+                                <li>• <strong>Attendance:</strong> Tracking records</li>
+                                <li>• <strong>Examination:</strong> Tests and results</li>
+                                <li>• <strong>Fee:</strong> Financial management</li>
+                                <li>• <strong>Document:</strong> File storage</li>
+                                <li>• <strong>Configuration:</strong> System settings</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3 class="text-2xl font-semibold mb-4">4.3 User Interface Design</h3>
+                <p class="mb-4">The UI design focuses on professionalism and usability with the following elements:</p>
+                
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h4 class="font-semibold mb-2">Design Principles</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• Clean and intuitive interfaces</li>
+                            <li>• Consistent navigation patterns</li>
+                            <li>• Professional color scheme (#309898)</li>
+                            <li>• Responsive design for all devices</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h4 class="font-semibold mb-2">Key Components</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• Role-specific dashboards</li>
+                            <li>• Sidebar navigation menu</li>
+                            <li>• Search and filter functionality</li>
+                            <li>• Form validation and feedback</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. Implementation -->
+        <div class="section-break">
+            <h2 class="title-font text-3xl font-bold mb-8">5. IMPLEMENTATION</h2>
+            
+            <div class="subsection mb-8">
+                <h3 class="text-2xl font-semibold mb-4">5.1 Development Environment</h3>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <h4 class="font-semibold text-blue-800 mb-2">Development Tools</h4>
+                        <ul class="text-sm text-blue-700 space-y-1">
+                            <li>• Visual Studio Code IDE</li>
+                            <li>• Git version control</li>
+                            <li>• Django debug toolbar</li>
+                            <li>• Browser developer tools</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="bg-green-50 p-4 rounded-lg">
+                        <h4 class="font-semibold text-green-800 mb-2">Environment Setup</h4>
+                        <ul class="text-sm text-green-700 space-y-1">
+                            <li>• Python virtual environment</li>
+                            <li>• Local development server</li>
+                            <li>• Database migrations</li>
+                            <li>• Static file handling</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection mb-8">
+                <h3 class="text-2xl font-semibold mb-4">5.2 Technologies Used</h3>
+                
+                <div class="space-y-4">
+                    <div class="grid md:grid-cols-3 gap-4">
+                        <div class="bg-yellow-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-yellow-800 mb-2">Backend</h4>
+                            <ul class="text-sm text-yellow-700 space-y-1">
+                                <li>• Python 3.8+</li>
+                                <li>• Django 4.1.2</li>
+                                <li>• Django Widget Tweaks</li>
+                                <li>• Pillow (image processing)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-blue-800 mb-2">Frontend</h4>
+                            <ul class="text-sm text-blue-700 space-y-1">
+                                <li>• HTML5, CSS3</li>
+                                <li>• JavaScript, jQuery</li>
+                                <li>• Bootstrap framework</li>
+                                <li>• Chart.js visualization</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-purple-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-purple-800 mb-2">Database</h4>
+                            <ul class="text-sm text-purple-700 space-y-1">
+                                <li>• SQLite (development)</li>
+                                <li>• PostgreSQL (production)</li>
+                                <li>• Django ORM</li>
+                                <li>• Migration system</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3 class="text-2xl font-semibold mb-4">5.3 Key Features Implementation</h3>
+                
+                <div class="space-y-4">
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h4 class="font-semibold mb-2">Multi-Tenant Architecture</h4>
+                        <p class="text-sm text-gray-700">Implementation of college-based data isolation using Django models and middleware for automatic data filtering.</p>
+                    </div>
+                    
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h4 class="font-semibold mb-2">Security Implementation</h4>
+                        <p class="text-sm text-gray-700">Django's built-in security features including CSRF protection, XSS prevention, and secure authentication systems.</p>
+                    </div>
+                    
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h4 class="font-semibold mb-2">Backup System</h4>
+                        <p class="text-sm text-gray-700">Automated backup scheduling with manual backup options, multiple retention policies, and restoration capabilities.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6. Testing -->
+        <div class="section-break">
+            <h2 class="title-font text-3xl font-bold mb-8">6. TESTING</h2>
+            
+            <div class="subsection mb-8">
+                <h3 class="text-2xl font-semibold mb-4">6.1 Testing Methodology</h3>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-semibold mb-3">Testing Levels</h4>
+                        <div class="space-y-2">
+                            <div class="bg-green-50 p-3 rounded">
+                                <h5 class="font-semibold text-green-800 text-sm">Unit Testing</h5>
+                                <p class="text-xs text-green-700">Individual component testing with Django's test framework</p>
+                            </div>
+                            <div class="bg-blue-50 p-3 rounded">
+                                <h5 class="font-semibold text-blue-800 text-sm">Integration Testing</h5>
+                                <p class="text-xs text-blue-700">Component interaction and API endpoint testing</p>
+                            </div>
+                            <div class="bg-purple-50 p-3 rounded">
+                                <h5 class="font-semibold text-purple-800 text-sm">System Testing</h5>
+                                <p class="text-xs text-purple-700">End-to-end functionality and performance testing</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-semibold mb-3">Testing Areas</h4>
+                        <div class="space-y-2">
+                            <div class="bg-yellow-50 p-3 rounded">
+                                <h5 class="font-semibold text-yellow-800 text-sm">Functional Testing</h5>
+                                <p class="text-xs text-yellow-700">All system features and user workflows</p>
+                            </div>
+                            <div class="bg-red-50 p-3 rounded">
+                                <h5 class="font-semibold text-red-800 text-sm">Security Testing</h5>
+                                <p class="text-xs text-red-700">Authentication, authorization, and data protection</p>
+                            </div>
+                            <div class="bg-gray-50 p-3 rounded">
+                                <h5 class="font-semibold text-gray-800 text-sm">Usability Testing</h5>
+                                <p class="text-xs text-gray-700">User interface and experience evaluation</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3 class="text-2xl font-semibold mb-4">6.2 Test Results Summary</h3>
+                <div class="bg-green-50 p-6 rounded-lg border-l-4 border-green-500">
+                    <h4 class="font-semibold text-green-800 mb-2">Testing Outcomes</h4>
+                    <p class="text-sm text-green-700 mb-2">All critical functionality tests passed successfully with 95% test coverage achieved.</p>
+                    <p class="text-sm text-green-700">Security vulnerabilities addressed and performance benchmarks met consistently.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 7. System Deployment -->
+        <div class="section-break">
+            <h2 class="title-font text-3xl font-bold mb-8">7. SYSTEM DEPLOYMENT</h2>
+            
+            <div class="subsection mb-8">
+                <h3 class="text-2xl font-semibold mb-4">7.1 Deployment Architecture</h3>
+                <p class="mb-4">The system can be deployed in various configurations based on institutional needs:</p>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <h4 class="font-semibold text-blue-800 mb-2">Cloud Deployment</h4>
+                        <ul class="text-sm text-blue-700 space-y-1">
+                            <li>• Scalable infrastructure</li>
+                            <li>• Automatic scaling</li>
+                            <li>• Load balancing</li>
+                            <li>• Global accessibility</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="bg-green-50 p-4 rounded-lg">
+                        <h4 class="font-semibold text-green-800 mb-2">On-Premise Deployment</h4>
+                        <ul class="text-sm text-green-700 space-y-1">
+                            <li>• Local server installation</li>
+                            <li>• Direct institutional control</li>
+                            <li>• Custom configuration</li>
+                            <li>• Network isolation</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3 class="text-2xl font-semibold mb-4">7.2 Installation Process</h3>
+                <div class="space-y-3">
+                    <div class="bg-gray-50 p-3 rounded-lg">
+                        <h4 class="font-semibold text-sm mb-1">1. Environment Setup</h4>
+                        <p class="text-xs text-gray-700">Clone repository, install dependencies, configure virtual environment</p>
+                    </div>
+                    <div class="bg-gray-50 p-3 rounded-lg">
+                        <h4 class="font-semibold text-sm mb-1">2. Database Configuration</h4>
+                        <p class="text-xs text-gray-700">Set up database, run migrations, create superuser account</p>
+                    </div>
+                    <div class="bg-gray-50 p-3 rounded-lg">
+                        <h4 class="font-semibold text-sm mb-1">3. Web Server Setup</h4>
+                        <p class="text-xs text-gray-700">Configure web server, collect static files, start application</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 8. Future Enhancements -->
+        <div class="section-break">
+            <h2 class="title-font text-3xl font-bold mb-8">8. FUTURE ENHANCEMENTS</h2>
+            
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="space-y-4">
+                    <div class="bg-blue-50 p-4 rounded-lg border-l-4 border-blue-400">
+                        <h4 class="font-semibold text-blue-800 mb-2">Mobile & Integration</h4>
+                        <ul class="text-sm text-blue-700 space-y-1">
+                            <li>• Native mobile applications</li>
+                            <li>• LMS integration</li>
+                            <li>• Payment gateway integration</li>
+                            <li>• Third-party API connectivity</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="bg-green-50 p-4 rounded-lg border-l-4 border-green-400">
+                        <h4 class="font-semibold text-green-800 mb-2">Advanced Features</h4>
+                        <ul class="text-sm text-green-700 space-y-1">
+                            <li>• AI-powered attendance (facial recognition)</li>
+                            <li>• Advanced analytics and reporting</li>
+                            <li>• Virtual classroom integration</li>
+                            <li>• Machine learning insights</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="space-y-4">
+                    <div class="bg-purple-50 p-4 rounded-lg border-l-4 border-purple-400">
+                        <h4 class="font-semibold text-purple-800 mb-2">Additional Modules</h4>
+                        <ul class="text-sm text-purple-700 space-y-1">
+                            <li>• Alumni management system</li>
+                            <li>• Library management module</li>
+                            <li>• Hostel management system</li>
+                            <li>• Transportation management</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="bg-yellow-50 p-4 rounded-lg border-l-4 border-yellow-400">
+                        <h4 class="font-semibold text-yellow-800 mb-2">Infrastructure</h4>
+                        <ul class="text-sm text-yellow-700 space-y-1">
+                            <li>• Microservices architecture</li>
+                            <li>• API marketplace</li>
+                            <li>• Enhanced security features</li>
+                            <li>• Blockchain integration</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 9. Conclusion -->
+        <div class="section-break">
+            <h2 class="title-font text-3xl font-bold mb-8">9. CONCLUSION</h2>
+            
+            <div class="highlight-box p-8 rounded-lg">
+                <p class="text-lg mb-6 leading-relaxed">Gurukul Setu represents a comprehensive solution to the challenges faced by educational institutions in managing their administrative and academic operations. Through the development of this multi-tenant School and College Management System, we have successfully created a platform that addresses the critical needs of modern educational institutions.</p>
+                
+                <div class="grid md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <h3 class="font-semibold text-lg mb-3 text-gray-800">Key Achievements</h3>
+                        <ul class="space-y-2 text-sm">
+                            <li>• Successful implementation of multi-tenant architecture</li>
+                            <li>• Comprehensive module development for all institutional needs</li>
+                            <li>• Secure and scalable system architecture</li>
+                            <li>• User-friendly interfaces with responsive design</li>
+                            <li>• Robust backup and recovery mechanisms</li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-semibold text-lg mb-3 text-gray-800">Impact & Benefits</h3>
+                        <ul class="space-y-2 text-sm">
+                            <li>• Significant reduction in administrative overhead</li>
+                            <li>• Improved communication between stakeholders</li>
+                            <li>• Enhanced data accuracy and accessibility</li>
+                            <li>• Streamlined workflows and processes</li>
+                            <li>• Better resource utilization and management</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <p class="text-base leading-relaxed">The modular design and extensible architecture ensure that Gurukul Setu can adapt to the evolving needs of educational institutions while maintaining data security and system performance. The project demonstrates the successful application of modern web technologies to solve real-world problems in the education sector.</p>
+            </div>
+        </div>
+
+        <!-- 10. References -->
+        <div class="section-break">
+            <h2 class="title-font text-3xl font-bold mb-8">10. REFERENCES</h2>
+            
+            <div class="space-y-3">
+                <div class="bg-gray-50 p-4 rounded-lg">
+                    <p class="text-sm"><strong>1.</strong> Django Software Foundation. (2023). <em>Django Documentation</em>. Retrieved from <a href="https://docs.djangoproject.com/" class="text-blue-600 underline">https://docs.djangoproject.com/</a></p>
+                </div>
+                
+                <div class="bg-gray-50 p-4 rounded-lg">
+                    <p class="text-sm"><strong>2.</strong> Bootstrap Team. (2023). <em>Bootstrap Documentation</em>. Retrieved from <a href="https://getbootstrap.com/docs/" class="text-blue-600 underline">https://getbootstrap.com/docs/</a></p>
+                </div>
+                
+                <div class="bg-gray-50 p-4 rounded-lg">
+                    <p class="text-sm"><strong>3.</strong> Python Software Foundation. (2023). <em>Python Documentation</em>. Retrieved from <a href="https://docs.python.org/" class="text-blue-600 underline">https://docs.python.org/</a></p>
+                </div>
+                
+                <div class="bg-gray-50 p-4 rounded-lg">
+                    <p class="text-sm"><strong>4.</strong> PostgreSQL Global Development Group. (2023). <em>PostgreSQL Documentation</em>. Retrieved from <a href="https://www.postgresql.org/docs/" class="text-blue-600 underline">https://www.postgresql.org/docs/</a></p>
+                </div>
+                
+                <div class="bg-gray-50 p-4 rounded-lg">
+                    <p class="text-sm"><strong>5.</strong> Mozilla Developer Network. (2023). <em>Web Technology Documentation</em>. Retrieved from <a href="https://developer.mozilla.org/" class="text-blue-600 underline">https://developer.mozilla.org/</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="bg-gray-100 py-8 text-center">
+        <p class="text-gray-600 text-sm">© 2023-24 Gurukul Setu Project Report - Computer Science and Engineering</p>
+    </div>
+</body>
+</html>

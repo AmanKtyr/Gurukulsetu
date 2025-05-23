@@ -1,9 +1,14 @@
 {% extends 'super_admin/base.html' %}
 {% load i18n %}
+{% load static %}
 
 {% block title %}Dashboard - Super Admin | Gurukul Setu{% endblock %}
 
 {% block page_title %}Super Admin Dashboard{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+{% endblock %}
 
 {% block content %}
 <div class="container-fluid">
@@ -155,6 +160,11 @@
                         <div class="col-md-3 mb-3">
                             <a href="{% url 'super_admin:subscription_report' %}" class="btn btn-warning w-100">
                                 <i class="fas fa-calendar-check me-2"></i> Subscription Reports
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <a href="{% url 'super_admin:subscription_plan_list' %}" class="btn btn-info w-100">
+                                <i class="fas fa-tags me-2"></i> Subscription Plans
                             </a>
                         </div>
                     </div>
