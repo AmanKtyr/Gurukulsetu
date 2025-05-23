@@ -4,6 +4,7 @@ from django.urls import reverse
 from django.utils import timezone
 import random
 from super_admin.models import College
+from super_admin.managers import CollegeFilteredManager
 
 class Staff(models.Model):
     STATUS = [("active", "Active"), ("inactive", "Inactive")]
@@ -56,3 +57,7 @@ class Staff(models.Model):
 
     def get_absolute_url(self):
         return reverse("staff-detail", kwargs={"pk": self.pk})
+
+    # Add custom manager
+    objects = models.Manager()  # Default manager
+    college_objects = CollegeFilteredManager()

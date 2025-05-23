@@ -91,6 +91,7 @@ TEMPLATES = [
                 "django.contrib.messages.context_processors.messages",
                 "apps.corecode.context_processors.site_defaults",
                 'apps.corecode.context_processors.global_college_profile',
+                'super_admin.context_processors.college_context',
             ],
         },
     },

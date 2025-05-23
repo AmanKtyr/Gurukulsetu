@@ -24,34 +24,77 @@
 
     .calculator-result {
         background-color: rgba(48, 152, 152, 0.05);
-        border-radius: 10px;
-        padding: 20px;
-        margin-top: 30px;
+        border-radius: 15px;
+        padding: 30px;
+        margin-top: 40px;
         display: none;
+        box-shadow: 0 5px 20px rgba(48, 152, 152, 0.1);
+        border: 1px solid rgba(48, 152, 152, 0.1);
+        transition: all 0.3s ease;
     }
 
     .calculator-result.active {
         display: block;
+        animation: fadeInUp 0.5s ease forwards;
     }
 
-    .result-plan {
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .result-plan, .result-plan-text {
         font-weight: 600;
         color: var(--primary-color);
     }
 
     .result-price {
-        font-size: 24px;
+        font-size: 32px;
         font-weight: 700;
         color: var(--primary-color);
-        margin: 10px 0;
+        margin: 15px 0;
+        padding: 10px 0;
+        border-bottom: 1px dashed rgba(48, 152, 152, 0.2);
     }
 
     .result-features {
         margin-top: 15px;
+        padding-left: 0;
+        list-style: none;
     }
 
     .result-features li {
-        margin-bottom: 8px;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+    }
+
+    .result-features li i {
+        margin-right: 10px;
+        font-size: 16px;
+    }
+
+    .result-limits h5, .result-capacity h5 {
+        font-size: 18px;
+        margin-bottom: 15px;
+        color: var(--text-color);
+    }
+
+    .alert-info {
+        background-color: rgba(48, 152, 152, 0.1);
+        border-color: rgba(48, 152, 152, 0.2);
+        color: var(--primary-dark);
+    }
+
+    .alert-info i {
+        margin-right: 8px;
+        color: var(--primary-color);
     }
 
     .range-labels {
@@ -208,18 +251,48 @@
 
                     <div id="calculatorResult" class="calculator-result">
                         <h4>Recommended Plan: <span class="result-plan">Standard Plan</span></h4>
-                        <p>Based on your requirements, we recommend our Standard Plan.</p>
+                        <p>Based on your requirements, we recommend our <span class="result-plan-text">Standard Plan</span>.</p>
                         <div class="result-price">₹<span id="resultPrice">9,999</span> <span id="resultBilling">per month</span></div>
-                        <p>This includes:</p>
-                        <ul class="result-features">
-                            <li><i class="fas fa-check-circle text-success"></i> <span id="resultStudents">Up to 1000 students</span></li>
-                            <li><i class="fas fa-check-circle text-success"></i> <span id="resultStaff">Up to 100 staff members</span></li>
-                            <li><i class="fas fa-check-circle text-success"></i> All selected modules</li>
-                            <li><i class="fas fa-check-circle text-success"></i> Email and chat support</li>
-                            <li><i class="fas fa-check-circle text-success"></i> Regular updates and maintenance</li>
-                        </ul>
+
+                        <div class="row mt-4">
+                            <div class="col-md-6">
+                                <div class="result-limits mb-3">
+                                    <h5>Your Requirements:</h5>
+                                    <ul class="result-features">
+                                        <li><i class="fas fa-users text-primary"></i> <span id="inputStudents">500 students</span></li>
+                                        <li><i class="fas fa-user-tie text-primary"></i> <span id="inputStaff">50 staff members</span></li>
+                                        <li><i class="fas fa-th-large text-primary"></i> <span id="inputModules">3 modules</span></li>
+                                        <li><i class="fas fa-building text-primary"></i> <span id="inputInstitution">School</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="result-capacity">
+                                    <h5>Plan Capacity:</h5>
+                                    <ul class="result-features">
+                                        <li><i class="fas fa-check-circle text-success"></i> <span id="resultStudents">Up to 800 students</span></li>
+                                        <li><i class="fas fa-check-circle text-success"></i> <span id="resultStaff">Up to 100 staff members</span></li>
+                                        <li><i class="fas fa-check-circle text-success"></i> <span id="resultModules">All selected modules</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <h5>Included Features:</h5>
+                            <ul class="result-features" id="resultFeaturesList">
+                                <!-- Features will be populated dynamically -->
+                            </ul>
+                        </div>
+
+                        <div class="alert alert-info mt-4">
+                            <i class="fas fa-info-circle"></i>
+                            <span id="planRecommendationReason">This plan is recommended based on your student count, staff size, and selected modules.</span>
+                        </div>
+
                         <div class="text-center mt-4">
-                            <a href="{% url 'demo' %}" class="btn btn-primary">Request a Demo</a>
+                            <a href="{% url 'demo' %}" class="btn btn-primary me-2">Request a Demo</a>
+                            <a href="{% url 'contact' %}" class="btn btn-outline-primary">Contact Sales</a>
                         </div>
                     </div>
                 </div>
@@ -634,45 +707,122 @@
                 const modules = document.querySelectorAll('.module-checkbox:checked').length;
                 const billingCycle = document.querySelector('input[name="billingCycle"]:checked').value;
 
-                // Determine plan based on inputs
+                // Determine plan based on inputs with improved logic
                 let plan = 'Basic Plan';
                 let price = 4999;
+                let planFeatures = [];
 
+                // Basic plan features
+                planFeatures = [
+                    'Student Management',
+                    'Staff Management',
+                    'Basic Fee Management',
+                    'Attendance Tracking',
+                    'Basic Examination System'
+                ];
+
+                // Check if Standard Plan is needed
                 if (students > 300 || staff > 50 || modules >= 3) {
                     plan = 'Standard Plan';
                     price = 9999;
+                    planFeatures = [
+                        'Student Management',
+                        'Staff Management',
+                        'Advanced Fee Management',
+                        'Attendance Tracking',
+                        'Advanced Examination System',
+                        'Document Management',
+                        'Basic Reporting'
+                    ];
                 }
 
-                if (students > 800 || staff > 100 || (modules >= 3 && (students > 500 || staff > 75))) {
+                // Check if Premium Plan is needed
+                if (students > 800 || staff > 100 || (modules >= 4 && (students > 500 || staff > 75))) {
                     plan = 'Premium Plan';
                     price = 19999;
+                    planFeatures = [
+                        'Student Management',
+                        'Staff Management',
+                        'Advanced Fee Management',
+                        'Attendance Tracking',
+                        'Advanced Examination System',
+                        'Document Management',
+                        'Advanced Reporting & Analytics',
+                        'API Access',
+                        'Custom Branding'
+                    ];
                 }
 
-                // Apply yearly discount
+                // Calculate and display price based on billing cycle
+                let displayPrice = price;
+                let annualPrice = price * 12;
+                let discountedAnnualPrice = Math.round(annualPrice * 0.8);
+                let monthlySavings = Math.round((annualPrice - discountedAnnualPrice) / 12);
+
                 if (billingCycle === 'yearly') {
-                    price = Math.round(price * 0.8);
-                    resultBilling.textContent = 'per month (billed annually)';
+                    // For yearly billing, show the annual price
+                    displayPrice = discountedAnnualPrice;
+                    resultBilling.textContent = 'per year (save ₹' + (monthlySavings * 12).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ')';
                 } else {
                     resultBilling.textContent = 'per month';
                 }
 
                 // Format price with commas
-                resultPrice.textContent = price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                resultPrice.textContent = displayPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
-                // Update result
+                // Update all plan information in the result
                 resultPlan.textContent = plan;
+                document.querySelector('.result-plan-text').textContent = plan;
 
-                // Update student and staff counts
+                // Update input summary
+                document.getElementById('inputStudents').textContent = students + ' students';
+                document.getElementById('inputStaff').textContent = staff + ' staff members';
+                document.getElementById('inputModules').textContent = modules + ' modules';
+                document.getElementById('inputInstitution').textContent = institutionType.charAt(0).toUpperCase() + institutionType.slice(1);
+
+                // Update capacity information
                 if (plan === 'Basic Plan') {
                     resultStudents.textContent = 'Up to 300 students';
                     resultStaff.textContent = 'Up to 50 staff members';
+                    document.getElementById('planRecommendationReason').textContent =
+                        'This plan is suitable for small institutions with basic management needs.';
                 } else if (plan === 'Standard Plan') {
                     resultStudents.textContent = 'Up to 800 students';
                     resultStaff.textContent = 'Up to 100 staff members';
+                    document.getElementById('planRecommendationReason').textContent =
+                        'This plan is recommended based on your student count, staff size, and selected modules.';
                 } else {
                     resultStudents.textContent = 'Unlimited students';
                     resultStaff.textContent = 'Unlimited staff members';
+                    document.getElementById('planRecommendationReason').textContent =
+                        'This premium plan is recommended for large institutions with advanced requirements.';
                 }
+
+                // Update modules text
+                document.getElementById('resultModules').textContent =
+                    modules + ' selected module' + (modules > 1 ? 's' : '');
+
+                // Populate features list
+                const featuresList = document.getElementById('resultFeaturesList');
+                featuresList.innerHTML = ''; // Clear existing features
+
+                // Add each feature to the list
+                planFeatures.forEach(feature => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `<i class="fas fa-check-circle text-success"></i> ${feature}`;
+                    featuresList.appendChild(li);
+                });
+
+                // Add support level based on plan
+                const supportLi = document.createElement('li');
+                if (plan === 'Basic Plan') {
+                    supportLi.innerHTML = '<i class="fas fa-check-circle text-success"></i> Email Support';
+                } else if (plan === 'Standard Plan') {
+                    supportLi.innerHTML = '<i class="fas fa-check-circle text-success"></i> Email & Chat Support';
+                } else {
+                    supportLi.innerHTML = '<i class="fas fa-check-circle text-success"></i> Priority Email, Chat & Phone Support';
+                }
+                featuresList.appendChild(supportLi);
 
                 // Show result
                 calculatorResult.classList.add('active');

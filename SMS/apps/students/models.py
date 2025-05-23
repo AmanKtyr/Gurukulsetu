@@ -7,6 +7,7 @@ from io import BytesIO
 from django.core.files.base import ContentFile
 from django.db.models import Sum, Max
 from super_admin.models import College
+from super_admin.managers import CollegeFilteredManager
 
 class Student(models.Model):
     STATUS_CHOICES = [("active", "Active"), ("inactive", "Inactive")]
@@ -152,6 +153,10 @@ class Student(models.Model):
 
     def get_absolute_url(self):
         return reverse("student-detail", kwargs={"pk": self.pk})
+
+    # Add custom manager
+    objects = models.Manager()  # Default manager
+    college_objects = CollegeFilteredManager()
 
 
 class StudentBulkUpload(models.Model):
