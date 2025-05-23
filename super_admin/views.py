@@ -6,7 +6,7 @@ from django.urls import reverse_lazy
 from django.contrib import messages
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import User
-from django.db.models import Count, Q
+from django.db.models import Count, Q, Sum
 from django.http import HttpResponse, JsonResponse
 from datetime import datetime, timedelta
 from django.contrib.auth.views import LoginView
@@ -14,7 +14,7 @@ from django.contrib.auth import authenticate, login
 import random
 import string
 
-from .models import College, UserProfile, SubscriptionPlan
+from .models import College, UserProfile, SubscriptionPlan, SubscriptionHistory
 from .forms import SubscriptionPlanForm, CollegeSubscriptionForm
 
 

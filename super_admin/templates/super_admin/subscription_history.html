@@ -1,0 +1,245 @@
+{% extends 'super_admin/base.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block title %}Subscription History | Gurukul Setu{% endblock %}
+
+{% block page_title %}Subscription History{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/subscription-management.css' %}">
+<style>
+    .filter-form {
+        background-color: #f8f9fa;
+        padding: 15px;
+        border-radius: 5px;
+        margin-bottom: 20px;
+    }
+    
+    .filter-form .form-group {
+        margin-bottom: 0;
+    }
+    
+    .history-card {
+        border-left: 4px solid #309898;
+        margin-bottom: 15px;
+    }
+    
+    .history-card.created {
+        border-left-color: #28a745;
+    }
+    
+    .history-card.extended {
+        border-left-color: #17a2b8;
+    }
+    
+    .history-card.cancelled {
+        border-left-color: #dc3545;
+    }
+    
+    .history-card.expired {
+        border-left-color: #ffc107;
+    }
+    
+    .badge-created {
+        background-color: #28a745;
+    }
+    
+    .badge-extended {
+        background-color: #17a2b8;
+    }
+    
+    .badge-cancelled {
+        background-color: #dc3545;
+    }
+    
+    .badge-expired {
+        background-color: #ffc107;
+        color: #212529;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <!-- Filter Form -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-filter me-2"></i> Filter Subscription History
+                </div>
+                <div class="card-body">
+                    <form method="get" class="row">
+                        <div class="col-md-3 mb-3">
+                            <label for="college" class="form-label">College</label>
+                            <select name="college" id="college" class="form-select">
+                                <option value="">All Colleges</option>
+                                {% for college in colleges %}
+                                    <option value="{{ college.id }}" {% if selected_college == college.id|stringformat:"i" %}selected{% endif %}>
+                                        {{ college.name }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <div class="col-md-3 mb-3">
+                            <label for="action" class="form-label">Action</label>
+                            <select name="action" id="action" class="form-select">
+                                <option value="">All Actions</option>
+                                {% for action_value, action_name in actions.items %}
+                                    <option value="{{ action_value }}" {% if selected_action == action_value %}selected{% endif %}>
+                                        {{ action_name }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <div class="col-md-3 mb-3">
+                            <label for="start_date" class="form-label">Start Date</label>
+                            <input type="date" name="start_date" id="start_date" class="form-control" value="{{ selected_start_date }}">
+                        </div>
+                        
+                        <div class="col-md-3 mb-3">
+                            <label for="end_date" class="form-label">End Date</label>
+                            <input type="date" name="end_date" id="end_date" class="form-control" value="{{ selected_end_date }}">
+                        </div>
+                        
+                        <div class="col-12 text-end">
+                            <a href="{% url 'super_admin:subscription_history' %}" class="btn btn-secondary me-2">
+                                <i class="fas fa-undo me-2"></i> Reset Filters
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-search me-2"></i> Apply Filters
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- History List -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <div>
+                        <i class="fas fa-history me-2"></i> Subscription History
+                    </div>
+                    <div>
+                        <a href="{% url 'super_admin:subscription_report' %}" class="btn btn-info btn-sm">
+                            <i class="fas fa-chart-bar me-2"></i> View Reports
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    {% if histories %}
+                        <div class="table-responsive">
+                            <table class="table table-hover" id="historyTable">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>College</th>
+                                        <th>Plan</th>
+                                        <th>Period</th>
+                                        <th>Amount</th>
+                                        <th>Action</th>
+                                        <th>Notes</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for history in histories %}
+                                        <tr>
+                                            <td>{{ history.created_at|date:"d M Y, H:i" }}</td>
+                                            <td>
+                                                <a href="{% url 'super_admin:college_detail' history.college.pk %}">
+                                                    {{ history.college.name }}
+                                                </a>
+                                            </td>
+                                            <td>{{ history.plan_name }}</td>
+                                            <td>{{ history.start_date|date:"d M Y" }} - {{ history.end_date|date:"d M Y" }}</td>
+                                            <td>₹{{ history.amount }}</td>
+                                            <td>
+                                                <span class="badge badge-{{ history.action }}">
+                                                    {{ history.get_action_display }}
+                                                </span>
+                                            </td>
+                                            <td>{{ history.notes|default:"-" }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <!-- Pagination -->
+                        {% if is_paginated %}
+                            <nav aria-label="Page navigation" class="mt-4">
+                                <ul class="pagination justify-content-center">
+                                    {% if page_obj.has_previous %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="?page=1{% if request.GET.college %}&college={{ request.GET.college }}{% endif %}{% if request.GET.action %}&action={{ request.GET.action }}{% endif %}{% if request.GET.start_date %}&start_date={{ request.GET.start_date }}{% endif %}{% if request.GET.end_date %}&end_date={{ request.GET.end_date }}{% endif %}" aria-label="First">
+                                                <span aria-hidden="true">&laquo;&laquo;</span>
+                                            </a>
+                                        </li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if request.GET.college %}&college={{ request.GET.college }}{% endif %}{% if request.GET.action %}&action={{ request.GET.action }}{% endif %}{% if request.GET.start_date %}&start_date={{ request.GET.start_date }}{% endif %}{% if request.GET.end_date %}&end_date={{ request.GET.end_date }}{% endif %}" aria-label="Previous">
+                                                <span aria-hidden="true">&laquo;</span>
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                    
+                                    {% for num in page_obj.paginator.page_range %}
+                                        {% if page_obj.number == num %}
+                                            <li class="page-item active">
+                                                <span class="page-link">{{ num }}</span>
+                                            </li>
+                                        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                                            <li class="page-item">
+                                                <a class="page-link" href="?page={{ num }}{% if request.GET.college %}&college={{ request.GET.college }}{% endif %}{% if request.GET.action %}&action={{ request.GET.action }}{% endif %}{% if request.GET.start_date %}&start_date={{ request.GET.start_date }}{% endif %}{% if request.GET.end_date %}&end_date={{ request.GET.end_date }}{% endif %}">{{ num }}</a>
+                                            </li>
+                                        {% endif %}
+                                    {% endfor %}
+                                    
+                                    {% if page_obj.has_next %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.college %}&college={{ request.GET.college }}{% endif %}{% if request.GET.action %}&action={{ request.GET.action }}{% endif %}{% if request.GET.start_date %}&start_date={{ request.GET.start_date }}{% endif %}{% if request.GET.end_date %}&end_date={{ request.GET.end_date }}{% endif %}" aria-label="Next">
+                                                <span aria-hidden="true">&raquo;</span>
+                                            </a>
+                                        </li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.college %}&college={{ request.GET.college }}{% endif %}{% if request.GET.action %}&action={{ request.GET.action }}{% endif %}{% if request.GET.start_date %}&start_date={{ request.GET.start_date }}{% endif %}{% if request.GET.end_date %}&end_date={{ request.GET.end_date }}{% endif %}" aria-label="Last">
+                                                <span aria-hidden="true">&raquo;&raquo;</span>
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                            </nav>
+                        {% endif %}
+                    {% else %}
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle me-2"></i> No subscription history found.
+                            {% if request.GET %}
+                                <a href="{% url 'super_admin:subscription_history' %}">Clear filters</a> to see all records.
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    $(document).ready(function() {
+        $('#historyTable').DataTable({
+            "paging": false,
+            "info": false,
+            "searching": false,
+            "order": [[0, 'desc']]
+        });
+    });
+</script>
+{% endblock %}
