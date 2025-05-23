@@ -66,6 +66,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "apps.corecode.middleware.SiteWideConfigs",
+    "super_admin.middleware.CollegeMiddleware",  # Add college middleware
 ]
 
 ROOT_URLCONF = "school_app.urls"
@@ -209,3 +210,9 @@ MESSAGE_TAGS = {
     messages.WARNING: 'warning',
     messages.ERROR: 'danger',
 }
+
+# Custom authentication backends
+AUTHENTICATION_BACKENDS = [
+    'super_admin.auth.CollegeUserBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]

@@ -6,6 +6,7 @@ import random
 from io import BytesIO
 from django.core.files.base import ContentFile
 from django.db.models import Sum, Max
+from super_admin.models import College
 
 class Student(models.Model):
     STATUS_CHOICES = [("active", "Active"), ("inactive", "Inactive")]
@@ -14,6 +15,14 @@ class Student(models.Model):
 
     category = [("N/A", "N/A"),("Gen", "Gen"), ("OBC", "OBC"), ("SC/ST", "SC/ST"), ("Other", "Other")]
 
+    # College field to associate students with a specific college
+    college = models.ForeignKey(
+        College,
+        on_delete=models.CASCADE,
+        related_name='students',
+        null=True,
+        blank=True
+    )
     current_status = models.CharField(
         max_length=10, choices=STATUS_CHOICES, default="active"
     )

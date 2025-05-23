@@ -12,10 +12,30 @@ from .models import Staff
 class StaffListView(LoginRequiredMixin, ListView):
     model = Staff
 
+    def get_queryset(self):
+        """Filter staff by college if user is not a superuser"""
+        queryset = super().get_queryset()
+
+        # Filter by college if user is not a superuser and has a college assigned
+        if not self.request.user.is_superuser and hasattr(self.request, 'college') and self.request.college:
+            queryset = queryset.filter(college=self.request.college)
+
+        return queryset
+
 
 class StaffDetailView(LoginRequiredMixin,DetailView):
     model = Staff
     template_name = "staffs/staff_detail.html"
+
+    def get_queryset(self):
+        """Ensure users can only view staff from their college"""
+        queryset = super().get_queryset()
+
+        # Filter by college if user is not a superuser and has a college assigned
+        if not self.request.user.is_superuser and hasattr(self.request, 'college') and self.request.college:
+            queryset = queryset.filter(college=self.request.college)
+
+        return queryset
 
 
 class StaffCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
@@ -32,9 +52,16 @@ class StaffCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
         )
         form.fields["Subject_specification"].widget = widgets.Textarea(attrs={"rows": 1})
         form.fields["address"].widget = widgets.Textarea(attrs={"rows": 1})
-       
+
         form.fields["others"].widget = widgets.Textarea(attrs={"rows": 1})
         return form
+
+    def form_valid(self, form):
+        # Set the college based on the logged-in user's college
+        if not self.request.user.is_superuser and hasattr(self.request, 'college') and self.request.college:
+            form.instance.college = self.request.college
+
+        return super().form_valid(form)
 
 
 class StaffUpdateView( LoginRequiredMixin, SuccessMessageMixin, UpdateView):
@@ -54,7 +81,27 @@ class StaffUpdateView( LoginRequiredMixin, SuccessMessageMixin, UpdateView):
         form.fields["others"].widget = widgets.Textarea(attrs={"rows": 1})
         return form
 
+    def get_queryset(self):
+        """Ensure users can only update staff from their college"""
+        queryset = super().get_queryset()
+
+        # Filter by college if user is not a superuser and has a college assigned
+        if not self.request.user.is_superuser and hasattr(self.request, 'college') and self.request.college:
+            queryset = queryset.filter(college=self.request.college)
+
+        return queryset
+
 
 class StaffDeleteView(LoginRequiredMixin, DeleteView):
     model = Staff
     success_url = reverse_lazy("staff-list")
+
+    def get_queryset(self):
+        """Ensure users can only delete staff from their college"""
+        queryset = super().get_queryset()
+
+        # Filter by college if user is not a superuser and has a college assigned
+        if not self.request.user.is_superuser and hasattr(self.request, 'college') and self.request.college:
+            queryset = queryset.filter(college=self.request.college)
+
+        return queryset

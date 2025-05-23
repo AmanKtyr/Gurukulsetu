@@ -3,10 +3,20 @@ from django.db import models
 from django.urls import reverse
 from django.utils import timezone
 import random
+from super_admin.models import College
 
 class Staff(models.Model):
     STATUS = [("active", "Active"), ("inactive", "Inactive")]
     GENDER = [("male", "Male"), ("female", "Female")]
+
+    # College field to associate staff with a specific college
+    college = models.ForeignKey(
+        College,
+        on_delete=models.CASCADE,
+        related_name='staff_members',
+        null=True,
+        blank=True
+    )
 
     current_status = models.CharField(max_length=10, choices=STATUS, default="active")
     registration_number = models.CharField(max_length=200, unique=True)

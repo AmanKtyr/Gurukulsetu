@@ -28,6 +28,11 @@ class StudentListView(LoginRequiredMixin, ListView):
         queryset = super().get_queryset()
         self.filter_form = ClassSectionFilterForm(self.request.GET)
 
+        # Filter by college if user is not a superuser and has a college assigned
+        if not self.request.user.is_superuser and hasattr(self.request, 'college') and self.request.college:
+            # Get students from the user's college
+            queryset = queryset.filter(college=self.request.college)
+
         if self.filter_form.is_valid():
             if self.filter_form.cleaned_data['class_name']:
                 queryset = queryset.filter(current_class=self.filter_form.cleaned_data['class_name'])
@@ -44,6 +49,16 @@ class StudentListView(LoginRequiredMixin, ListView):
 class StudentDetailView(LoginRequiredMixin, DetailView):
     model = Student
     template_name = "students/student_detail.html"
+
+    def get_queryset(self):
+        """Ensure users can only view students from their college"""
+        queryset = super().get_queryset()
+
+        # If user is not a superuser and has a college assigned, filter by college
+        if not self.request.user.is_superuser and hasattr(self.request, 'college') and self.request.college:
+            queryset = queryset.filter(college=self.request.college)
+
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super(StudentDetailView, self).get_context_data(**kwargs)
@@ -92,6 +107,13 @@ class StudentCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
 
         return form
 
+    def form_valid(self, form):
+        # Set the college based on the logged-in user's college
+        if not self.request.user.is_superuser and hasattr(self.request, 'college') and self.request.college:
+            form.instance.college = self.request.college
+
+        return super().form_valid(form)
+
     def get_success_url(self):
         # Redirect to the student detail page after successful creation
         return reverse_lazy('student-detail', kwargs={'pk': self.object.pk})
@@ -113,10 +135,30 @@ class StudentUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
 
         return form
 
+    def get_queryset(self):
+        """Ensure users can only update students from their college"""
+        queryset = super().get_queryset()
+
+        # If user is not a superuser and has a college assigned, filter by college
+        if not self.request.user.is_superuser and hasattr(self.request, 'college') and self.request.college:
+            queryset = queryset.filter(college=self.request.college)
+
+        return queryset
+
 
 class StudentDeleteView(LoginRequiredMixin, DeleteView):
     model = Student
     success_url = reverse_lazy("student-list")
+
+    def get_queryset(self):
+        """Ensure users can only delete students from their college"""
+        queryset = super().get_queryset()
+
+        # If user is not a superuser and has a college assigned, filter by college
+        if not self.request.user.is_superuser and hasattr(self.request, 'college') and self.request.college:
+            queryset = queryset.filter(college=self.request.college)
+
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -334,6 +376,10 @@ class StudentUDISECreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView
         else:
             form.instance.current_status = 'active'
 
+        # Set the college based on the logged-in user's college
+        if not self.request.user.is_superuser and hasattr(self.request, 'college') and self.request.college:
+            form.instance.college = self.request.college
+
         # Save the form to get the student instance
         response = super().form_valid(form)
 
@@ -424,6 +470,16 @@ class StudentUDISEUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView
         })
 
         return form
+
+    def get_queryset(self):
+        """Ensure users can only update students from their college"""
+        queryset = super().get_queryset()
+
+        # If user is not a superuser and has a college assigned, filter by college
+        if not self.request.user.is_superuser and hasattr(self.request, 'college') and self.request.college:
+            queryset = queryset.filter(college=self.request.college)
+
+        return queryset
 
     def form_valid(self, form):
         # Check if the form is being saved as a draft

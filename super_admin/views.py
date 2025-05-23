@@ -14,7 +14,7 @@ from django.contrib.auth import authenticate, login
 import random
 import string
 
-from .models import College
+from .models import College, UserProfile
 
 
 # Super Admin Login View
@@ -28,6 +28,13 @@ class SuperAdminLoginView(LoginView):
         user = authenticate(username=username, password=password)
 
         if user is not None and user.is_superuser:
+            # Ensure the user has a profile
+            try:
+                UserProfile.objects.get(user=user)
+            except UserProfile.DoesNotExist:
+                # Create a profile if it doesn't exist
+                UserProfile.objects.create(user=user)
+
             login(self.request, user)
             messages.success(self.request, _('Welcome to Super Admin Dashboard!'))
             return redirect('super_admin:dashboard')
@@ -216,6 +223,19 @@ def create_college_admin(request, pk):
         college.admin_username = username
         college.admin_email = email
         college.save()
+
+        # Associate user with college
+        from super_admin.models import UserProfile
+        try:
+            # Try to get the user's profile
+            profile = UserProfile.objects.get(user=user)
+        except UserProfile.DoesNotExist:
+            # Create a profile if it doesn't exist
+            profile = UserProfile.objects.create(user=user)
+
+        # Set the college and save
+        profile.college = college
+        profile.save()
 
         messages.success(request, _('College admin created successfully.'))
         return redirect('super_admin:college_detail', pk=college.pk)
