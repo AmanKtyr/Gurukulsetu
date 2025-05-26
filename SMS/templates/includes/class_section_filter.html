@@ -2,24 +2,23 @@
 
 <div class="card shadow p-3 mb-4">
     <h5 class="mb-3">🔍 Filter</h5>
-    <form method="GET" class="row g-3" id="filter-form">
-        <div class="col-md-3">
-            {{ filter_form.class_name.label_tag }}
+    <form method="GET" class="row g-3 align-items-end" id="filter-form">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label fw-bold">Select Class:</label>
             {{ filter_form.class_name }}
         </div>
-        <div class="col-md-3">
-            {{ filter_form.section.label_tag }}
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label fw-bold">Select Section:</label>
             {{ filter_form.section }}
         </div>
         {% if show_search %}
-        <div class="col-md-3">
-            <label class="form-label">Search</label>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="form-label fw-bold">Search</label>
             <input type="text" class="form-control" name="search" placeholder="Search..." value="{{ request.GET.search }}">
         </div>
         {% endif %}
-        <div class="{% if show_search %}col-md-3{% else %}col-md-6{% endif %}">
-            <label class="form-label">&nbsp;</label>
-            <button type="submit" class="btn btn-primary w-100">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <button type="submit" class="btn btn-primary w-100 mt-2 mt-md-0">
                 <i class="fas fa-filter me-2"></i>Apply Filter
             </button>
         </div>

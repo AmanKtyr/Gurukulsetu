@@ -1,4 +1,5 @@
 from .models import AcademicSession, AcademicTerm
+from django.core.exceptions import ObjectDoesNotExist
 
 
 class SiteWideConfigs:
@@ -6,8 +7,14 @@ class SiteWideConfigs:
         self.get_response = get_response
 
     def __call__(self, request):
-        current_session = AcademicSession.objects.get(current=True)
-        current_term = AcademicTerm.objects.get(current=True)
+        try:
+            current_session = AcademicSession.objects.get(current=True)
+        except ObjectDoesNotExist:
+            current_session = None
+        try:
+            current_term = AcademicTerm.objects.get(current=True)
+        except ObjectDoesNotExist:
+            current_term = None
 
         request.current_session = current_session
         request.current_term = current_term

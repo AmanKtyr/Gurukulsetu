@@ -684,9 +684,13 @@
     const label = sectionContainer.querySelector('label');
     label.appendChild(loadingSpinner);
 
+    // Use Django's URL template tag for correct AJAX URL
+    const urlTemplate = '{% url "get-sections-for-class" 0 %}';
+    const apiUrl = urlTemplate.replace('/0/', '/' + classId + '/');
+
     // Make AJAX call to get sections for this class
     $.ajax({
-      url: '/student/api/class/' + classId + '/sections/',
+      url: apiUrl,
       type: 'GET',
       success: function(data) {
         // Remove loading spinner
