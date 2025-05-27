@@ -7,6 +7,7 @@ from apps.corecode.models import (
     Subject,
 )
 from apps.students.models import Student
+from super_admin.managers import CollegeFilteredManager
 
 from .utils import score_grade
 
@@ -20,6 +21,18 @@ class Result(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     test_score = models.IntegerField(default=0)
     exam_score = models.IntegerField(default=0)
+    # College field to associate results with a specific college
+    college = models.ForeignKey(
+        'super_admin.College',
+        on_delete=models.CASCADE,
+        related_name='results',
+        null=True,
+        blank=True
+    )
+
+    # Add custom manager
+    objects = models.Manager()  # Default manager
+    college_objects = CollegeFilteredManager()
 
     class Meta:
         ordering = ["subject"]

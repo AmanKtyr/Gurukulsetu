@@ -2,11 +2,27 @@ from django.db import models
 from apps.corecode.models import StudentClass
 from apps.students.models import Student
 from django.utils.timezone import now
+from super_admin.managers import CollegeFilteredManager
 
 class Holiday(models.Model):
-    date = models.DateField(unique=True)
+    date = models.DateField()
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True, null=True)
+    # College field to associate holidays with a specific college
+    college = models.ForeignKey(
+        'super_admin.College',
+        on_delete=models.CASCADE,
+        related_name='holidays',
+        null=True,
+        blank=True
+    )
+
+    # Add custom manager
+    objects = models.Manager()  # Default manager
+    college_objects = CollegeFilteredManager()
+
+    class Meta:
+        unique_together = ['date', 'college']  # Unique per college
 
     def __str__(self):
         return f"{self.name} ({self.date})"
@@ -25,6 +41,18 @@ class Attendance(models.Model):
     comment = models.TextField(blank=True, null=True)
     is_holiday = models.BooleanField(default=False)
     holiday_name = models.CharField(max_length=100, blank=True, null=True)
+    # College field to associate attendance with a specific college
+    college = models.ForeignKey(
+        'super_admin.College',
+        on_delete=models.CASCADE,
+        related_name='attendance_records',
+        null=True,
+        blank=True
+    )
+
+    # Add custom manager
+    objects = models.Manager()  # Default manager
+    college_objects = CollegeFilteredManager()
 
     class Meta:
         unique_together = ['student', 'date']

@@ -2,7 +2,7 @@ from django.urls import reverse_lazy
 from django.views.generic import DetailView, ListView, CreateView, UpdateView, DeleteView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.forms import widgets
-from .models import NonTeachingStaff  
+from .models import NonTeachingStaff
 
 # ✅ List View (Fixed Template Path)
 class NonTeachingStaffsListView(ListView):
@@ -28,6 +28,13 @@ class NonTeachingStaffsCreateView(SuccessMessageMixin, CreateView):
         form.fields["address"].widget = widgets.Textarea(attrs={"rows": 1})
         form.fields["others"].widget = widgets.Textarea(attrs={"rows": 1})
         return form
+
+    def form_valid(self, form):
+        # Set the college based on the logged-in user's college
+        if not self.request.user.is_superuser and hasattr(self.request, 'college') and self.request.college:
+            form.instance.college = self.request.college
+
+        return super().form_valid(form)
 
 # ✅ Update View (With Date Pickers)
 class NonTeachingStaffsUpdateView(SuccessMessageMixin, UpdateView):

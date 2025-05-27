@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     "apps.corecode.apps.CorecodeConfig",
     "apps.students",
     "apps.staffs",
-    # "apps.result", # Removed
+    "apps.result",
     "apps.NonTeachingStaffs",
     "apps.attendance",
     'apps.fees',

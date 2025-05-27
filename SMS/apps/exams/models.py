@@ -4,6 +4,7 @@ from django.utils import timezone
 from apps.corecode.models import AcademicSession, AcademicTerm, StudentClass, Subject
 from apps.students.models import Student
 from apps.staffs.models import Staff
+from super_admin.managers import CollegeFilteredManager
 
 # Create your models here.
 
@@ -11,6 +12,21 @@ class ExamType(models.Model):
     """Model for different types of exams (unit test, mid-term, final, etc.)"""
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True, null=True)
+    # College field to associate exam types with a specific college
+    college = models.ForeignKey(
+        'super_admin.College',
+        on_delete=models.CASCADE,
+        related_name='exam_types',
+        null=True,
+        blank=True
+    )
+
+    # Add custom manager
+    objects = models.Manager()  # Default manager
+    college_objects = CollegeFilteredManager()
+
+    class Meta:
+        unique_together = ['name', 'college']  # Unique per college
 
     def __str__(self):
         return self.name
@@ -34,6 +50,18 @@ class Exam(models.Model):
     description = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    # College field to associate exams with a specific college
+    college = models.ForeignKey(
+        'super_admin.College',
+        on_delete=models.CASCADE,
+        related_name='exams',
+        null=True,
+        blank=True
+    )
+
+    # Add custom manager
+    objects = models.Manager()  # Default manager
+    college_objects = CollegeFilteredManager()
 
     class Meta:
         ordering = ['-start_date']

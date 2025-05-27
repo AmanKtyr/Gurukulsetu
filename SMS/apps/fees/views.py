@@ -6,7 +6,7 @@ from django.db.models.functions import Coalesce
 from django.utils import timezone
 from django.http import HttpResponse
 from django.template.loader import get_template
-from xhtml2pdf import pisa
+# from xhtml2pdf import pisa  # Temporarily commented out
 from django.core.paginator import Paginator
 from .models import FeePayment, PendingFee
 from apps.corecode.filters import ClassSectionFilterForm
@@ -17,8 +17,12 @@ from apps.corecode.models import FeeSettings, FeeStructure
 def fee_list(request):
     filter_form = ClassSectionFilterForm(request.GET)
 
-    # Start with all students
+    # Start with all students, filtered by college
     students = Student.objects.filter(current_status='active')
+
+    # Filter by college if user is not a superuser and has a college assigned
+    if not request.user.is_superuser and hasattr(request, 'college') and request.college:
+        students = students.filter(college=request.college)
 
     # Apply filters first
     if filter_form.is_valid():
@@ -117,7 +121,8 @@ def add_fee_payment(request, student_id):
                 payment_method=payment_method,
                 fee_category=fee_category,
                 transaction_id=transaction_id,
-                status='Paid'
+                status='Paid',
+                college=request.college if hasattr(request, 'college') and request.college else None
             )
 
             # Mark pending fees as paid
@@ -228,14 +233,14 @@ def generate_receipt(request, payment_id):
         filename = f"Receipt_{payment.student.fullname}_{payment.id}.pdf"
         response['Content-Disposition'] = f'attachment; filename="{filename}"'
 
-        # Convert HTML to PDF
-        pisa_status = pisa.CreatePDF(html, dest=response)
+        # Convert HTML to PDF - Temporarily disabled
+        # pisa_status = pisa.CreatePDF(html, dest=response)
 
         # Return PDF response if successful
-        if pisa_status.err:
-            return HttpResponse('PDF generation error', status=500)
+        # if pisa_status.err:
+        #     return HttpResponse('PDF generation error', status=500)
 
-        return response
+        return HttpResponse('PDF generation temporarily disabled', status=500)
     except Exception as e:
         # Log the error for debugging
         print(f"PDF Generation Error: {str(e)}")
@@ -278,14 +283,14 @@ def generate_complete_history(request, student_id):
         filename = f"Payment_History_{student.fullname}.pdf"
         response['Content-Disposition'] = f'attachment; filename="{filename}"'
 
-        # Convert HTML to PDF
-        pisa_status = pisa.CreatePDF(html, dest=response)
+        # Convert HTML to PDF - Temporarily disabled
+        # pisa_status = pisa.CreatePDF(html, dest=response)
 
         # Return PDF response if successful
-        if pisa_status.err:
-            return HttpResponse('PDF generation error', status=500)
+        # if pisa_status.err:
+        #     return HttpResponse('PDF generation error', status=500)
 
-        return response
+        return HttpResponse('PDF generation temporarily disabled', status=500)
     except Exception as e:
         # Log the error for debugging
         print(f"PDF Generation Error: {str(e)}")

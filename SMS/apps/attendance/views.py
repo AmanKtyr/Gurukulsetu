@@ -56,14 +56,25 @@ def attendance_list(request):
             selected_class = StudentClass.objects.get(id=selected_class_id)
             selected_class_name = selected_class.name
 
-            # Get all sections for this class
-            sections = Student.objects.filter(
+            # Get all sections for this class, filtered by college
+            sections_query = Student.objects.filter(
                 current_class_id=selected_class_id,
                 current_status='active'
-            ).values_list('section', flat=True).distinct()
+            )
+
+            # Filter by college if user is not a superuser and has a college assigned
+            if not request.user.is_superuser and hasattr(request, 'college') and request.college:
+                sections_query = sections_query.filter(college=request.college)
+
+            sections = sections_query.values_list('section', flat=True).distinct()
 
             # Filter students by class and section if provided
             student_query = Student.objects.filter(current_class_id=selected_class_id)
+
+            # Filter by college if user is not a superuser and has a college assigned
+            if not request.user.is_superuser and hasattr(request, 'college') and request.college:
+                student_query = student_query.filter(college=request.college)
+
             if selected_section:
                 student_query = student_query.filter(section=selected_section)
 

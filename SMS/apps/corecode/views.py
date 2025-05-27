@@ -48,17 +48,26 @@ class IndexView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        # Get student data
+        # Get student data, filtered by college
         from apps.students.models import Student
-        total_students = Student.objects.filter(current_status='active').count()
+        students_query = Student.objects.filter(current_status='active')
+        if not self.request.user.is_superuser and hasattr(self.request, 'college') and self.request.college:
+            students_query = students_query.filter(college=self.request.college)
+        total_students = students_query.count()
 
-        # Get staff data
+        # Get staff data, filtered by college
         from apps.staffs.models import Staff
-        total_teachers = Staff.objects.filter(current_status='active').count()
+        staff_query = Staff.objects.filter(current_status='active')
+        if not self.request.user.is_superuser and hasattr(self.request, 'college') and self.request.college:
+            staff_query = staff_query.filter(college=self.request.college)
+        total_teachers = staff_query.count()
 
-        # Get non-teaching staff data
+        # Get non-teaching staff data, filtered by college
         from apps.NonTeachingStaffs.models import NonTeachingStaff
-        total_non_teaching = NonTeachingStaff.objects.filter(current_status='active').count()
+        non_teaching_query = NonTeachingStaff.objects.filter(current_status='active')
+        if not self.request.user.is_superuser and hasattr(self.request, 'college') and self.request.college:
+            non_teaching_query = non_teaching_query.filter(college=self.request.college)
+        total_non_teaching = non_teaching_query.count()
 
         # Get fee data
         from apps.fees.models import FeePayment, PendingFee
@@ -66,24 +75,32 @@ class IndexView(LoginRequiredMixin, TemplateView):
         from django.utils import timezone
         import datetime
 
-        # Calculate fees collected this month
+        # Calculate fees collected this month, filtered by college
         current_month = timezone.now().month
         current_year = timezone.now().year
-        fees_collected_month = FeePayment.objects.filter(
+        fee_payment_query = FeePayment.objects.filter(
             date__month=current_month,
             date__year=current_year,
             status='Paid'
-        ).aggregate(total=Sum('amount'))['total'] or 0
+        )
+        if not self.request.user.is_superuser and hasattr(self.request, 'college') and self.request.college:
+            fee_payment_query = fee_payment_query.filter(college=self.request.college)
+        fees_collected_month = fee_payment_query.aggregate(total=Sum('amount'))['total'] or 0
 
-        # Calculate total pending fees
-        total_pending = PendingFee.objects.filter(paid=False).aggregate(
-            total=Sum('amount'))['total'] or 0
+        # Calculate total pending fees, filtered by college
+        pending_fee_query = PendingFee.objects.filter(paid=False)
+        if not self.request.user.is_superuser and hasattr(self.request, 'college') and self.request.college:
+            pending_fee_query = pending_fee_query.filter(college=self.request.college)
+        total_pending = pending_fee_query.aggregate(total=Sum('amount'))['total'] or 0
 
-        # Get recent payments
-        recent_payments = FeePayment.objects.select_related('student').order_by('-date')[:5]
+        # Get recent payments, filtered by college
+        recent_payment_query = FeePayment.objects.select_related('student').order_by('-date')
+        if not self.request.user.is_superuser and hasattr(self.request, 'college') and self.request.college:
+            recent_payment_query = recent_payment_query.filter(college=self.request.college)
+        recent_payments = recent_payment_query[:5]
 
-        # Get recent students
-        recent_students = Student.objects.order_by('-date_of_admission')[:5]
+        # Get recent students, filtered by college
+        recent_students = students_query.order_by('-date_of_admission')[:5]
 
         # Get monthly fee collection data for chart
         months = []
@@ -203,6 +220,16 @@ class SessionListView(LoginRequiredMixin, SuccessMessageMixin, ListView):
     model = AcademicSession
     template_name = "corecode/session_list.html"
 
+    def get_queryset(self):
+        """Filter sessions by college"""
+        queryset = super().get_queryset()
+
+        # Filter by college if user is not a superuser and has a college assigned
+        if not self.request.user.is_superuser and hasattr(self.request, 'college') and self.request.college:
+            queryset = queryset.filter(college=self.request.college)
+
+        return queryset
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["form"] = AcademicSessionForm()
@@ -215,6 +242,13 @@ class SessionCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     template_name = "corecode/mgt_form.html"
     success_url = reverse_lazy("sessions")
     success_message = "New session successfully added"
+
+    def form_valid(self, form):
+        # Set the college based on the logged-in user's college
+        if not self.request.user.is_superuser and hasattr(self.request, 'college') and self.request.college:
+            form.instance.college = self.request.college
+
+        return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -244,6 +278,16 @@ class TermListView(LoginRequiredMixin, SuccessMessageMixin, ListView):
     model = AcademicTerm
     template_name = "corecode/term_list.html"
 
+    def get_queryset(self):
+        """Filter terms by college"""
+        queryset = super().get_queryset()
+
+        # Filter by college if user is not a superuser and has a college assigned
+        if not self.request.user.is_superuser and hasattr(self.request, 'college') and self.request.college:
+            queryset = queryset.filter(college=self.request.college)
+
+        return queryset
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["form"] = AcademicTermForm()
@@ -256,6 +300,13 @@ class TermCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     template_name = "corecode/mgt_form.html"
     success_url = reverse_lazy("terms")
     success_message = "New term successfully added"
+
+    def form_valid(self, form):
+        # Set the college based on the logged-in user's college
+        if not self.request.user.is_superuser and hasattr(self.request, 'college') and self.request.college:
+            form.instance.college = self.request.college
+
+        return super().form_valid(form)
 
 
 # TermUpdateView removed - now using AJAX update
@@ -280,6 +331,16 @@ class ClassListView(LoginRequiredMixin, SuccessMessageMixin, ListView):
     model = StudentClass
     template_name = "corecode/class_list.html"
 
+    def get_queryset(self):
+        """Filter classes by college"""
+        queryset = super().get_queryset()
+
+        # Filter by college if user is not a superuser and has a college assigned
+        if not self.request.user.is_superuser and hasattr(self.request, 'college') and self.request.college:
+            queryset = queryset.filter(college=self.request.college)
+
+        return queryset
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["form"] = StudentClassForm()
@@ -292,6 +353,13 @@ class ClassCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     template_name = "corecode/mgt_form.html"
     success_url = reverse_lazy("classes")
     success_message = "New class successfully added"
+
+    def form_valid(self, form):
+        # Set the college based on the logged-in user's college
+        if not self.request.user.is_superuser and hasattr(self.request, 'college') and self.request.college:
+            form.instance.college = self.request.college
+
+        return super().form_valid(form)
 
 
 # ClassUpdateView removed - now using AJAX update
@@ -314,6 +382,16 @@ class SubjectListView(LoginRequiredMixin, SuccessMessageMixin, ListView):
     model = Subject
     template_name = "corecode/subject_list.html"
 
+    def get_queryset(self):
+        """Filter subjects by college"""
+        queryset = super().get_queryset()
+
+        # Filter by college if user is not a superuser and has a college assigned
+        if not self.request.user.is_superuser and hasattr(self.request, 'college') and self.request.college:
+            queryset = queryset.filter(college=self.request.college)
+
+        return queryset
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["form"] = SubjectForm()
@@ -326,6 +404,13 @@ class SubjectCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     template_name = "corecode/mgt_form.html"
     success_url = reverse_lazy("subjects")
     success_message = "New subject successfully added"
+
+    def form_valid(self, form):
+        # Set the college based on the logged-in user's college
+        if not self.request.user.is_superuser and hasattr(self.request, 'college') and self.request.college:
+            form.instance.college = self.request.college
+
+        return super().form_valid(form)
 
 
 class SubjectUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
@@ -349,28 +434,60 @@ class SubjectDeleteView(LoginRequiredMixin, DeleteView):
 
 
 class CurrentSessionAndTermView(LoginRequiredMixin, View):
-    """Current SEssion and Term"""
+    """Current Session and Term"""
 
     form_class = CurrentSessionForm
     template_name = "corecode/current_session.html"
 
+    def get_college(self):
+        """Get college for current user"""
+        if not self.request.user.is_superuser and hasattr(self.request, 'college') and self.request.college:
+            return self.request.college
+        return None
+
     def get(self, request, *args, **kwargs):
+        college = self.get_college()
+
+        # Get current session and term filtered by college
+        try:
+            if college:
+                current_session = AcademicSession.objects.filter(current=True, college=college).first()
+                current_term = AcademicTerm.objects.filter(current=True, college=college).first()
+            else:
+                current_session = AcademicSession.objects.filter(current=True).first()
+                current_term = AcademicTerm.objects.filter(current=True).first()
+        except:
+            current_session = None
+            current_term = None
+
         form = self.form_class(
             initial={
-                "current_session": AcademicSession.objects.get(current=True),
-                "current_term": AcademicTerm.objects.get(current=True),
-            }
+                "current_session": current_session,
+                "current_term": current_term,
+            },
+            college=college
         )
         return render(request, self.template_name, {"form": form})
 
     def post(self, request, *args, **kwargs):
-        form = self.form_Class(request.POST)
+        college = self.get_college()
+        form = self.form_class(request.POST, college=college)
         if form.is_valid():
             session = form.cleaned_data["current_session"]
             term = form.cleaned_data["current_term"]
-            AcademicSession.objects.filter(name=session).update(current=True)
-            AcademicSession.objects.exclude(name=session).update(current=False)
-            AcademicTerm.objects.filter(name=term).update(current=True)
+
+            # Update sessions filtered by college
+            if college:
+                AcademicSession.objects.filter(college=college).update(current=False)
+                AcademicTerm.objects.filter(college=college).update(current=False)
+            else:
+                AcademicSession.objects.all().update(current=False)
+                AcademicTerm.objects.all().update(current=False)
+
+            session.current = True
+            session.save()
+            term.current = True
+            term.save()
 
         return render(request, self.template_name, {"form": form})
 

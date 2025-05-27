@@ -36,11 +36,20 @@ class SiteConfig(models.Model):
 class AcademicSession(models.Model):
     """Academic Session"""
 
-    name = models.CharField(max_length=200, unique=True)
+    name = models.CharField(max_length=200)
     current = models.BooleanField(default=True)
+    # College field to associate sessions with a specific college
+    college = models.ForeignKey(
+        'super_admin.College',
+        on_delete=models.CASCADE,
+        related_name='academic_sessions',
+        null=True,
+        blank=True
+    )
 
     class Meta:
         ordering = ["-name"]
+        unique_together = ['name', 'college']  # Unique per college
 
     def __str__(self):
         return self.name
@@ -49,11 +58,20 @@ class AcademicSession(models.Model):
 class AcademicTerm(models.Model):
     """Academic Term"""
 
-    name = models.CharField(max_length=20, unique=True)
+    name = models.CharField(max_length=20)
     current = models.BooleanField(default=True)
+    # College field to associate terms with a specific college
+    college = models.ForeignKey(
+        'super_admin.College',
+        on_delete=models.CASCADE,
+        related_name='academic_terms',
+        null=True,
+        blank=True
+    )
 
     class Meta:
         ordering = ["name"]
+        unique_together = ['name', 'college']  # Unique per college
 
     def __str__(self):
         return self.name
@@ -62,28 +80,46 @@ class AcademicTerm(models.Model):
 class Subject(models.Model):
     """Subject"""
 
-    name = models.CharField(max_length=200, unique=True)
+    name = models.CharField(max_length=200)
     description = models.TextField(blank=True, null=True)
     code = models.CharField(max_length=20, blank=True, null=True)
     department = models.CharField(max_length=100, blank=True, null=True)
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
+    # College field to associate subjects with a specific college
+    college = models.ForeignKey(
+        'super_admin.College',
+        on_delete=models.CASCADE,
+        related_name='subjects',
+        null=True,
+        blank=True
+    )
 
     class Meta:
         ordering = ["name"]
+        unique_together = ['name', 'college']  # Unique per college
 
     def __str__(self):
         return self.name
 
 
 class StudentClass(models.Model):
-    name = models.CharField(max_length=200, unique=True)
+    name = models.CharField(max_length=200)
+    # College field to associate classes with a specific college
+    college = models.ForeignKey(
+        'super_admin.College',
+        on_delete=models.CASCADE,
+        related_name='student_classes',
+        null=True,
+        blank=True
+    )
 
     class Meta:
         verbose_name = "Class"
         verbose_name_plural = "Classes"
         ordering = ["name"]
+        unique_together = ['name', 'college']  # Unique per college
 
     def __str__(self):
         return self.name
@@ -98,10 +134,18 @@ class ClassSubject(models.Model):
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    # College field to associate class subjects with a specific college
+    college = models.ForeignKey(
+        'super_admin.College',
+        on_delete=models.CASCADE,
+        related_name='class_subjects',
+        null=True,
+        blank=True
+    )
 
     class Meta:
         ordering = ['student_class__name', 'subject__name']
-        unique_together = ['subject', 'student_class', 'section']
+        unique_together = ['subject', 'student_class', 'section', 'college']
         verbose_name = 'Class Subject'
         verbose_name_plural = 'Class Subjects'
 
@@ -142,9 +186,17 @@ class FeeSettings(models.Model):
     frequency = models.CharField(max_length=20)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    # College field to associate fee settings with a specific college
+    college = models.ForeignKey(
+        'super_admin.College',
+        on_delete=models.CASCADE,
+        related_name='fee_settings',
+        null=True,
+        blank=True
+    )
 
     class Meta:
-        unique_together = ['class_name', 'section']
+        unique_together = ['class_name', 'section', 'college']
 
     def __str__(self):
         return f"{self.class_name} - {self.section}"
@@ -159,6 +211,14 @@ class FeeStructure(models.Model):
     due_date = models.DateField()
     late_fee = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     discount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    # College field to associate fee structure with a specific college
+    college = models.ForeignKey(
+        'super_admin.College',
+        on_delete=models.CASCADE,
+        related_name='fee_structures',
+        null=True,
+        blank=True
+    )
 
     def __str__(self):
         return f"{self.fee_type} - {self.fee_settings}"
@@ -172,10 +232,18 @@ class Section(models.Model):
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    # College field to associate sections with a specific college
+    college = models.ForeignKey(
+        'super_admin.College',
+        on_delete=models.CASCADE,
+        related_name='sections',
+        null=True,
+        blank=True
+    )
 
     class Meta:
         ordering = ['student_class__name', 'name']
-        unique_together = ['student_class', 'name']
+        unique_together = ['student_class', 'name', 'college']
         verbose_name = 'Section'
         verbose_name_plural = 'Sections'
 
@@ -191,10 +259,18 @@ class ClassTeacher(models.Model):
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    # College field to associate class teachers with a specific college
+    college = models.ForeignKey(
+        'super_admin.College',
+        on_delete=models.CASCADE,
+        related_name='class_teachers',
+        null=True,
+        blank=True
+    )
 
     class Meta:
         ordering = ['student_class__name', 'section']
-        unique_together = ['student_class', 'section']
+        unique_together = ['student_class', 'section', 'college']
         verbose_name = 'Class Teacher'
         verbose_name_plural = 'Class Teachers'
 

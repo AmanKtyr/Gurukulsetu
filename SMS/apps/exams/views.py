@@ -10,7 +10,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import Count, Q, Sum
 from django.utils import timezone
 from django.conf import settings
-from xhtml2pdf import pisa
+# from xhtml2pdf import pisa  # Temporarily commented out
 from datetime import datetime, date, timedelta
 import os
 import io

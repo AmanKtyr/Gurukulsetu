@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from apps.corecode.models import FeeStructure
+from super_admin.managers import CollegeFilteredManager
 
 class PendingFee(models.Model):
     student = models.ForeignKey('students.Student', on_delete=models.CASCADE, related_name='pending_fees')
@@ -12,6 +13,18 @@ class PendingFee(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     paid = models.BooleanField(default=False)
+    # College field to associate pending fees with a specific college
+    college = models.ForeignKey(
+        'super_admin.College',
+        on_delete=models.CASCADE,
+        related_name='pending_fees',
+        null=True,
+        blank=True
+    )
+
+    # Add custom manager
+    objects = models.Manager()  # Default manager
+    college_objects = CollegeFilteredManager()
 
     def __str__(self):
         return f"{self.student.fullname} - {self.fee_type} - ₹{self.amount}"
@@ -38,6 +51,18 @@ class FeePayment(models.Model):
     date = models.DateTimeField(default=timezone.now)
     status = models.CharField(max_length=20, choices=PAYMENT_STATUS, default="Pending")
     fee_category = models.CharField(max_length=50, default="Regular")
+    # College field to associate fee payments with a specific college
+    college = models.ForeignKey(
+        'super_admin.College',
+        on_delete=models.CASCADE,
+        related_name='fee_payments',
+        null=True,
+        blank=True
+    )
+
+    # Add custom manager
+    objects = models.Manager()  # Default manager
+    college_objects = CollegeFilteredManager()
 
     def __str__(self):
         return f"{self.student.fullname} - ₹{self.amount}"

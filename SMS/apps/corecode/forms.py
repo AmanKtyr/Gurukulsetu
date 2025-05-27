@@ -69,6 +69,15 @@ class CurrentSessionForm(forms.Form):
         help_text='Click <a href="/term/create/?next=current-session/">here</a> to add new term',
     )
 
+    def __init__(self, *args, **kwargs):
+        college = kwargs.pop('college', None)
+        super().__init__(*args, **kwargs)
+
+        # Filter querysets by college if provided
+        if college:
+            self.fields['current_session'].queryset = AcademicSession.objects.filter(college=college)
+            self.fields['current_term'].queryset = AcademicTerm.objects.filter(college=college)
+
 class CollegeProfileForm(forms.ModelForm):
     class Meta:
         model = CollegeProfile
