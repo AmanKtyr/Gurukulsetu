@@ -82,6 +82,9 @@ class CollegeMiddleware(MiddlewareMixin):
                 if request.college:
                     request.session['college_id'] = request.college.id
                     request.session['college_name'] = request.college.name
+                    request.session['college_logo'] = request.college.logo.url if request.college.logo else None
+                    request.session['college_email'] = request.college.email
+                    request.session['college_phone'] = request.college.phone
 
                     # Check if college subscription is active
                     if request.college.subscription_end_date:
@@ -90,13 +93,21 @@ class CollegeMiddleware(MiddlewareMixin):
                             logger.warning(f"User {request.user.username} logged in with expired subscription for college {request.college.name}")
                             request.session['subscription_expired'] = True
 
-                            # If accessing non-public URL with expired subscription, show warning
-                            if not is_public:
-                                messages.warning(request, "Your college subscription has expired. Some features may be limited.")
+                            # Show warning only once per session for expired subscription
+                            if not is_public and not request.session.get('subscription_warning_shown'):
+                                messages.warning(request, f"Your college subscription expired on {request.college.subscription_end_date}. Some features may be limited.")
+                                request.session['subscription_warning_shown'] = True
                         else:
                             request.session['subscription_expired'] = False
+                            request.session.pop('subscription_warning_shown', None)
                     else:
                         request.session['subscription_expired'] = True
+
+                    # Update user's last active timestamp
+                    try:
+                        profile.update_last_active()
+                    except:
+                        pass
 
             except UserProfile.DoesNotExist:
                 # Create a profile if it doesn't exist

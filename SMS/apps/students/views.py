@@ -107,6 +107,13 @@ class StudentCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
 
         return form
 
+    def get_form_kwargs(self):
+        """Pass college to form"""
+        kwargs = super().get_form_kwargs()
+        if not self.request.user.is_superuser and hasattr(self.request, 'college') and self.request.college:
+            kwargs['college'] = self.request.college
+        return kwargs
+
     def form_valid(self, form):
         # Set the college based on the logged-in user's college
         if not self.request.user.is_superuser and hasattr(self.request, 'college') and self.request.college:
@@ -134,6 +141,13 @@ class StudentUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
         })
 
         return form
+
+    def get_form_kwargs(self):
+        """Pass college to form"""
+        kwargs = super().get_form_kwargs()
+        if not self.request.user.is_superuser and hasattr(self.request, 'college') and self.request.college:
+            kwargs['college'] = self.request.college
+        return kwargs
 
     def get_queryset(self):
         """Ensure users can only update students from their college"""

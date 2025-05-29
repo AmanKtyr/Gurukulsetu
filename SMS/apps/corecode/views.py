@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth import logout, get_user_model
+from django.contrib.auth.views import LoginView as DjangoLoginView
 import json
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -2075,3 +2076,113 @@ def save_automated_backup_settings(request):
         import traceback
         traceback.print_exc()
         return JsonResponse({'error': str(e)}, status=500)
+
+
+class CustomLoginView(DjangoLoginView):
+    """Custom login view with college-specific branding"""
+    template_name = 'registration/login.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # Try to get college profile from URL parameter or session
+        college_id = self.request.GET.get('college')
+        if college_id:
+            try:
+                from super_admin.models import College
+                college = College.objects.get(id=college_id)
+                context['profile'] = {
+                    'college_name': college.name,
+                    'college_logo': college.logo,
+                    'college_email': college.email,
+                    'college_phone': college.phone,
+                }
+            except:
+                pass
+
+        # Fallback to default college profile
+        if 'profile' not in context:
+            try:
+                from .models import CollegeProfile
+                profile = CollegeProfile.objects.first()
+                if profile:
+                    context['profile'] = profile
+                else:
+                    context['profile'] = {
+                        'college_name': 'Gurukul Setu',
+                        'college_logo': None,
+                    }
+            except:
+                context['profile'] = {
+                    'college_name': 'Gurukul Setu',
+                    'college_logo': None,
+                }
+
+        return context
+
+    def form_valid(self, form):
+        """Handle successful login"""
+        response = super().form_valid(form)
+
+        # Add success message
+        messages.success(self.request, f'Welcome back, {self.request.user.get_full_name() or self.request.user.username}!')
+
+        return response
+
+
+@login_required
+def college_dashboard(request):
+    """College-specific dashboard"""
+    if not hasattr(request, 'college') or not request.college:
+        messages.error(request, 'You are not associated with any college.')
+        return redirect('login')
+
+    # Get college-specific statistics
+    from apps.students.models import Student
+    from apps.staffs.models import Staff
+    from apps.NonTeachingStaffs.models import NonTeachingStaff
+    from apps.fees.models import FeePayment, PendingFee
+
+    college = request.college
+
+    # Student statistics
+    total_students = Student.objects.filter(college=college, current_status='active').count()
+
+    # Staff statistics
+    total_teachers = Staff.objects.filter(college=college, current_status='active').count()
+    total_non_teaching = NonTeachingStaff.objects.filter(college=college, current_status='active').count()
+
+    # Fee statistics
+    from django.db.models import Sum
+    from django.utils import timezone
+    current_month = timezone.now().month
+    current_year = timezone.now().year
+
+    fees_collected_month = FeePayment.objects.filter(
+        college=college,
+        date__month=current_month,
+        date__year=current_year,
+        status='Paid'
+    ).aggregate(total=Sum('amount'))['total'] or 0
+
+    total_pending = PendingFee.objects.filter(
+        college=college,
+        paid=False
+    ).aggregate(total=Sum('amount'))['total'] or 0
+
+    # Recent activities
+    recent_students = Student.objects.filter(college=college).order_by('-date_of_admission')[:5]
+    recent_payments = FeePayment.objects.filter(college=college).order_by('-date')[:5]
+
+    context = {
+        'college': college,
+        'total_students': total_students,
+        'total_teachers': total_teachers,
+        'total_non_teaching': total_non_teaching,
+        'fees_collected_month': fees_collected_month,
+        'total_pending': total_pending,
+        'recent_students': recent_students,
+        'recent_payments': recent_payments,
+    }
+
+    return render(request, 'corecode/college_dashboard.html', context)
