@@ -32,7 +32,7 @@ SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "__$1ud47e&nyso5h5o3fwnqu4+hfqc
 # In production, set DEBUG=False
 DEBUG = os.environ.get("DJANGO_DEBUG", "True") == "True"
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '*']  # In production, specify your domain
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'gurukulsetu-production.up.railway.app']  # In production, specify your domain
 
 
 # Application definition
