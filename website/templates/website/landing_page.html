@@ -5,23 +5,76 @@
 
 {% block content %}
 
-    <!-- Hero Section -->
-    <section class="hero-section" id="home">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-6">
-                    <div class="hero-content">
-                        <h1>Transform Your Educational Institution with Gurukul Setu</h1>
-                        <p>A comprehensive SaaS solution for schools and colleges in India. Streamline administration, enhance teaching, and improve student outcomes with our all-in-one management system.</p>
-                        <div class="hero-btns">
-                            <a href="{% url 'login' %}" class="btn btn-primary">Get Started</a>
-                            <a href="#features" class="btn btn-outline">Learn More</a>
+    <!-- Creative Hero Section -->
+    <section class="hero-section creative-hero" id="home">
+        
+        <div class="container relative-z">
+            <!-- Center Aligned Content -->
+            <div class="row justify-content-center text-center">
+                <div class="col-lg-10">
+                    <div class="hero-content" data-aos="fade-up">
+                        <div class="hero-badge mx-auto">
+                            <span class="badge-dot pulse-fast"></span>
+                            <span>Next-Generation School ERP</span>
                         </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="hero-image">
-                        <img src="https://smartstudent.app/media/2022/09/managment-software.png" alt="Gurukul Setu Dashboard" class="img-fluid" style="height: 500px;">
+                        
+                        <h1 class="display-massive">The Smart Way to Manage<br>Your 
+                            <span class="word-slider">
+                                <span class="word text-gradient">Schools</span>
+                                <span class="word text-gradient">Colleges</span>
+                                <span class="word text-gradient">Academies</span>
+                                <span class="word text-gradient">Institutions</span>
+                            </span>
+                        </h1>
+                        
+                        <p class="lead mx-auto">Gurukul Setu bridges the gap between traditional teaching and modern technology. Automate administration, engage parents, and empower students in one unified SaaS platform.</p>
+                        
+                        <div class="hero-action-area mt-5">
+                            <div class="hero-btns justify-content-center">
+                                <a href="{% url 'login' %}" class="btn btn-creative-primary">
+                                    <span>Get Started Free</span> <i class="fas fa-arrow-right ms-2"></i>
+                                </a>
+                                <a href="#features" class="btn btn-creative-outline">
+                                    <i class="fas fa-play-circle me-2"></i> Watch Demo
+                                </a>
+                            </div>
+                            
+                            <div class="social-proof-mini mt-4">
+                                <div class="avatar-group">
+                                    <img src="https://i.pravatar.cc/100?img=32" alt="Educator">
+                                    <img src="https://i.pravatar.cc/100?img=12" alt="Educator">
+                                    <img src="https://i.pravatar.cc/100?img=47" alt="Educator">
+                                    <img src="https://i.pravatar.cc/100?img=5" alt="Educator">
+                                    <div class="avatar-more">5k+</div>
+                                </div>
+                                <div class="stars-text">
+                                    <div class="stars">
+                                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                    </div>
+                                    <span>Loved by Educators</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="hero-trust-marquee mt-5">
+                            <p>Trusted by India's Top Educational Institutions</p>
+                            <div class="marquee-container">
+                                <div class="marquee-track">
+                                    <div class="marquee-item"><i class="fas fa-school"></i> Modern Public School</div>
+                                    <div class="marquee-item"><i class="fas fa-university"></i> Delhi University</div>
+                                    <div class="marquee-item"><i class="fas fa-graduation-cap"></i> IIT Madras</div>
+                                    <div class="marquee-item"><i class="fas fa-award"></i> Symbiosis Institute</div>
+                                    <div class="marquee-item"><i class="fas fa-chalkboard-teacher"></i> Allen Career</div>
+                                    
+                                    <!-- Duplicated for infinite loop effect -->
+                                    <div class="marquee-item"><i class="fas fa-school"></i> Modern Public School</div>
+                                    <div class="marquee-item"><i class="fas fa-university"></i> Delhi University</div>
+                                    <div class="marquee-item"><i class="fas fa-graduation-cap"></i> IIT Madras</div>
+                                    <div class="marquee-item"><i class="fas fa-award"></i> Symbiosis Institute</div>
+                                    <div class="marquee-item"><i class="fas fa-chalkboard-teacher"></i> Allen Career</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -88,6 +141,31 @@
                         </div>
                         <h3>Document Management</h3>
                         <p>Securely store and manage important documents and certificates.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Professional and Industry Ready Section -->
+    <section class="about-section" id="professional-ready">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <div class="about-content">
+                        <h2>Become Professional and Industry Ready</h2>
+                        <p>Gurukul Setu is not just a management tool; it's a career-building platform. We provide features that help students and staff become proficient with the latest industry standards, making them ready for the professional world.</p>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-check-circle text-primary"></i> Hands-on experience with a modern ERP system.</li>
+                            <li><i class="fas fa-check-circle text-primary"></i> Exposure to digital record-keeping and data management.</li>
+                            <li><i class="fas fa-check-circle text-primary"></i> Enhanced reporting and analytical skills.</li>
+                            <li><i class="fas fa-check-circle text-primary"></i> Better preparedness for tech-driven workplaces.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="about-image">
+                        <img src="https://img.freepik.com/free-photo/group-people-working-out-business-plan-office_1303-15861.jpg" alt="Professional and Industry Ready" class="img-fluid">
                     </div>
                 </div>
             </div>
