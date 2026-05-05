@@ -6,9 +6,175 @@ from django.db import IntegrityError, transaction
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from apps.students.models import Student
-from .models import Attendance, Holiday
+from apps.staffs.models import Staff
+from .models import Attendance, Holiday, StaffAttendance
 from apps.corecode.models import StudentClass
 import datetime
+
+@login_required
+def staff_attendance_list(request):
+    """
+    View for listing and managing staff attendance
+    """
+    # Get all staff members, filtered by college
+    staff_query = Staff.objects.filter(current_status='active')
+    
+    # Filter by college if user is not a superuser and has a college assigned
+    if not request.user.is_superuser and hasattr(request, 'college') and request.college:
+        staff_query = staff_query.filter(college=request.college)
+    
+    staff_members = staff_query.order_by('fullname')
+    
+    # Get attendance date from request or use today's date
+    attendance_date_str = request.GET.get('attendance_date')
+    today = timezone.now().date()
+    
+    # Calculate one week ago for date restriction
+    one_week_ago = today - datetime.timedelta(days=7)
+    
+    if attendance_date_str:
+        try:
+            attendance_date = datetime.datetime.strptime(attendance_date_str, '%Y-%m-%d').date()
+            # Ensure date is not in the future and not more than a week in the past
+            if attendance_date > today:
+                attendance_date = today
+            elif attendance_date < one_week_ago:
+                attendance_date = one_week_ago
+        except ValueError:
+            attendance_date = today
+    else:
+        attendance_date = today
+    
+    # Check if the selected date is a Sunday or holiday
+    is_sunday = attendance_date.weekday() == 6
+    holiday = None
+    try:
+        holiday = Holiday.objects.filter(date=attendance_date).first()
+    except:
+        pass
+        
+    # Get existing attendance records for staff on the selected date
+    attendance_records = StaffAttendance.objects.filter(
+        staff__in=staff_members,
+        date=attendance_date
+    ).select_related('staff')
+    
+    # Create a dictionary of staff_id -> attendance record
+    attendance_dict = {record.staff.id: record for record in attendance_records}
+    
+    # Attach attendance status and comment to each staff member
+    for staff in staff_members:
+        if staff.id in attendance_dict:
+            record = attendance_dict[staff.id]
+            staff.attendance_status = record.status
+            staff.attendance_comment = record.comment
+        else:
+            # Set default status based on whether it's a Sunday or holiday
+            if is_sunday:
+                staff.attendance_status = 'Sunday'
+                staff.attendance_comment = 'Weekend'
+            elif holiday:
+                staff.attendance_status = 'Holiday'
+                staff.attendance_comment = holiday.name
+            else:
+                staff.attendance_status = 'Absent'
+                staff.attendance_comment = ''
+                
+    # Weekly summary for staff
+    weekly_attendance = []
+    for i in range(7):
+        day_date = today - datetime.timedelta(days=i)
+        if day_date >= one_week_ago:
+            day_is_sunday = day_date.weekday() == 6
+            day_holiday = Holiday.objects.filter(date=day_date).first()
+            
+            day_query = StaffAttendance.objects.filter(date=day_date)
+            # Filter by college
+            if not request.user.is_superuser and hasattr(request, 'college') and request.college:
+                day_query = day_query.filter(college=request.college)
+                
+            present_count = day_query.filter(status="Present").count()
+            leave_count = day_query.filter(status="Leave").count()
+            absent_count = day_query.filter(status="Absent").count()
+            holiday_count = day_query.filter(status__in=["Holiday", "Sunday"]).count()
+            
+            weekly_attendance.append({
+                'date': day_date,
+                'present': present_count,
+                'leave': leave_count,
+                'absent': absent_count,
+                'holiday': holiday_count,
+                'total': staff_members.count(),
+                'is_sunday': day_is_sunday,
+                'is_holiday': True if day_holiday else False,
+                'holiday_name': day_holiday.name if day_holiday else ("Sunday" if day_is_sunday else "")
+            })
+
+    context = {
+        "staff_members": staff_members,
+        "attendance_date": attendance_date,
+        "today": today,
+        "one_week_ago": one_week_ago,
+        "is_sunday": is_sunday,
+        "holiday": holiday,
+        "weekly_attendance": weekly_attendance,
+        "total_staff": staff_members.count(),
+    }
+    
+    return render(request, 'attendance/staff_attendance_list.html', context)
+
+@login_required
+def submit_staff_attendance(request):
+    if request.method != "POST":
+        return JsonResponse({"message": "Method not allowed"}, status=405)
+        
+    try:
+        attendance_date_str = request.POST.get('attendance_date')
+        today = timezone.now().date()
+        one_week_ago = today - datetime.timedelta(days=7)
+        
+        if attendance_date_str:
+            try:
+                attendance_date = datetime.datetime.strptime(attendance_date_str, '%Y-%m-%d').date()
+                if attendance_date > today or attendance_date < one_week_ago:
+                    return JsonResponse({"message": "Invalid date range"}, status=400)
+            except ValueError:
+                return JsonResponse({"message": "Invalid date format"}, status=400)
+        else:
+            attendance_date = today
+            
+        attendance_count = 0
+        college = getattr(request, 'college', None)
+        
+        with transaction.atomic():
+            for key, value in request.POST.items():
+                if key.startswith("attendance_") and key != "attendance_date":
+                    staff_id = key.split("_")[1]
+                    staff = get_object_or_404(Staff, id=staff_id)
+                    status = value
+                    comment = request.POST.get(f"comment_{staff_id}", "")
+                    
+                    StaffAttendance.objects.update_or_create(
+                        staff=staff,
+                        date=attendance_date,
+                        defaults={
+                            'status': status,
+                            'comment': comment,
+                            'college': college,
+                            'is_holiday': status in ['Holiday', 'Sunday'],
+                            'holiday_name': status if status in ['Holiday', 'Sunday'] else ""
+                        }
+                    )
+                    attendance_count += 1
+                    
+        return JsonResponse({
+            "message": f"Staff attendance saved successfully for {attendance_count} members!",
+            "count": attendance_count,
+            "date": attendance_date.strftime('%Y-%m-%d')
+        })
+        
+    except Exception as e:
+        return JsonResponse({"message": f"Error: {str(e)}"}, status=500)
 
 def attendance_list(request):
     classes = StudentClass.objects.all()
