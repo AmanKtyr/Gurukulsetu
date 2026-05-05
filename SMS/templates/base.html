@@ -375,6 +375,7 @@
               </ul>
           </li>
 
+          {% comment %}
           <li class="nav-header">Examinations</li>
           <li class="nav-item has-treeview {% if 'exams' in request.path %}menu-open{% endif %}">
               <a href="{% url 'exams:dashboard' %}" class="nav-link {% if 'exams' in request.path %}active{% endif %}">
@@ -442,10 +443,12 @@
                   </li>
               </ul>
           </li>
+          {% endcomment %}
 
 
 
 
+          {% comment %}
           <li class="nav-header">Documents</li>
           <li class="nav-item has-treeview {% if 'documents' in request.path %}menu-open{% endif %}">
               <a href="{% url 'documents:dashboard' %}" class="nav-link {% if 'documents' in request.path %}active{% endif %}">
@@ -503,6 +506,7 @@
                 </li>
               </ul>
           </li>
+          {% endcomment %}
 
 
           <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">

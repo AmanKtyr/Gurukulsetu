@@ -9,8 +9,19 @@ import os
 class SiteConfig(models.Model):
     """Site Configurations"""
 
-    key = models.SlugField(unique=True)
+    key = models.SlugField()
     value = models.CharField(max_length=200)
+    # College field to associate config with a specific college
+    college = models.ForeignKey(
+        'super_admin.College',
+        on_delete=models.CASCADE,
+        related_name='site_configs',
+        null=True,
+        blank=True
+    )
+
+    class Meta:
+        unique_together = ['key', 'college']
 
     # New fields for site configuration
     college_name = models.CharField(max_length=200, blank=True, null=True)

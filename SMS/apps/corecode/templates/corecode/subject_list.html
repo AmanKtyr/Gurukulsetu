@@ -951,7 +951,7 @@
       $('#bulkClassesList').html('<div class="text-center py-3"><i class="fas fa-spinner fa-spin me-2"></i> Loading classes...</div>');
 
       $.ajax({
-        url: '/api/classes/',
+        url: "{% url 'get_all_classes' %}",
         type: 'GET',
         success: function(data) {
           // Populate class dropdowns
@@ -989,7 +989,7 @@
       $('#manageTeacherSelect').html('<option value="">Loading teachers...</option>');
 
       $.ajax({
-        url: '/api/teachers/',
+        url: "{% url 'get_all_teachers' %}",
         type: 'GET',
         success: function(data) {
           // Populate teacher dropdowns
@@ -1020,7 +1020,7 @@
       $('#allAssignmentsTable tbody').html('<tr><td colspan="6" class="text-center py-4"><div class="d-flex justify-content-center align-items-center"><div class="spinner-border text-primary me-3" role="status"><span class="visually-hidden">Loading...</span></div><span>Loading assignments...</span></div></td></tr>');
 
       $.ajax({
-        url: '/api/all-assignments/',
+        url: "{% url 'get_all_assignments' %}",
         type: 'GET',
         success: function(data) {
           if (data && data.length > 0) {
@@ -1120,7 +1120,7 @@
     function removeAssignment(assignmentId) {
       if (confirm('Are you sure you want to remove this assignment?')) {
         $.ajax({
-          url: '/api/remove-subject/' + assignmentId + '/',
+          url: "{% url 'remove_subject_from_class' class_subject_id=12345 %}".replace('12345', assignmentId),
           type: 'POST',
           headers: {
             'X-CSRFToken': $('input[name="csrfmiddlewaretoken"]').val()
@@ -1172,7 +1172,7 @@
 
       // Make AJAX call to get exams
       $.ajax({
-        url: '/subject/' + subjectId + '/exams/',
+        url: "{% url 'get_subject_exams' subject_id=12345 %}".replace('12345', subjectId),
         type: 'GET',
         success: function(data) {
           if (data.exams && data.exams.length > 0) {
@@ -1261,7 +1261,7 @@
 
       // Fetch subject data
       $.ajax({
-        url: '/subject/' + subjectId + '/data/',
+        url: "{% url 'get_subject_data' subject_id=12345 %}".replace('12345', subjectId),
         type: 'GET',
         success: function(data) {
           // Populate form with subject data
@@ -1319,7 +1319,7 @@
 
       // Submit form via AJAX
       $.ajax({
-        url: '/subject/' + subjectId + '/update-ajax/',
+        url: "{% url 'update_subject_ajax' subject_id=12345 %}".replace('12345', subjectId),
         type: 'POST',
         data: formData,
         success: function(response) {
@@ -1352,13 +1352,21 @@
     // Form validation
     $('#addSubjectForm').on('submit', function(e) {
       var form = $(this);
-      var nameField = form.find('input[name="name"]');
+      var nameField = form.find('input[name="Subject-name"]');
+      
+      // Fallback if the prefix changes
+      if (nameField.length === 0) {
+        nameField = form.find('input[name="name"]');
+      }
+
       var isValid = true;
 
-      if (!nameField.val().trim()) {
+      var nameVal = nameField.val() || "";
+      if (!nameVal.trim()) {
         nameField.addClass('is-invalid');
         nameField.siblings('.invalid-feedback').text('Subject name is required');
         isValid = false;
+        e.preventDefault(); // Explicitly prevent default on invalid
       } else {
         nameField.removeClass('is-invalid');
       }

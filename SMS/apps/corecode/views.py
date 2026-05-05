@@ -1023,7 +1023,15 @@ def update_subject_ajax(request, subject_id):
         subject = Subject.objects.get(id=subject_id)
 
         # Update subject fields
-        subject.name = request.POST.get('name')
+        name = request.POST.get('name')
+        if not name:
+            return JsonResponse({'error': 'Subject name is required'}, status=400)
+            
+        # Check if name already exists for another subject in the same college
+        if Subject.objects.filter(name=name, college=subject.college).exclude(id=subject_id).exists():
+            return JsonResponse({'error': 'A subject with this name already exists in your college'}, status=400)
+
+        subject.name = name
         subject.code = request.POST.get('code', '')
         subject.department = request.POST.get('department', '')
         subject.description = request.POST.get('description', '')
@@ -1321,9 +1329,9 @@ def update_class_ajax(request, class_id):
         if not name:
             return JsonResponse({'error': 'Class name is required'}, status=400)
 
-        # Check if name already exists for another class
-        if StudentClass.objects.filter(name=name).exclude(id=class_id).exists():
-            return JsonResponse({'error': 'A class with this name already exists'}, status=400)
+        # Check if name already exists for another class in the same college
+        if StudentClass.objects.filter(name=name, college=student_class.college).exclude(id=class_id).exists():
+            return JsonResponse({'error': 'A class with this name already exists in your college'}, status=400)
 
         # Update the class name
         student_class.name = name
@@ -1359,17 +1367,17 @@ def update_session_ajax(request, session_id):
         if not name:
             return JsonResponse({'error': 'Session name is required'}, status=400)
 
-        # Check if name already exists for another session
-        if AcademicSession.objects.filter(name=name).exclude(id=session_id).exists():
-            return JsonResponse({'error': 'A session with this name already exists'}, status=400)
+        # Check if name already exists for another session in the same college
+        if AcademicSession.objects.filter(name=name, college=session.college).exclude(id=session_id).exists():
+            return JsonResponse({'error': 'A session with this name already exists in your college'}, status=400)
 
         # Update the session
         session.name = name
 
         # Handle current status
         if current:
-            # Set all other sessions as not current
-            AcademicSession.objects.all().update(current=False)
+            # Set all other sessions in the same college as not current
+            AcademicSession.objects.filter(college=session.college).update(current=False)
             session.current = True
         else:
             session.current = False
@@ -1407,17 +1415,17 @@ def update_term_ajax(request, term_id):
         if not name:
             return JsonResponse({'error': 'Term name is required'}, status=400)
 
-        # Check if name already exists for another term
-        if AcademicTerm.objects.filter(name=name).exclude(id=term_id).exists():
-            return JsonResponse({'error': 'A term with this name already exists'}, status=400)
+        # Check if name already exists for another term in the same college
+        if AcademicTerm.objects.filter(name=name, college=term.college).exclude(id=term_id).exists():
+            return JsonResponse({'error': 'A term with this name already exists in your college'}, status=400)
 
         # Update the term
         term.name = name
 
         # Handle current status
         if current:
-            # Set all other terms as not current
-            AcademicTerm.objects.all().update(current=False)
+            # Set all other terms in the same college as not current
+            AcademicTerm.objects.filter(college=term.college).update(current=False)
             term.current = True
         else:
             term.current = False

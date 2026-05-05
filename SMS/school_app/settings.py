@@ -68,8 +68,8 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "apps.corecode.middleware.SiteWideConfigs",
     "super_admin.middleware.CollegeMiddleware",  # Add college middleware
+    "apps.corecode.middleware.SiteWideConfigs",
 ]
 
 ROOT_URLCONF = "school_app.urls"

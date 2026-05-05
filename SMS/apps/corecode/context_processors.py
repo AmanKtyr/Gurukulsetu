@@ -39,9 +39,10 @@ def site_defaults(request):
         "current_term": current_term_name,
     })
 
-    # Add site config values
+    # Add site config values, filtered by college
     try:
-        vals = SiteConfig.objects.all()
+        college = getattr(request, 'college', None)
+        vals = SiteConfig.objects.filter(college=college)
         for val in vals:
             contexts[val.key] = val.value
     except:
@@ -62,8 +63,13 @@ def site_defaults(request):
 
 
 def global_college_profile(request):
+    # Try to get college from request (set by CollegeMiddleware)
+    if hasattr(request, 'college') and request.college:
+        return {'profile': request.college}
+        
+    # Fallback for superadmins or public pages
     try:
         profile = CollegeProfileModel.objects.first()
-    except CollegeProfileModel.DoesNotExist:
+    except:
         profile = None
     return {'profile': profile}

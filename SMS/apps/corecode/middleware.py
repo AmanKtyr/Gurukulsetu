@@ -7,12 +7,17 @@ class SiteWideConfigs:
         self.get_response = get_response
 
     def __call__(self, request):
+        college = getattr(request, 'college', None)
+        
         try:
-            current_session = AcademicSession.objects.get(current=True)
+            # Filter by college
+            current_session = AcademicSession.objects.filter(current=True, college=college).first()
         except ObjectDoesNotExist:
             current_session = None
+            
         try:
-            current_term = AcademicTerm.objects.get(current=True)
+            # Filter by college
+            current_term = AcademicTerm.objects.filter(current=True, college=college).first()
         except ObjectDoesNotExist:
             current_term = None
 

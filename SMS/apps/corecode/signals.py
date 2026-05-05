@@ -6,13 +6,13 @@ from .models import AcademicSession, AcademicTerm
 
 @receiver(post_save, sender=AcademicSession)
 def after_saving_session(sender, created, instance, *args, **kwargs):
-    """Change all academic sessions to false if this is true"""
+    """Change all academic sessions to false for this college if this is true"""
     if instance.current is True:
-        AcademicSession.objects.exclude(pk=instance.id).update(current=False)
+        AcademicSession.objects.filter(college=instance.college).exclude(pk=instance.id).update(current=False)
 
 
 @receiver(post_save, sender=AcademicTerm)
 def after_saving_term(sender, created, instance, *args, **kwargs):
-    """Change all academic terms to false if this is true."""
+    """Change all academic terms to false for this college if this is true."""
     if instance.current is True:
-        AcademicTerm.objects.exclude(pk=instance.id).update(current=False)
+        AcademicTerm.objects.filter(college=instance.college).exclude(pk=instance.id).update(current=False)
