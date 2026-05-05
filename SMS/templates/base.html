@@ -366,11 +366,10 @@
                       </a>
                   </li>
                   <li class="nav-item">
-                      {% comment %} <a href="{% url 'staff-salary' %}" class="nav-link"> {% endcomment %}
-                      <a href="#" class="nav-link">
-                          <i class="fas fa-user-tie nav-icon" style="color: #009999;"></i>
-                          <p>Staff Salary</p>
-                      </a>
+                        <a href="{% url 'staff-salary' %}" class="nav-link {% if request.resolver_match.url_name == 'staff-salary' %}active{% endif %}">
+                            <i class="fas fa-money-bill-wave nav-icon" style="color: #33cc33;"></i>
+                            <p>Staff Salary</p>
+                        </a>
                   </li>
               </ul>
           </li>

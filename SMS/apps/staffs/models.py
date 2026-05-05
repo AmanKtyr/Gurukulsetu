@@ -61,3 +61,53 @@ class Staff(models.Model):
     # Add custom manager
     objects = models.Manager()  # Default manager
     college_objects = CollegeFilteredManager()
+
+class StaffSalary(models.Model):
+    staff = models.OneToOneField(Staff, on_delete=models.CASCADE, related_name="salary_info")
+    basic_salary = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    allowances = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    deductions = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    # College field
+    college = models.ForeignKey(
+        College,
+        on_delete=models.CASCADE,
+        related_name='staff_salaries',
+        null=True,
+        blank=True
+    )
+
+    @property
+    def net_salary(self):
+        return self.basic_salary + self.allowances - self.deductions
+
+    def __str__(self):
+        return f"{self.staff.fullname} - {self.net_salary}"
+
+class SalaryPayment(models.Model):
+    PAYMENT_METHODS = [
+        ('Cash', 'Cash'),
+        ('Bank Transfer', 'Bank Transfer'),
+        ('Cheque', 'Cheque'),
+    ]
+    staff = models.ForeignKey(Staff, on_delete=models.CASCADE, related_name="salary_payments")
+    amount_paid = models.DecimalField(max_digits=10, decimal_places=2)
+    payment_date = models.DateField(default=timezone.now)
+    month = models.IntegerField() # 1-12
+    year = models.IntegerField()
+    payment_method = models.CharField(max_length=20, choices=PAYMENT_METHODS, default='Cash')
+    transaction_id = models.CharField(max_length=100, blank=True, null=True)
+    note = models.TextField(blank=True, null=True)
+    # College field
+    college = models.ForeignKey(
+        College,
+        on_delete=models.CASCADE,
+        related_name='salary_payments',
+        null=True,
+        blank=True
+    )
+
+    class Meta:
+        unique_together = ['staff', 'month', 'year']
+
+    def __str__(self):
+        return f"{self.staff.fullname} - {self.month}/{self.year}"
