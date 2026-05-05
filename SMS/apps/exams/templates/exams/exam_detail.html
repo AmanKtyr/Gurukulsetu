@@ -74,7 +74,7 @@
                   <div class="mb-3">
                     <label class="form-label text-muted small">Exam Period</label>
                     <div class="d-flex align-items-center">
-                      <div class="rounded-circle bg-primary bg-opacity-10 p-2 me-3">
+                      <div class="rounded-circle p-2 me-3" style="background-color: rgba(0, 123, 255, 0.1);">
                         <i class="fas fa-calendar-alt text-primary"></i>
                       </div>
                       <p class="fw-bold mb-0">{{ exam.start_date|date:"d M, Y" }} - {{ exam.end_date|date:"d M, Y" }}</p>
@@ -83,9 +83,8 @@
                   <div class="mb-3">
                     <label class="form-label text-muted small">Status</label>
                     <div class="d-flex align-items-center">
-                      <div class="rounded-circle bg-opacity-10 p-2 me-3
-                        {% if exam.status == 'pending' %}bg-warning{% elif exam.status == 'ongoing' %}bg-success
-                        {% elif exam.status == 'completed' %}bg-info{% elif exam.status == 'cancelled' %}bg-danger{% endif %}">
+                      <div class="rounded-circle p-2 me-3"
+                        style="{% if exam.status == 'pending' %}background-color: rgba(255, 193, 7, 0.1);{% elif exam.status == 'ongoing' %}background-color: rgba(40, 167, 69, 0.1);{% elif exam.status == 'completed' %}background-color: rgba(23, 162, 184, 0.1);{% elif exam.status == 'cancelled' %}background-color: rgba(220, 53, 69, 0.1);{% endif %}">
                         <i class="fas
                           {% if exam.status == 'pending' %}fa-clock text-warning
                           {% elif exam.status == 'ongoing' %}fa-play-circle text-success
@@ -135,7 +134,7 @@
             <div class="col-md-3 col-sm-6">
               <a href="#" class="card h-100 border-0 shadow-sm text-decoration-none hover-lift" data-bs-toggle="tooltip" data-bs-placement="top" title="Create a schedule for this exam">
                 <div class="card-body text-center p-4">
-                  <div class="rounded-circle bg-primary bg-opacity-10 p-3 d-inline-block mb-3">
+                  <div class="rounded-circle p-3 d-inline-block mb-3" style="background-color: rgba(0, 123, 255, 0.1);">
                     <i class="fas fa-calendar-plus fa-2x text-primary"></i>
                   </div>
                   <h6 class="fw-bold text-primary">Add Schedule</h6>
@@ -146,7 +145,7 @@
             <div class="col-md-3 col-sm-6">
               <a href="#" class="card h-100 border-0 shadow-sm text-decoration-none hover-lift" data-bs-toggle="tooltip" data-bs-placement="top" title="Upload question papers for this exam">
                 <div class="card-body text-center p-4">
-                  <div class="rounded-circle bg-success bg-opacity-10 p-3 d-inline-block mb-3">
+                  <div class="rounded-circle p-3 d-inline-block mb-3" style="background-color: rgba(40, 167, 69, 0.1);">
                     <i class="fas fa-file-upload fa-2x text-success"></i>
                   </div>
                   <h6 class="fw-bold text-success">Question Papers</h6>
@@ -157,7 +156,7 @@
             <div class="col-md-3 col-sm-6">
               <a href="#" class="card h-100 border-0 shadow-sm text-decoration-none hover-lift" data-bs-toggle="tooltip" data-bs-placement="top" title="Generate admit cards for students">
                 <div class="card-body text-center p-4">
-                  <div class="rounded-circle bg-warning bg-opacity-10 p-3 d-inline-block mb-3">
+                  <div class="rounded-circle p-3 d-inline-block mb-3" style="background-color: rgba(255, 193, 7, 0.1);">
                     <i class="fas fa-id-card fa-2x text-warning"></i>
                   </div>
                   <h6 class="fw-bold text-warning">Admit Cards</h6>
@@ -168,7 +167,7 @@
             <div class="col-md-3 col-sm-6">
               <a href="#" class="card h-100 border-0 shadow-sm text-decoration-none hover-lift" data-bs-toggle="tooltip" data-bs-placement="top" title="Enter marks for this exam">
                 <div class="card-body text-center p-4">
-                  <div class="rounded-circle bg-info bg-opacity-10 p-3 d-inline-block mb-3">
+                  <div class="rounded-circle p-3 d-inline-block mb-3" style="background-color: rgba(23, 162, 184, 0.1);">
                     <i class="fas fa-clipboard-check fa-2x text-info"></i>
                   </div>
                   <h6 class="fw-bold text-info">Enter Marks</h6>
@@ -333,7 +332,7 @@
               <div class="card h-100 border-0 shadow-sm hover-lift">
                 <div class="card-body p-4">
                   <div class="d-flex align-items-center mb-3">
-                    <div class="rounded-circle bg-primary bg-opacity-10 p-3 me-3">
+                    <div class="rounded-circle p-3 me-3" style="background-color: rgba(0, 123, 255, 0.1);">
                       <i class="fas fa-chair fa-2x text-primary"></i>
                     </div>
                     <div>
@@ -355,7 +354,7 @@
               <div class="card h-100 border-0 shadow-sm hover-lift">
                 <div class="card-body p-4">
                   <div class="d-flex align-items-center mb-3">
-                    <div class="rounded-circle bg-success bg-opacity-10 p-3 me-3">
+                    <div class="rounded-circle p-3 me-3" style="background-color: rgba(40, 167, 69, 0.1);">
                       <i class="fas fa-user-tie fa-2x text-success"></i>
                     </div>
                     <div>
@@ -377,7 +376,7 @@
               <div class="card h-100 border-0 shadow-sm hover-lift">
                 <div class="card-body p-4">
                   <div class="d-flex align-items-center mb-3">
-                    <div class="rounded-circle bg-warning bg-opacity-10 p-3 me-3">
+                    <div class="rounded-circle p-3 me-3" style="background-color: rgba(255, 193, 7, 0.1);">
                       <i class="fas fa-id-card fa-2x text-warning"></i>
                     </div>
                     <div>
@@ -399,7 +398,7 @@
               <div class="card h-100 border-0 shadow-sm hover-lift">
                 <div class="card-body p-4">
                   <div class="d-flex align-items-center mb-3">
-                    <div class="rounded-circle bg-info bg-opacity-10 p-3 me-3">
+                    <div class="rounded-circle p-3 me-3" style="background-color: rgba(23, 162, 184, 0.1);">
                       <i class="fas fa-clipboard-check fa-2x text-info"></i>
                     </div>
                     <div>

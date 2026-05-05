@@ -40,7 +40,7 @@
               <h5 class="card-title mb-0 fw-bold">Upcoming Exams</h5>
               <h2 class="mt-2 mb-0 display-5 fw-bold">{{ upcoming_exams_count }}</h2>
             </div>
-            <div class="rounded-circle bg-white bg-opacity-25 p-3">
+            <div class="rounded-circle p-3" style="background-color: rgba(255, 255, 255, 0.25);">
               <i class="fas fa-calendar-alt fa-2x text-white"></i>
             </div>
           </div>
@@ -60,7 +60,7 @@
               <h5 class="card-title mb-0 fw-bold">Active Exams</h5>
               <h2 class="mt-2 mb-0 display-5 fw-bold">{{ active_exams_count }}</h2>
             </div>
-            <div class="rounded-circle bg-white bg-opacity-25 p-3">
+            <div class="rounded-circle p-3" style="background-color: rgba(255, 255, 255, 0.25);">
               <i class="fas fa-edit fa-2x text-white"></i>
             </div>
           </div>
@@ -80,7 +80,7 @@
               <h5 class="card-title mb-0 fw-bold">Pending Results</h5>
               <h2 class="mt-2 mb-0 display-5 fw-bold">{{ pending_results_count }}</h2>
             </div>
-            <div class="rounded-circle bg-white bg-opacity-25 p-3">
+            <div class="rounded-circle p-3" style="background-color: rgba(255, 255, 255, 0.25);">
               <i class="fas fa-hourglass-half fa-2x text-white"></i>
             </div>
           </div>
@@ -100,7 +100,7 @@
               <h5 class="card-title mb-0 fw-bold">Published Results</h5>
               <h2 class="mt-2 mb-0 display-5 fw-bold">{{ published_results_count }}</h2>
             </div>
-            <div class="rounded-circle bg-white bg-opacity-25 p-3">
+            <div class="rounded-circle p-3" style="background-color: rgba(255, 255, 255, 0.25);">
               <i class="fas fa-check-circle fa-2x text-white"></i>
             </div>
           </div>
@@ -134,7 +134,7 @@
               <div class="col-md-3 col-sm-6">
                 <a href="{% url 'exams:exam_create' %}" class="card h-100 border-0 shadow-sm text-decoration-none hover-lift" data-bs-toggle="tooltip" data-bs-placement="top" title="Create a new examination">
                   <div class="card-body text-center p-3">
-                    <div class="rounded-circle bg-primary bg-opacity-10 p-3 d-inline-block mb-2">
+                    <div class="rounded-circle p-3 d-inline-block mb-2" style="background-color: rgba(0, 123, 255, 0.1);">
                       <i class="fas fa-plus-circle fa-2x text-primary"></i>
                     </div>
                     <h6 class="fw-bold text-primary">Create Exam</h6>
@@ -145,7 +145,7 @@
               <div class="col-md-3 col-sm-6">
                 <a href="{% url 'exams:exam_schedule_list' %}" class="card h-100 border-0 shadow-sm text-decoration-none hover-lift" data-bs-toggle="tooltip" data-bs-placement="top" title="Manage exam schedules and timetables">
                   <div class="card-body text-center p-3">
-                    <div class="rounded-circle bg-success bg-opacity-10 p-3 d-inline-block mb-2">
+                    <div class="rounded-circle p-3 d-inline-block mb-2" style="background-color: rgba(40, 167, 69, 0.1);">
                       <i class="fas fa-calendar-alt fa-2x text-success"></i>
                     </div>
                     <h6 class="fw-bold text-success">Exam Schedule</h6>
@@ -156,7 +156,7 @@
               <div class="col-md-3 col-sm-6">
                 <a href="{% url 'exams:question_paper_list' %}" class="card h-100 border-0 shadow-sm text-decoration-none hover-lift" data-bs-toggle="tooltip" data-bs-placement="top" title="Upload and manage question papers">
                   <div class="card-body text-center p-3">
-                    <div class="rounded-circle bg-danger bg-opacity-10 p-3 d-inline-block mb-2">
+                    <div class="rounded-circle p-3 d-inline-block mb-2" style="background-color: rgba(220, 53, 69, 0.1);">
                       <i class="fas fa-file-alt fa-2x text-danger"></i>
                     </div>
                     <h6 class="fw-bold text-danger">Question Papers</h6>
@@ -167,7 +167,7 @@
               <div class="col-md-3 col-sm-6">
                 <a href="{% url 'exams:exam_type_list' %}" class="card h-100 border-0 shadow-sm text-decoration-none hover-lift" data-bs-toggle="tooltip" data-bs-placement="top" title="Configure exam types and settings">
                   <div class="card-body text-center p-3">
-                    <div class="rounded-circle bg-secondary bg-opacity-10 p-3 d-inline-block mb-2">
+                    <div class="rounded-circle p-3 d-inline-block mb-2" style="background-color: rgba(108, 117, 125, 0.1);">
                       <i class="fas fa-cog fa-2x text-secondary"></i>
                     </div>
                     <h6 class="fw-bold text-secondary">Exam Settings</h6>
@@ -185,7 +185,7 @@
               <div class="col-md-3 col-sm-6">
                 <a href="{% url 'exams:document_management' %}" class="card h-100 border-0 shadow-sm text-decoration-none hover-lift" data-bs-toggle="tooltip" data-bs-placement="top" title="Centralized document management system">
                   <div class="card-body text-center p-3">
-                    <div class="rounded-circle bg-info bg-opacity-10 p-3 d-inline-block mb-2">
+                    <div class="rounded-circle p-3 d-inline-block mb-2" style="background-color: rgba(23, 162, 184, 0.1);">
                       <i class="fas fa-file-archive fa-2x text-info"></i>
                     </div>
                     <h6 class="fw-bold text-info">Document Center</h6>
@@ -196,7 +196,7 @@
               <div class="col-md-3 col-sm-6">
                 <a href="{% url 'exams:document_archive' %}" class="card h-100 border-0 shadow-sm text-decoration-none hover-lift" data-bs-toggle="tooltip" data-bs-placement="top" title="Access document archive">
                   <div class="card-body text-center p-3">
-                    <div class="rounded-circle bg-secondary bg-opacity-10 p-3 d-inline-block mb-2">
+                    <div class="rounded-circle p-3 d-inline-block mb-2" style="background-color: rgba(108, 117, 125, 0.1);">
                       <i class="fas fa-archive fa-2x text-secondary"></i>
                     </div>
                     <h6 class="fw-bold text-secondary">Document Archive</h6>
@@ -207,7 +207,7 @@
               <div class="col-md-3 col-sm-6">
                 <a href="{% url 'exams:document_generate' doc_type='templates' %}" class="card h-100 border-0 shadow-sm text-decoration-none hover-lift" data-bs-toggle="tooltip" data-bs-placement="top" title="Download document templates">
                   <div class="card-body text-center p-3">
-                    <div class="rounded-circle bg-primary bg-opacity-10 p-3 d-inline-block mb-2">
+                    <div class="rounded-circle p-3 d-inline-block mb-2" style="background-color: rgba(0, 123, 255, 0.1);">
                       <i class="fas fa-file-download fa-2x text-primary"></i>
                     </div>
                     <h6 class="fw-bold text-primary">Templates</h6>
@@ -218,7 +218,7 @@
               <div class="col-md-3 col-sm-6">
                 <a href="{% url 'exams:document_generate' doc_type='bulk' %}" class="card h-100 border-0 shadow-sm text-decoration-none hover-lift" data-bs-toggle="tooltip" data-bs-placement="top" title="Generate documents in bulk">
                   <div class="card-body text-center p-3">
-                    <div class="rounded-circle bg-success bg-opacity-10 p-3 d-inline-block mb-2">
+                    <div class="rounded-circle p-3 d-inline-block mb-2" style="background-color: rgba(40, 167, 69, 0.1);">
                       <i class="fas fa-copy fa-2x text-success"></i>
                     </div>
                     <h6 class="fw-bold text-success">Bulk Generate</h6>
@@ -236,7 +236,7 @@
               <div class="col-md-3 col-sm-6">
                 <a href="{% url 'exams:admit_card_list' %}" class="card h-100 border-0 shadow-sm text-decoration-none hover-lift" data-bs-toggle="tooltip" data-bs-placement="top" title="Generate and print admit cards for students">
                   <div class="card-body text-center p-3">
-                    <div class="rounded-circle bg-warning bg-opacity-10 p-3 d-inline-block mb-2">
+                    <div class="rounded-circle p-3 d-inline-block mb-2" style="background-color: rgba(255, 193, 7, 0.1);">
                       <i class="fas fa-id-card fa-2x text-warning"></i>
                     </div>
                     <h6 class="fw-bold text-warning">Admit Cards</h6>
@@ -247,7 +247,7 @@
               <div class="col-md-3 col-sm-6">
                 <a href="#" class="card h-100 border-0 shadow-sm text-decoration-none hover-lift" data-bs-toggle="tooltip" data-bs-placement="top" title="Manage exam rooms and seating arrangements">
                   <div class="card-body text-center p-3">
-                    <div class="rounded-circle bg-primary bg-opacity-10 p-3 d-inline-block mb-2">
+                    <div class="rounded-circle p-3 d-inline-block mb-2" style="background-color: rgba(0, 123, 255, 0.1);">
                       <i class="fas fa-chair fa-2x text-primary"></i>
                     </div>
                     <h6 class="fw-bold text-primary">Seating Plan</h6>
@@ -258,7 +258,7 @@
               <div class="col-md-3 col-sm-6">
                 <a href="#" class="card h-100 border-0 shadow-sm text-decoration-none hover-lift" data-bs-toggle="tooltip" data-bs-placement="top" title="Assign invigilators to exam rooms">
                   <div class="card-body text-center p-3">
-                    <div class="rounded-circle bg-info bg-opacity-10 p-3 d-inline-block mb-2">
+                    <div class="rounded-circle p-3 d-inline-block mb-2" style="background-color: rgba(23, 162, 184, 0.1);">
                       <i class="fas fa-user-shield fa-2x text-info"></i>
                     </div>
                     <h6 class="fw-bold text-info">Invigilators</h6>
@@ -269,7 +269,7 @@
               <div class="col-md-3 col-sm-6">
                 <a href="#" class="card h-100 border-0 shadow-sm text-decoration-none hover-lift" data-bs-toggle="tooltip" data-bs-placement="top" title="Track student attendance for exams">
                   <div class="card-body text-center p-3">
-                    <div class="rounded-circle bg-success bg-opacity-10 p-3 d-inline-block mb-2">
+                    <div class="rounded-circle p-3 d-inline-block mb-2" style="background-color: rgba(40, 167, 69, 0.1);">
                       <i class="fas fa-user-check fa-2x text-success"></i>
                     </div>
                     <h6 class="fw-bold text-success">Attendance</h6>
@@ -287,7 +287,7 @@
               <div class="col-md-3 col-sm-6">
                 <a href="{% url 'exams:marks_entry' %}" class="card h-100 border-0 shadow-sm text-decoration-none hover-lift" data-bs-toggle="tooltip" data-bs-placement="top" title="Enter and manage student marks">
                   <div class="card-body text-center p-3">
-                    <div class="rounded-circle bg-info bg-opacity-10 p-3 d-inline-block mb-2">
+                    <div class="rounded-circle p-3 d-inline-block mb-2" style="background-color: rgba(23, 162, 184, 0.1);">
                       <i class="fas fa-clipboard-check fa-2x text-info"></i>
                     </div>
                     <h6 class="fw-bold text-info">Enter Marks</h6>
@@ -298,7 +298,7 @@
               <div class="col-md-3 col-sm-6">
                 <a href="{% url 'exams:results' %}" class="card h-100 border-0 shadow-sm text-decoration-none hover-lift" data-bs-toggle="tooltip" data-bs-placement="top" title="View and publish exam results">
                   <div class="card-body text-center p-3">
-                    <div class="rounded-circle bg-primary bg-opacity-10 p-3 d-inline-block mb-2">
+                    <div class="rounded-circle p-3 d-inline-block mb-2" style="background-color: rgba(0, 123, 255, 0.1);">
                       <i class="fas fa-chart-bar fa-2x text-primary"></i>
                     </div>
                     <h6 class="fw-bold text-primary">Results</h6>
@@ -309,7 +309,7 @@
               <div class="col-md-3 col-sm-6">
                 <a href="#" class="card h-100 border-0 shadow-sm text-decoration-none hover-lift" data-bs-toggle="tooltip" data-bs-placement="top" title="Generate report cards for students">
                   <div class="card-body text-center p-3">
-                    <div class="rounded-circle bg-danger bg-opacity-10 p-3 d-inline-block mb-2">
+                    <div class="rounded-circle p-3 d-inline-block mb-2" style="background-color: rgba(220, 53, 69, 0.1);">
                       <i class="fas fa-file-pdf fa-2x text-danger"></i>
                     </div>
                     <h6 class="fw-bold text-danger">Report Cards</h6>
@@ -320,7 +320,7 @@
               <div class="col-md-3 col-sm-6">
                 <a href="#" class="card h-100 border-0 shadow-sm text-decoration-none hover-lift" data-bs-toggle="tooltip" data-bs-placement="top" title="Analyze exam performance and statistics">
                   <div class="card-body text-center p-3">
-                    <div class="rounded-circle bg-warning bg-opacity-10 p-3 d-inline-block mb-2">
+                    <div class="rounded-circle p-3 d-inline-block mb-2" style="background-color: rgba(255, 193, 7, 0.1);">
                       <i class="fas fa-chart-pie fa-2x text-warning"></i>
                     </div>
                     <h6 class="fw-bold text-warning">Analytics</h6>
@@ -367,7 +367,7 @@
                       {{ exam.name }}
                     </a>
                   </td>
-                  <td><span class="badge bg-secondary bg-opacity-10 text-secondary">{{ exam.exam_type.name }}</span></td>
+                  <td><span class="badge text-secondary" style="background-color: rgba(108, 117, 125, 0.1);">{{ exam.exam_type.name }}</span></td>
                   <td>
                     <i class="far fa-calendar-alt me-1 text-muted"></i>
                     {{ exam.start_date|date:"d M" }} - {{ exam.end_date|date:"d M, Y" }}
@@ -491,7 +491,7 @@
                 <div class="card-body">
                   <h6 class="fw-bold mb-3">Key Metrics</h6>
                   <div class="d-flex align-items-center mb-3 p-3 bg-light rounded">
-                    <div class="rounded-circle bg-primary bg-opacity-10 p-3 me-3">
+                    <div class="rounded-circle p-3 me-3" style="background-color: rgba(0, 123, 255, 0.1);">
                       <i class="fas fa-users text-primary"></i>
                     </div>
                     <div>
@@ -500,7 +500,7 @@
                     </div>
                   </div>
                   <div class="d-flex align-items-center mb-3 p-3 bg-light rounded">
-                    <div class="rounded-circle bg-success bg-opacity-10 p-3 me-3">
+                    <div class="rounded-circle p-3 me-3" style="background-color: rgba(40, 167, 69, 0.1);">
                       <i class="fas fa-check-circle text-success"></i>
                     </div>
                     <div>
@@ -509,7 +509,7 @@
                     </div>
                   </div>
                   <div class="d-flex align-items-center p-3 bg-light rounded">
-                    <div class="rounded-circle bg-warning bg-opacity-10 p-3 me-3">
+                    <div class="rounded-circle p-3 me-3" style="background-color: rgba(255, 193, 7, 0.1);">
                       <i class="fas fa-star text-warning"></i>
                     </div>
                     <div>
