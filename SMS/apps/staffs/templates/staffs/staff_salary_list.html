@@ -1,0 +1,221 @@
+{% extends 'base.html' %}
+
+{% block title %}Staff Salary Management{% endblock title %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0 text-primary"><i class="fas fa-money-bill-wave me-2"></i>Staff Salaries - {{ current_month }}/{{ current_year }}</h5>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Staff Name</th>
+                            <th>ID</th>
+                            <th>Basic Salary</th>
+                            <th>Net Salary</th>
+                            <th>Status</th>
+                            <th class="text-center">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for staff in staff_list %}
+                        <tr class="align-middle">
+                            <td>
+                                <div class="fw-bold">{{ staff.fullname }}</div>
+                            </td>
+                            <td><span class="badge bg-light text-dark">{{ staff.registration_number }}</span></td>
+                            <td>{{ staff.salary_info.basic_salary }}</td>
+                            <td class="fw-bold text-success">{{ staff.salary_info.net_salary }}</td>
+                            <td>
+                                {% if staff.is_paid %}
+                                    <span class="badge bg-success">Paid</span>
+                                    <small class="text-muted d-block">{{ staff.payment_info.payment_date|date:"d M" }}</small>
+                                {% else %}
+                                    <span class="badge bg-danger">Pending</span>
+                                {% endif %}
+                            </td>
+                            <td class="text-center">
+                                <div class="btn-group">
+                                    {% if not staff.is_paid %}
+                                    <button class="btn btn-sm btn-primary pay-salary-btn" 
+                                            data-id="{{ staff.id }}" 
+                                            data-name="{{ staff.fullname }}"
+                                            data-amount="{{ staff.salary_info.net_salary }}">
+                                        Pay Salary
+                                    </button>
+                                    {% else %}
+                                    <button class="btn btn-sm btn-outline-secondary" disabled>Already Paid</button>
+                                    {% endif %}
+                                    
+                                    <button class="btn btn-sm btn-outline-info edit-salary-btn"
+                                            data-id="{{ staff.id }}"
+                                            data-name="{{ staff.fullname }}"
+                                            data-basic="{{ staff.salary_info.basic_salary }}"
+                                            data-allowances="{{ staff.salary_info.allowances }}"
+                                            data-deductions="{{ staff.salary_info.deductions }}">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Salary Settings Modal -->
+<div class="modal fade" id="editSalaryModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-info text-white">
+        <h5 class="modal-title">Set Salary for <span id="edit-modal-staff-name"></span></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <form id="editSalaryForm">
+            {% csrf_token %}
+            <input type="hidden" name="staff_id" id="edit-modal-staff-id">
+            
+            <div class="mb-3">
+                <label class="form-label">Basic Salary</label>
+                <input type="number" step="0.01" name="basic_salary" id="edit-modal-basic" class="form-control" required>
+            </div>
+            
+            <div class="mb-3">
+                <label class="form-label">Allowances</label>
+                <input type="number" step="0.01" name="allowances" id="edit-modal-allowances" class="form-control" value="0">
+            </div>
+            
+            <div class="mb-3">
+                <label class="form-label">Deductions</label>
+                <input type="number" step="0.01" name="deductions" id="edit-modal-deductions" class="form-control" value="0">
+            </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" id="saveSalarySettingsBtn" class="btn btn-info text-white">Save Settings</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Pay Salary Modal -->
+<div class="modal fade" id="paySalaryModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Pay Salary</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <p>Paying salary for <strong id="modal-staff-name"></strong></p>
+        <form id="paySalaryForm">
+            {% csrf_token %}
+            <input type="hidden" name="staff_id" id="modal-staff-id">
+            <input type="hidden" name="month" value="{{ current_month }}">
+            <input type="hidden" name="year" value="{{ current_year }}">
+            
+            <div class="mb-3">
+                <label class="form-label">Amount</label>
+                <input type="number" step="0.01" name="amount" id="modal-amount" class="form-control" readonly>
+            </div>
+            
+            <div class="mb-3">
+                <label class="form-label">Payment Method</label>
+                <select name="payment_method" class="form-select">
+                    <option value="Cash">Cash</option>
+                    <option value="Bank Transfer">Bank Transfer</option>
+                    <option value="Cheque">Cheque</option>
+                </select>
+            </div>
+            
+            <div class="mb-3">
+                <label class="form-label">Note</label>
+                <textarea name="note" class="form-control" rows="2"></textarea>
+            </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" id="confirmPayBtn" class="btn btn-primary">Confirm Payment</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('.pay-salary-btn').click(function() {
+        const id = $(this).data('id');
+        const name = $(this).data('name');
+        const amount = $(this).data('amount');
+        
+        $('#modal-staff-id').val(id);
+        $('#modal-staff-name').text(name);
+        $('#modal-amount').val(amount);
+        
+        const modal = new bootstrap.Modal(document.getElementById('paySalaryModal'));
+        modal.show();
+    });
+
+    // Edit Salary Logic
+    $('.edit-salary-btn').click(function() {
+        const id = $(this).data('id');
+        const name = $(this).data('name');
+        const basic = $(this).data('basic');
+        const allowances = $(this).data('allowances');
+        const deductions = $(this).data('deductions');
+        
+        $('#edit-modal-staff-id').val(id);
+        $('#edit-modal-staff-name').text(name);
+        $('#edit-modal-basic').val(basic);
+        $('#edit-modal-allowances').val(allowances);
+        $('#edit-modal-deductions').val(deductions);
+        
+        const modal = new bootstrap.Modal(document.getElementById('editSalaryModal'));
+        modal.show();
+    });
+
+    $('#saveSalarySettingsBtn').click(function() {
+        const form = $('#editSalaryForm');
+        $.ajax({
+            url: "{% url 'salary-edit' %}",
+            type: 'POST',
+            data: form.serialize(),
+            success: function(response) {
+                alert(response.message);
+                location.reload();
+            },
+            error: function(xhr) {
+                alert('Error: ' + (xhr.responseJSON ? xhr.responseJSON.message : 'Unknown error'));
+            }
+        });
+    });
+
+    $('#confirmPayBtn').click(function() {
+        const form = $('#paySalaryForm');
+        $.ajax({
+            url: "{% url 'salary-pay' %}",
+            type: 'POST',
+            data: form.serialize(),
+            success: function(response) {
+                alert(response.message);
+                location.reload();
+            },
+            error: function(xhr) {
+                alert('Error: ' + (xhr.responseJSON ? xhr.responseJSON.message : 'Unknown error'));
+            }
+        });
+    });
+});
+</script>
+{% endblock content %}

@@ -86,3 +86,36 @@ class StudentAttendance(models.Model):
 
     def __str__(self):
         return f"{self.fullname} ({self.registration_number})"
+
+class StaffAttendance(models.Model):
+    ATTENDANCE_CHOICES = [
+        ('Present', 'Present'),
+        ('Absent', 'Absent'),
+        ('Leave', 'Leave'),
+        ('Holiday', 'Holiday'),
+        ('Sunday', 'Sunday'),
+    ]
+    staff = models.ForeignKey('staffs.Staff', on_delete=models.CASCADE, related_name="attendance")
+    status = models.CharField(max_length=10, choices=ATTENDANCE_CHOICES, default='Absent')
+    date = models.DateField(default=now)
+    comment = models.TextField(blank=True, null=True)
+    is_holiday = models.BooleanField(default=False)
+    holiday_name = models.CharField(max_length=100, blank=True, null=True)
+    # College field
+    college = models.ForeignKey(
+        'super_admin.College',
+        on_delete=models.CASCADE,
+        related_name='staff_attendance_records',
+        null=True,
+        blank=True
+    )
+
+    # Add custom manager
+    objects = models.Manager()  # Default manager
+    college_objects = CollegeFilteredManager()
+
+    class Meta:
+        unique_together = ['staff', 'date']
+
+    def __str__(self):
+        return f"{self.staff.fullname} - {self.status} ({self.date})"

@@ -242,7 +242,7 @@
 
       // Make AJAX call to update session
       $.ajax({
-        url: '/api/session/' + sessionId + '/update/',
+        url: "{% url 'update_session_ajax' session_id=12345 %}".replace('12345', sessionId),
         type: 'POST',
         data: {
           name: sessionName,
@@ -283,8 +283,12 @@
           var errorMsg = 'Failed to update session';
           if (xhr.responseJSON && xhr.responseJSON.error) {
             errorMsg = xhr.responseJSON.error;
+          } else if (xhr.status === 500) {
+            errorMsg = 'Internal Server Error (500). Please check server logs.';
+          } else if (xhr.status === 403) {
+            errorMsg = 'Permission Denied (403).';
           }
-          alert(errorMsg);
+          alert('Error: ' + errorMsg);
 
           // Reset button
           $btn.html(originalHtml);
@@ -296,13 +300,21 @@
     // Form validation
     $('#addSessionForm').on('submit', function(e) {
       var form = $(this);
-      var nameField = form.find('input[name="name"]');
+      var nameField = form.find('input[name="Academic Session-name"]');
+      
+      // Fallback if the prefix changes
+      if (nameField.length === 0) {
+        nameField = form.find('input[name="name"]');
+      }
+
       var isValid = true;
 
-      if (!nameField.val().trim()) {
+      var nameVal = nameField.val() || "";
+      if (!nameVal.trim()) {
         nameField.addClass('is-invalid');
         nameField.siblings('.invalid-feedback').text('Session name is required');
         isValid = false;
+        e.preventDefault(); // Explicitly prevent default on invalid
       } else {
         nameField.removeClass('is-invalid');
       }

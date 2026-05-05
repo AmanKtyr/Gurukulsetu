@@ -64,6 +64,26 @@ class College(models.Model):
     def __str__(self):
         return self.name
 
+    @property
+    def college_name(self):
+        return self.name
+
+    @property
+    def college_logo(self):
+        return self.logo
+
+    @property
+    def college_address(self):
+        return self.address
+
+    @property
+    def college_email(self):
+        return self.email
+
+    @property
+    def college_phone(self):
+        return self.phone
+
     def get_absolute_url(self):
         return reverse("college_detail", kwargs={"pk": self.pk})
 

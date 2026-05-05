@@ -34,7 +34,7 @@
 {% endblock breadcrumb %}
 
 {% block page-actions %}
-  <a class="btn btn-primary" href="#" data-toggle="modal" data-target="#modal1">
+  <a class="btn btn-primary" id="addTermBtn" href="#" data-bs-toggle="modal" data-bs-target="#modal1">
     <i class="fas fa-plus me-2"></i> Add New Term
   </a>
 {% endblock page-actions %}
@@ -242,7 +242,7 @@
 
       // Make AJAX call to update term
       $.ajax({
-        url: '/api/term/' + termId + '/update/',
+        url: "{% url 'update_term_ajax' term_id=12345 %}".replace('12345', termId),
         type: 'POST',
         data: {
           name: termName,
@@ -280,11 +280,20 @@
           $btn.prop('disabled', false);
         },
         error: function(xhr) {
+          console.error("AJAX Error:", xhr.status, xhr.statusText, xhr.responseText);
           var errorMsg = 'Failed to update term';
           if (xhr.responseJSON && xhr.responseJSON.error) {
             errorMsg = xhr.responseJSON.error;
+          } else if (xhr.status === 500) {
+            errorMsg = 'Internal Server Error (500). Please check server logs.';
+          } else if (xhr.status === 403) {
+            errorMsg = 'Permission Denied (403).';
+          } else if (xhr.status === 404) {
+            errorMsg = 'Endpoint not found (404). URL: /api/term/' + termId + '/update/';
+          } else {
+            errorMsg = 'Status: ' + xhr.status + ' ' + xhr.statusText;
           }
-          alert(errorMsg);
+          alert('Error: ' + errorMsg);
 
           // Reset button
           $btn.html(originalHtml);
@@ -296,13 +305,21 @@
     // Form validation
     $('#addTermForm').on('submit', function(e) {
       var form = $(this);
-      var nameField = form.find('input[name="name"]');
+      var nameField = form.find('input[name="Academic Term-name"]');
+      
+      // Fallback if the prefix changes
+      if (nameField.length === 0) {
+        nameField = form.find('input[name="name"]');
+      }
+
       var isValid = true;
 
-      if (!nameField.val().trim()) {
+      var nameVal = nameField.val() || "";
+      if (!nameVal.trim()) {
         nameField.addClass('is-invalid');
         nameField.siblings('.invalid-feedback').text('Term name is required');
         isValid = false;
+        e.preventDefault(); // Explicitly prevent default on invalid
       } else {
         nameField.removeClass('is-invalid');
       }
