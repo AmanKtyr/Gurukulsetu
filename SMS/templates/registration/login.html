@@ -78,7 +78,7 @@
       50% { transform: scale(1.1); opacity: 1; }
       100% { transform: scale(1); }
     }
-    input {
+    input:not([type="checkbox"]) {
       width: 100%;
       padding: 15px;
       margin: 16px 0;
@@ -128,8 +128,22 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      margin: 6px 0;
+      margin: 12px 0;
       font-size: 14px;
+      justify-content: flex-start;
+      text-align: left;
+    }
+    .remember-me input[type="checkbox"] {
+      width: auto !important;
+      margin: 0 !important;
+      cursor: pointer;
+      height: 16px;
+      width: 16px;
+    }
+    .remember-me label {
+      margin: 0 !important;
+      cursor: pointer;
+      user-select: none;
     }
     .error-msg {
       color: red;

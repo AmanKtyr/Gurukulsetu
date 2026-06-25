@@ -177,12 +177,28 @@ class IndexView(LoginRequiredMixin, TemplateView):
             class_data.append(int(class_count))
 
         # If there are more than 5 classes, combine the rest into 'Others'
+        # If there are more than 5 classes, combine the rest into 'Others'
         if len(class_labels) > 5:
             others_count = sum(class_data[5:])
             class_labels = class_labels[:5]
             class_data = class_data[:5]
             class_labels.append('Others')
             class_data.append(others_count)
+
+        # Fallback/Demo data when database is empty to keep UI premium and industry-ready
+        is_demo_data = False
+        if not class_data or sum(class_data) == 0:
+            class_labels = ["Class 10", "Class 9", "Class 8", "Class 7", "Class 6", "Others"]
+            class_data = [45, 38, 42, 35, 30, 85]
+            is_demo_data = True
+
+        if not attendance_data or sum(attendance_data) == 0:
+            attendance_data = [92.4, 88.5, 91.2, 93.6, 95.0, 92.1]
+            is_demo_data = True
+
+        if not fee_data or sum(fee_data) == 0:
+            fee_data = [45000.0, 52000.0, 48000.0, 60000.0, 75000.0, 58000.0]
+            is_demo_data = True
 
         context.update({
             'total_students': total_students,
@@ -198,6 +214,7 @@ class IndexView(LoginRequiredMixin, TemplateView):
             'attendance_data': attendance_data,
             'class_labels': class_labels,
             'class_data': class_data,
+            'is_demo_data': is_demo_data,
         })
 
         return context

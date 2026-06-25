@@ -31,7 +31,7 @@
       background-color: #f8f9fa !important;
       margin: 0 !important;
       padding: 0 !important;
-      height: 100% !important;
+      min-height: 100vh !important;
       overflow-x: hidden !important;
     }
 
@@ -47,13 +47,13 @@
 
     /* Navbar Styles */
     .navbar {
-      background: linear-gradient(90deg, black, #1E3C72) !important;
+      background: linear-gradient(90deg, #0B1B3D, #0A2540) !important;
       color: white !important;
     }
 
     /* Initial Sidebar Styles - will be overridden by sidebar-fix.css */
     .sidebar, .main-sidebar {
-      background: linear-gradient(90deg, black, #1E3C72) !important;
+      background: linear-gradient(180deg, #0B1B3D, #0A2540) !important;
       color: white !important;
     }
 
@@ -141,7 +141,7 @@
   <link rel="stylesheet" href="{% static 'dist/css/sidebar-fix.css' %}">
 </head>
 
-<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+<body class="hold-transition sidebar-mini layout-navbar-fixed">
   <div class="wrapper">
   <!-- Loader -->
   <div class="loader-wrapper">
@@ -296,11 +296,11 @@
               </ul>
           </li>
 
-          <li class="nav-header">Staff</li>
+          <li class="nav-header">HR / Staff</li>
           <li class="nav-item has-treeview  {% if request.resolver_match.url_name in 'staff-list non-teaching-staffs-list' %}menu-open{% endif %}">
               <a href="#" class="nav-link">
                   <i class="nav-icon fas fa-users" style="color: #9933ff;"></i>
-                  <p>Staff<i class="fas fa-angle-left right"></i></p>
+                  <p>HR / Staff<i class="fas fa-angle-left right"></i></p>
               </a>
               <ul class="nav nav-treeview">
                   <li class="nav-item">
@@ -374,7 +374,6 @@
               </ul>
           </li>
 
-          {% comment %}
           <li class="nav-header">Examinations</li>
           <li class="nav-item has-treeview {% if 'exams' in request.path %}menu-open{% endif %}">
               <a href="{% url 'exams:dashboard' %}" class="nav-link {% if 'exams' in request.path %}active{% endif %}">
@@ -442,12 +441,10 @@
                   </li>
               </ul>
           </li>
-          {% endcomment %}
 
 
 
 
-          {% comment %}
           <li class="nav-header">Documents</li>
           <li class="nav-item has-treeview {% if 'documents' in request.path %}menu-open{% endif %}">
               <a href="{% url 'documents:dashboard' %}" class="nav-link {% if 'documents' in request.path %}active{% endif %}">
@@ -505,56 +502,60 @@
                 </li>
               </ul>
           </li>
-          {% endcomment %}
 
 
-          <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-            <li class="nav-header">Others</li>
+          <li class="nav-header">Academics</li>
+          <li class="nav-item has-treeview  {% if request.resolver_match.url_name in 'sessions classes subjects fee_settings terms  ' %}menu-open{% endif %}">
+              <a href="#" class="nav-link">
+                  <i class="nav-icon fas fa-book-reader" style="color: #ff6600;"></i>
+                  <p>
+                      Academics
+                      <i class="fas fa-angle-left right"></i>
+                  </p>
+              </a>
 
-              <li class="nav-item has-treeview  {% if request.resolver_match.url_name in 'sessions classes subjects fee_settings terms  ' %}menu-open{% endif %}">
-                <a href="#" class="nav-link">
-                    <i class="nav-icon fas fa-copy" style="color: #ff6600;"></i>
-                    <p>
-                        Management
-                        <i class="fas fa-angle-left right"></i>
-                    </p>
-                </a>
-
-                <ul class="nav nav-treeview">
-                    <li class="nav-item">
-                        <a href="{% url 'sessions' %}" class="nav-link {% if request.resolver_match.url_name == 'sessions' %}active{% endif %}" >
-                            <i class="nav-icon fas fa-bars" style="color: #0099cc;"></i>
-                            <p>Sessions</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{% url 'terms' %}" class="nav-link {% if request.resolver_match.url_name == 'terms' %}active{% endif %}">
-                            <i class="nav-icon fas fa-bars" style="color: #ff3366;"></i>
-                            <p>Terms</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{% url 'subjects' %}" class="nav-link {% if request.resolver_match.url_name == 'subjects' %}active{% endif %}" >
-                            <i class="nav-icon fas fa-bars" style="color: #33cc33;"></i>
-                            <p>Subjects</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{% url 'classes' %}" class="nav-link {% if request.resolver_match.url_name == 'classes' %}active{% endif %}">
-                            <i class="nav-icon fas fa-bars" style="color: #cc3300;"></i>
-                            <p>Classes</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                      <a href="{% url 'fee_settings' %}" class="nav-link {% if request.resolver_match.url_name == 'fee_settings' %}active{% endif %}" >
-                          <i class="nav-icon fas fa-bars" style="color: #cc3300;"></i>
-                          <p>Fee Settings</p>
+              <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                      <a href="{% url 'sessions' %}" class="nav-link {% if request.resolver_match.url_name == 'sessions' %}active{% endif %}" >
+                          <i class="nav-icon fas fa-calendar-alt" style="color: #0099cc;"></i>
+                          <p>Sessions</p>
                       </a>
                   </li>
-                </ul>
-            </li>
-        </ul>
+                  <li class="nav-item">
+                      <a href="{% url 'terms' %}" class="nav-link {% if request.resolver_match.url_name == 'terms' %}active{% endif %}">
+                          <i class="nav-icon fas fa-layer-group" style="color: #ff3366;"></i>
+                          <p>Terms</p>
+                      </a>
+                  </li>
+                  <li class="nav-item">
+                      <a href="{% url 'subjects' %}" class="nav-link {% if request.resolver_match.url_name == 'subjects' %}active{% endif %}" >
+                          <i class="nav-icon fas fa-book" style="color: #33cc33;"></i>
+                          <p>Subjects</p>
+                      </a>
+                  </li>
+                  <li class="nav-item">
+                      <a href="{% url 'classes' %}" class="nav-link {% if request.resolver_match.url_name == 'classes' %}active{% endif %}">
+                          <i class="nav-icon fas fa-chalkboard" style="color: #cc3300;"></i>
+                          <p>Classes</p>
+                      </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{% url 'fee_settings' %}" class="nav-link {% if request.resolver_match.url_name == 'fee_settings' %}active{% endif %}" >
+                        <i class="nav-icon fas fa-cogs" style="color: #cc3300;"></i>
+                        <p>Fee Settings</p>
+                    </a>
+                </li>
+              </ul>
+          </li>
 
+
+          <li class="nav-header">Reports</li>
+          <li class="nav-item">
+              <a href="#" class="nav-link">
+                  <i class="nav-icon fas fa-chart-pie" style="color: #28a745;"></i>
+                  <p>Reports</p>
+              </a>
+          </li>
 
           <li class="nav-header">Settings</li>
           <li class="nav-item has-treeview {% if 'system-settings' in request.path %}menu-open{% endif %}">
@@ -578,7 +579,7 @@
                           <p>General Settings</p>
                       </a>
                   </li>
-                  {% comment %} <li class="nav-item">
+                  <li class="nav-item">
                       <a href="{% url 'academic_settings' %}" class="nav-link {% if request.resolver_match.url_name == 'academic_settings' %}active{% endif %}">
                           <i class="nav-icon fas fa-calendar-alt" style="color: #fd7e14;"></i>
                           <p>Academic Settings</p>
@@ -607,7 +608,7 @@
                           <i class="nav-icon fas fa-shield-alt" style="color: #17a2b8;"></i>
                           <p>Security & Logs</p>
                       </a>
-                  </li> {% endcomment %}
+                  </li>
               </ul>
           </li>
       </ul>
@@ -749,8 +750,8 @@
     $(window).on('load', function() {
       // Make sure all links with the active class have the correct styling
       $('.nav-link.active').css({
-        'background-color': '#1E3C72',
-        'color': '#ffc107',
+        'background-color': '#0B1B3D',
+        'color': '#D4AF37',
         'font-weight': 'bold'
       });
 

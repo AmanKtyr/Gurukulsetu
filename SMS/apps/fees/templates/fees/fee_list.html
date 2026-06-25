@@ -25,13 +25,13 @@
 {% block subtitle %}Manage student fees and payment records{% endblock subtitle %}
 
 {% block page-actions %}
-<a href="{% url 'fees:fee_list' %}" class="btn btn-outline-primary me-2">
+<a href="{% url 'fees:fee_list' %}" class="btn btn-outline-primary me-2 rounded-pill px-4 shadow-sm">
   <i class="fas fa-sync-alt me-1"></i> Refresh
 </a>
-<a href="{% url 'fees:all_transactions' %}" class="btn btn-outline-success me-2">
+<a href="{% url 'fees:all_transactions' %}" class="btn btn-outline-success me-2 rounded-pill px-4 shadow-sm">
   <i class="fas fa-exchange-alt me-1"></i> All Transactions
 </a>
-<button type="button" class="btn btn-primary" onclick="window.print();">
+<button type="button" class="btn btn-primary rounded-pill px-4 shadow" onclick="window.print();">
   <i class="fas fa-print me-1"></i> Print Report
 </button>
 {% endblock page-actions %}
@@ -46,18 +46,18 @@
     <div class="row g-4">
         <!-- Total Students -->
         <div class="col-xl-3 col-md-6">
-            <div class="card border-0 h-100" style="background: linear-gradient(135deg, #f8f9fa, #e9ecef);">
-                <div class="card-body">
+            <div class="card border-0 shadow-sm h-100 rounded-3" style="border-left: 4px solid #1E3C72 !important;">
+                <div class="card-body py-4">
                     <div class="d-flex align-items-center">
                         <div class="flex-shrink-0 me-3">
                             <div class="rounded-circle p-3 d-flex align-items-center justify-content-center"
-                                 style="width: 48px; height: 48px; background: linear-gradient(135deg, #1E3C72, #2A5298);">
-                                <i class="fas fa-users text-white"></i>
+                                 style="width: 52px; height: 52px; background: rgba(30, 60, 114, 0.1); color: #1E3C72;">
+                                <i class="fas fa-user-graduate fs-4"></i>
                             </div>
                         </div>
                         <div class="flex-grow-1">
-                            <h6 class="text-muted mb-1">Total Students</h6>
-                            <h2 class="mb-0" style="color: #1E3C72;">{{ students|length }}</h2>
+                            <h6 class="text-muted small mb-1 fw-bold text-uppercase">Total Students</h6>
+                            <h2 class="mb-0 fw-bold" style="color: #1E3C72;">{{ students|length }}</h2>
                         </div>
                     </div>
                 </div>
@@ -66,18 +66,18 @@
 
         <!-- Recent Payments -->
         <div class="col-xl-3 col-md-6">
-            <div class="card border-0 h-100" style="background: linear-gradient(135deg, #f8f9fa, #e9ecef);">
-                <div class="card-body">
+            <div class="card border-0 shadow-sm h-100 rounded-3" style="border-left: 4px solid #2ecc71 !important;">
+                <div class="card-body py-4">
                     <div class="d-flex align-items-center">
                         <div class="flex-shrink-0 me-3">
                             <div class="rounded-circle p-3 d-flex align-items-center justify-content-center"
-                                 style="width: 48px; height: 48px; background: linear-gradient(135deg, #2ecc71, #27ae60);">
-                                <i class="fas fa-check-circle text-white"></i>
+                                 style="width: 52px; height: 52px; background: rgba(46, 204, 113, 0.1); color: #27ae60;">
+                                <i class="fas fa-check-circle fs-4"></i>
                             </div>
                         </div>
                         <div class="flex-grow-1">
-                            <h6 class="text-muted mb-1">Recent Payments</h6>
-                            <h2 class="mb-0" style="color: #27ae60;">{{ recent_payments|length }}</h2>
+                            <h6 class="text-muted small mb-1 fw-bold text-uppercase">Recent Payments</h6>
+                            <h2 class="mb-0 fw-bold text-success">{{ recent_payments|length }}</h2>
                         </div>
                     </div>
                 </div>
@@ -86,18 +86,18 @@
 
         <!-- Pending Fees -->
         <div class="col-xl-3 col-md-6">
-            <div class="card border-0 h-100" style="background: linear-gradient(135deg, #f8f9fa, #e9ecef);">
-                <div class="card-body">
+            <div class="card border-0 shadow-sm h-100 rounded-3" style="border-left: 4px solid #ffc107 !important;">
+                <div class="card-body py-4">
                     <div class="d-flex align-items-center">
                         <div class="flex-shrink-0 me-3">
                             <div class="rounded-circle p-3 d-flex align-items-center justify-content-center"
-                                 style="width: 48px; height: 48px; background: linear-gradient(135deg, #f1c40f, #f39c12);">
-                                <i class="fas fa-exclamation-circle text-white"></i>
+                                 style="width: 52px; height: 52px; background: rgba(255, 193, 7, 0.1); color: #ff9800;">
+                                <i class="fas fa-exclamation-circle fs-4"></i>
                             </div>
                         </div>
                         <div class="flex-grow-1">
-                            <h6 class="text-muted mb-1">Pending Fees</h6>
-                            <h2 class="mb-0" style="color: #f39c12;">{{ students|length }}</h2>
+                            <h6 class="text-muted small mb-1 fw-bold text-uppercase">Pending Accounts</h6>
+                            <h2 class="mb-0 fw-bold text-warning">{{ students|length }}</h2>
                         </div>
                     </div>
                 </div>
@@ -106,18 +106,18 @@
 
         <!-- Today's Date -->
         <div class="col-xl-3 col-md-6">
-            <div class="card border-0 h-100" style="background: linear-gradient(135deg, #f8f9fa, #e9ecef);">
-                <div class="card-body">
+            <div class="card border-0 shadow-sm h-100 rounded-3" style="border-left: 4px solid #17a2b8 !important;">
+                <div class="card-body py-4">
                     <div class="d-flex align-items-center">
                         <div class="flex-shrink-0 me-3">
                             <div class="rounded-circle p-3 d-flex align-items-center justify-content-center"
-                                 style="width: 48px; height: 48px; background: linear-gradient(135deg, #3498db, #2980b9);">
-                                <i class="fas fa-calendar-alt text-white"></i>
+                                 style="width: 52px; height: 52px; background: rgba(23, 162, 184, 0.1); color: #17a2b8;">
+                                <i class="fas fa-calendar-alt fs-4"></i>
                             </div>
                         </div>
                         <div class="flex-grow-1">
-                            <h6 class="text-muted mb-1">Today's Date</h6>
-                            <h2 class="mb-0" style="color: #2980b9;">{{ today|date:"d M" }}</h2>
+                            <h6 class="text-muted small mb-1 fw-bold text-uppercase">Today's Date</h6>
+                            <h2 class="mb-0 fw-bold text-info">{{ today|date:"d M, Y" }}</h2>
                         </div>
                     </div>
                 </div>
@@ -165,84 +165,82 @@
         <div class="card-body p-0">
             <div class="table-responsive">
                 <table class="table table-hover table-striped mb-0">
-                    <thead class="table-primary">
+                    <thead class="table-light text-muted">
                         <tr>
-                            <th width="5%"><i class="fas fa-hashtag me-1"></i> S/N</th>
-                            <th width="20%"><i class="fas fa-user-graduate me-1"></i> Student Details</th>
-                            <th width="10%"><i class="fas fa-school me-1"></i> Class</th>
-                            <th width="15%"><i class="fas fa-money-check-alt me-1"></i> Fee Summary</th>
-                            <th width="15%"><i class="fas fa-chart-pie me-1"></i> Payment Status</th>
-                            <th width="20%"><i class="fas fa-cogs me-1"></i> Actions</th>
+                            <th class="ps-4 py-3" width="5%"><i class="fas fa-hashtag me-1"></i> S/N</th>
+                            <th class="py-3" width="20%"><i class="fas fa-user-graduate me-1"></i> Student Details</th>
+                            <th class="py-3" width="10%"><i class="fas fa-school me-1"></i> Class</th>
+                            <th class="py-3" width="15%"><i class="fas fa-money-check-alt me-1"></i> Fee Summary</th>
+                            <th class="py-3" width="15%"><i class="fas fa-chart-pie me-1"></i> Payment Status</th>
+                            <th class="pe-4 py-3 text-end" width="20%"><i class="fas fa-cogs me-1"></i> Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for student in students %}
-                        <tr class="{% if student.total_pending > 0 %}table-warning{% endif %}">
-                            <td class="text-center">{{ forloop.counter }}</td>
-                            <td>
+                        <tr class="border-bottom {% if student.total_pending > 0 %}bg-warning bg-opacity-10{% endif %}">
+                            <td class="ps-4 py-3 text-muted fw-bold">{{ forloop.counter }}</td>
+                            <td class="py-3">
                                 <div class="d-flex align-items-center">
-                                    <div class="rounded-circle bg-primary text-white me-3 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; font-size: 16px;">
+                                    <div class="rounded-circle text-white me-3 d-flex align-items-center justify-content-center shadow-sm" style="width: 40px; height: 40px; font-size: 16px; background-color: {% cycle '#4e73df' '#1cc88a' '#36b9cc' '#f6c23e' '#e74a3b' %};">
                                         {{ student.fullname|slice:":1" }}
                                     </div>
                                     <div>
-                                        <h6 class="mb-0">{{ student.fullname }}</h6>
-                                        <small class="text-muted">{{ student.registration_number }}</small>
+                                        <h6 class="mb-0 fw-bold text-dark">{{ student.fullname }}</h6>
+                                        <small class="text-muted font-monospace"><i class="fas fa-id-card me-1"></i>{{ student.registration_number }}</small>
                                     </div>
                                 </div>
                             </td>
-                            <td>
+                            <td class="py-3">
                                 <div>
-                                    <span class="badge bg-light text-dark border">Class {{ student.current_class }}</span>
+                                    <span class="badge bg-light text-dark border mb-1">Class {{ student.current_class }}</span><br>
                                     <span class="badge bg-light text-dark border">Section {{ student.section }}</span>
                                 </div>
                             </td>
-                            <td>
-                                <div class="d-flex flex-column">
-                                    <div class="mb-1"><span class="text-muted">Total:</span> <span class="fw-bold">₹{{ student.total_fee|default:"0.00" }}</span></div>
-                                    <div class="mb-1"><span class="text-muted">Paid:</span> <span class="text-success fw-bold">₹{{ student.paid_fee|default:"0.00" }}</span></div>
-                                    <div><span class="text-muted">Due:</span> <span class="{% if student.total_pending > 0 %}text-danger{% else %}text-success{% endif %} fw-bold">₹{{ student.total_pending|default:"0.00" }}</span></div>
+                            <td class="py-3">
+                                <div class="d-flex flex-column small">
+                                    <div class="mb-1 d-flex justify-content-between"><span class="text-muted">Total:</span> <span class="fw-bold">₹{{ student.total_fee|default:"0.00"|floatformat:2 }}</span></div>
+                                    <div class="mb-1 d-flex justify-content-between"><span class="text-muted">Paid:</span> <span class="text-success fw-bold">₹{{ student.paid_fee|default:"0.00"|floatformat:2 }}</span></div>
+                                    <div class="d-flex justify-content-between border-top pt-1 mt-1"><span class="text-muted fw-bold">Due:</span> <span class="{% if student.total_pending > 0 %}text-danger{% else %}text-success{% endif %} fw-bold">₹{{ student.total_pending|default:"0.00"|floatformat:2 }}</span></div>
                                 </div>
                             </td>
-                            <td>
+                            <td class="py-3">
                                 {% if student.total_pending > 0 %}
-                                <div class="d-flex align-items-center">
-                                    <div class="progress flex-grow-1 me-2" style="height: 8px;">
+                                <div class="d-flex align-items-center mb-1">
+                                    <div class="progress flex-grow-1 me-2 shadow-sm" style="height: 6px; background-color: #f1f3f9;">
                                         {% with paid=student.paid_fee|default:0 %}
                                         {% with total=student.total_fee|default:1 %}
                                         {% if total > 0 %}
                                         {% widthratio paid total 100 as percentage %}
-                                        <div class="progress-bar bg-success" role="progressbar" style="width: {{ percentage }}%" aria-valuenow="{{ percentage }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <div class="progress-bar bg-success rounded-pill" role="progressbar" style="width: {{ percentage }}%" aria-valuenow="{{ percentage }}" aria-valuemin="0" aria-valuemax="100"></div>
                                         {% endif %}
                                         {% endwith %}
                                         {% endwith %}
                                     </div>
-                                    <span class="badge bg-warning text-dark">Pending</span>
+                                    <span class="badge bg-warning text-dark px-2 py-1 shadow-sm"><i class="fas fa-exclamation-circle me-1"></i>Pending</span>
                                 </div>
                                 {% else %}
-                                <div class="d-flex align-items-center">
-                                    <div class="progress flex-grow-1 me-2" style="height: 8px;">
-                                        <div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                <div class="d-flex align-items-center mb-1">
+                                    <div class="progress flex-grow-1 me-2 shadow-sm" style="height: 6px; background-color: #f1f3f9;">
+                                        <div class="progress-bar bg-success rounded-pill" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
-                                    <span class="badge bg-success">Paid</span>
+                                    <span class="badge bg-success px-2 py-1 shadow-sm"><i class="fas fa-check-circle me-1"></i>Cleared</span>
                                 </div>
                                 {% endif %}
                             </td>
-                            <td>
-                                <div class="d-flex">
-                                    <a href="{% url 'fees:add_fee_payment' student.id %}" class="btn btn-sm btn-success me-2" title="Add Payment">
+                            <td class="pe-4 py-3 text-end">
+                                <div class="btn-group shadow-sm">
+                                    <a href="{% url 'fees:add_fee_payment' student.id %}" class="btn btn-sm btn-success" title="Add Payment">
                                         <i class="fas fa-credit-card me-1"></i> Pay
                                     </a>
-                                    <div class="dropdown">
-                                        <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="actionDropdown{{ student.id }}" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-h"></i>
-                                        </button>
-                                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="actionDropdown{{ student.id }}">
-                                            <li><a class="dropdown-item" href="{% url 'fees:student_fee_history' student.id %}"><i class="fas fa-history me-2"></i>Payment History</a></li>
-                                            <li><a class="dropdown-item" href="{% url 'student-detail' pk=student.id %}"><i class="fas fa-user me-2"></i>View Profile</a></li>
-                                            <li><hr class="dropdown-divider"></li>
-                                            <li><a class="dropdown-item" href="{% url 'fees:generate_receipt' student.id %}"><i class="fas fa-file-invoice me-2"></i>Generate Receipt</a></li>
-                                        </ul>
-                                    </div>
+                                    <button class="btn btn-sm btn-light border dropdown-toggle dropdown-toggle-split" type="button" id="actionDropdown{{ student.id }}" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <span class="visually-hidden">Toggle Dropdown</span>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end border-0 shadow" aria-labelledby="actionDropdown{{ student.id }}">
+                                        <li><a class="dropdown-item py-2" href="{% url 'fees:student_fee_history' student.id %}"><i class="fas fa-history text-info me-2"></i>Payment History</a></li>
+                                        <li><a class="dropdown-item py-2" href="{% url 'student-detail' pk=student.id %}"><i class="fas fa-user-circle text-primary me-2"></i>View Profile</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item py-2 text-success" href="{% url 'fees:generate_receipt' student.id %}"><i class="fas fa-file-invoice me-2"></i>Generate Receipt</a></li>
+                                    </ul>
                                 </div>
                             </td>
                         </tr>
@@ -290,78 +288,76 @@
         <div class="card-body p-0">
             <div class="table-responsive">
                 <table class="table table-hover table-striped mb-0">
-                    <thead class="table-primary">
+                    <thead class="table-light text-muted">
                         <tr>
-                            <th width="5%"><i class="fas fa-hashtag me-1"></i> ID</th>
-                            <th width="20%"><i class="fas fa-user-graduate me-1"></i> Student</th>
-                            <th width="15%"><i class="fas fa-tag me-1"></i> Transaction Details</th>
-                            <th width="15%"><i class="fas fa-money-bill-wave me-1"></i> Amount</th>
-                            <th width="15%"><i class="fas fa-calendar-alt me-1"></i> Date & Method</th>
-                            <th width="10%"><i class="fas fa-check-circle me-1"></i> Status</th>
-                            <th width="20%"><i class="fas fa-cogs me-1"></i> Actions</th>
+                            <th class="ps-4 py-3" width="5%"><i class="fas fa-hashtag me-1"></i> ID</th>
+                            <th class="py-3" width="20%"><i class="fas fa-user-graduate me-1"></i> Student</th>
+                            <th class="py-3" width="15%"><i class="fas fa-tag me-1"></i> Transaction Details</th>
+                            <th class="py-3 text-end" width="15%"><i class="fas fa-money-bill-wave me-1"></i> Amount</th>
+                            <th class="py-3" width="15%"><i class="fas fa-calendar-alt me-1"></i> Date & Method</th>
+                            <th class="py-3 text-center" width="10%"><i class="fas fa-check-circle me-1"></i> Status</th>
+                            <th class="pe-4 py-3 text-end" width="20%"><i class="fas fa-cogs me-1"></i> Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for payment in recent_payments %}
-                        <tr>
-                            <td class="text-center">{{ forloop.counter }}</td>
-                            <td>
+                        <tr class="border-bottom">
+                            <td class="ps-4 py-3 text-muted fw-bold">{{ forloop.counter }}</td>
+                            <td class="py-3">
                                 <div class="d-flex align-items-center">
-                                    <div class="rounded-circle bg-{% if payment.status == 'Paid' %}success{% else %}warning{% endif %} text-white me-3 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; font-size: 16px;">
+                                    <div class="rounded-circle text-white me-3 d-flex align-items-center justify-content-center shadow-sm" style="width: 40px; height: 40px; font-size: 16px; background-color: {% cycle '#36b9cc' '#f6c23e' '#e74a3b' '#4e73df' '#1cc88a' %};">
                                         {{ payment.student.fullname|slice:":1" }}
                                     </div>
                                     <div>
-                                        <h6 class="mb-0">{{ payment.student.fullname }}</h6>
-                                        <div class="d-flex align-items-center">
-                                            <small class="text-muted me-2">{{ payment.student.registration_number }}</small>
-                                            <span class="badge bg-light text-dark border">{{ payment.student.current_class }} {{ payment.student.section }}</span>
+                                        <h6 class="mb-0 fw-bold text-dark">{{ payment.student.fullname }}</h6>
+                                        <div class="d-flex align-items-center mt-1">
+                                            <small class="text-muted me-2 font-monospace"><i class="fas fa-id-card me-1"></i>{{ payment.student.registration_number }}</small>
+                                            <span class="badge bg-light text-dark border" style="font-size: 0.65rem;">{{ payment.student.current_class }} {{ payment.student.section }}</span>
                                         </div>
                                     </div>
                                 </div>
                             </td>
-                            <td>
+                            <td class="py-3">
                                 <div class="d-flex flex-column">
-                                    <span class="badge bg-info mb-1">{{ payment.fee_category }}</span>
-                                    <small class="text-muted">Transaction #{{ payment.id }}</small>
+                                    <span class="badge bg-info bg-opacity-10 text-info border border-info-subtle px-2 py-1 mb-1 d-inline-block" style="width: max-content;">{{ payment.fee_category }}</span>
+                                    <small class="text-muted font-monospace">TXN #{{ payment.id }}</small>
                                 </div>
                             </td>
-                            <td>
-                                <h5 class="mb-0 fw-bold">₹{{ payment.amount }}</h5>
-                                <small class="text-{% if payment.status == 'Paid' %}success{% else %}warning{% endif %}">
+                            <td class="py-3 text-end">
+                                <h5 class="mb-0 fw-bold text-success">₹{{ payment.amount|floatformat:2 }}</h5>
+                                <small class="text-{% if payment.status == 'Paid' %}success{% else %}warning{% endif %} fw-medium" style="font-size: 0.7rem;">
                                     {% if payment.status == 'Paid' %}Payment Complete{% else %}Pending Confirmation{% endif %}
                                 </small>
                             </td>
-                            <td>
+                            <td class="py-3">
                                 <div class="d-flex flex-column">
-                                    <span>{{ payment.date|date:"d M Y" }}</span>
-                                    <span class="badge {% if payment.payment_method == 'Cash' %}bg-success{% elif payment.payment_method == 'Online' %}bg-primary{% else %}bg-info{% endif %} mt-1">
+                                    <span class="fw-medium text-dark">{{ payment.date|date:"d M Y" }}</span>
+                                    <span class="badge bg-secondary bg-opacity-10 text-secondary border border-secondary-subtle mt-1 px-2 py-1" style="width: max-content;">
                                         <i class="fas {% if payment.payment_method == 'Cash' %}fa-money-bill-wave{% elif payment.payment_method == 'Online' %}fa-globe{% else %}fa-university{% endif %} me-1"></i>
                                         {{ payment.payment_method }}
                                     </span>
                                 </div>
                             </td>
-                            <td>
-                                <span class="badge {% if payment.status == 'Paid' %}bg-success{% else %}bg-warning{% endif %} px-3 py-2">
+                            <td class="py-3 text-center">
+                                <span class="badge {% if payment.status == 'Paid' %}bg-success{% else %}bg-warning text-dark{% endif %} px-2 py-1 shadow-sm">
                                     {% if payment.status == 'Paid' %}<i class="fas fa-check-circle me-1"></i>{% else %}<i class="fas fa-clock me-1"></i>{% endif %}
                                     {{ payment.status }}
                                 </span>
                             </td>
-                            <td>
-                                <div class="d-flex">
-                                    <a href="{% url 'fees:generate_receipt' payment.id %}" class="btn btn-sm btn-primary me-2" target="_blank" title="View Receipt">
+                            <td class="pe-4 py-3 text-end">
+                                <div class="btn-group shadow-sm">
+                                    <a href="{% url 'fees:generate_receipt' payment.id %}" class="btn btn-sm btn-light border text-primary" target="_blank" data-bs-toggle="tooltip" title="View Receipt">
                                         <i class="fas fa-file-invoice me-1"></i> Receipt
                                     </a>
-                                    <div class="dropdown">
-                                        <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="paymentDropdown{{ payment.id }}" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-h"></i>
-                                        </button>
-                                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="paymentDropdown{{ payment.id }}">
-                                            <li><a class="dropdown-item" href="{% url 'fees:student_fee_history' payment.student.id %}"><i class="fas fa-history me-2"></i>Payment History</a></li>
-                                            <li><a class="dropdown-item" href="{% url 'student-detail' pk=payment.student.id %}"><i class="fas fa-user me-2"></i>Student Profile</a></li>
-                                            <li><hr class="dropdown-divider"></li>
-                                            <li><a class="dropdown-item" href="{% url 'fees:generate_receipt' payment.id %}?format=html" target="_blank"><i class="fas fa-print me-2"></i>Preview Receipt</a></li>
-                                        </ul>
-                                    </div>
+                                    <button class="btn btn-sm btn-light border dropdown-toggle dropdown-toggle-split" type="button" id="paymentDropdown{{ payment.id }}" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <span class="visually-hidden">Toggle Dropdown</span>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end border-0 shadow" aria-labelledby="paymentDropdown{{ payment.id }}">
+                                        <li><a class="dropdown-item py-2" href="{% url 'fees:student_fee_history' payment.student.id %}"><i class="fas fa-history text-info me-2"></i>Payment History</a></li>
+                                        <li><a class="dropdown-item py-2" href="{% url 'student-detail' pk=payment.student.id %}"><i class="fas fa-user-circle text-primary me-2"></i>Student Profile</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item py-2 text-success" href="{% url 'fees:generate_receipt' payment.id %}?format=html" target="_blank"><i class="fas fa-print me-2"></i>Preview Receipt</a></li>
+                                    </ul>
                                 </div>
                             </td>
                         </tr>
@@ -405,7 +401,7 @@ document.addEventListener('DOMContentLoaded', function() {
         sectionSelect.innerHTML = '<option value="">-- All Sections --</option>';
 
         if(classId) {
-            fetch(`/api/get-sections/${classId}/`)
+            fetch(`/student/api/class/${classId}/sections/`)
                 .then(response => response.json())
                 .then(data => {
                     data.sections.forEach(section => {

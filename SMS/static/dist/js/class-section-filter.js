@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             if (classId) {
                 // Fetch sections for this class
-                fetch(`/api/get-sections/${classId}/`)
+                fetch(`/student/api/class/${classId}/sections/`)
                     .then(response => response.json())
                     .then(data => {
                         // Reset dropdown with default option

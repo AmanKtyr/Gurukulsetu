@@ -30,42 +30,64 @@
 {% block subtitle %}Record a new fee payment for {{ student.fullname }}{% endblock subtitle %}
 
 {% block content %}
-<div class="container mt-4">
-    <div class="row">
+<div class="container-fluid mt-4 mb-5">
+    <div class="row g-4">
         <!-- Left Column - Pending Fees -->
-        <div class="col-md-5">
-            <div class="card shadow mb-4">
-                <div class="card-header bg-danger text-white">
-                    <h4 class="mb-0"><i class="fas fa-money-bill-wave me-2"></i>Pending Fees</h4>
+        <div class="col-lg-5">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-header bg-gradient-danger text-white py-3 border-0" style="background: linear-gradient(135deg, #e74a3b, #c0392b);">
+                    <h5 class="mb-0 fw-bold"><i class="fas fa-money-bill-wave me-2"></i>Pending Dues</h5>
                 </div>
-                <div class="card-body">
+                <div class="card-body bg-light">
                     {% if pending_fees %}
-                    <div class="alert alert-info">
-                        <i class="fas fa-info-circle me-2"></i> Total pending amount: <strong>₹{{ total_pending|floatformat:2 }}</strong>
+                    <div class="alert alert-danger border-left-danger shadow-sm py-3 mb-4 d-flex align-items-center">
+                        <i class="fas fa-exclamation-circle fa-2x text-danger me-3"></i>
+                        <div>
+                            <h6 class="alert-heading mb-1 text-danger fw-bold">Total Outstanding</h6>
+                            <h3 class="mb-0 text-danger">₹{{ total_pending|floatformat:2 }}</h3>
+                        </div>
                     </div>
-                    <div class="table-responsive">
-                        <table class="table table-hover table-bordered">
-                            <thead class="table-light">
+                    
+                    <h6 class="text-muted fw-bold text-uppercase mb-3">Due Breakdown</h6>
+                    <div class="table-responsive rounded shadow-sm bg-white">
+                        <table class="table table-hover table-borderless align-middle mb-0">
+                            <thead class="table-light text-muted">
                                 <tr>
-                                    <th>Fee Type</th>
-                                    <th>Amount (₹)</th>
-                                    <th>Due Date</th>
+                                    <th class="py-3 px-4">Fee Category</th>
+                                    <th class="py-3 px-4 text-end">Amount</th>
+                                    <th class="py-3 px-4 text-center">Due Date</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {% for fee in pending_fees %}
-                                <tr>
-                                    <td>{{ fee.fee_type }}</td>
-                                    <td>{{ fee.get_discounted_amount|floatformat:2 }}</td>
-                                    <td>{{ fee.due_date|date:"d M Y" }}</td>
+                                <tr class="border-bottom">
+                                    <td class="py-3 px-4">
+                                        <div class="d-flex align-items-center">
+                                            <div class="rounded-circle bg-light d-flex align-items-center justify-content-center me-3" style="width: 35px; height: 35px;">
+                                                <i class="fas fa-file-invoice text-primary"></i>
+                                            </div>
+                                            <span class="fw-bold">{{ fee.fee_type }}</span>
+                                        </div>
+                                    </td>
+                                    <td class="py-3 px-4 text-end fw-bold text-danger">
+                                        ₹{{ fee.get_discounted_amount|floatformat:2 }}
+                                    </td>
+                                    <td class="py-3 px-4 text-center">
+                                        <span class="badge bg-light text-dark border">{{ fee.due_date|date:"d M Y" }}</span>
+                                    </td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
                         </table>
                     </div>
                     {% else %}
-                    <div class="alert alert-success">
-                        <i class="fas fa-check-circle me-2"></i> No pending fees at this time.
+                    <div class="text-center py-5">
+                        <div class="mb-4">
+                            <i class="fas fa-check-circle fa-4x text-success" style="opacity: 0.8;"></i>
+                        </div>
+                        <h4 class="text-success fw-bold">All Cleared!</h4>
+                        <p class="text-muted">There are no pending fees for this student.</p>
+                        <a href="{% url 'fees:student_fee_history' student.id %}" class="btn btn-outline-success mt-2 rounded-pill px-4">View History</a>
                     </div>
                     {% endif %}
                 </div>
@@ -73,70 +95,97 @@
         </div>
 
         <!-- Right Column - Payment Form -->
-        <div class="col-md-7">
-            <div class="card shadow">
-                <div class="card-header bg-primary text-white">
-                    <h4 class="mb-0"><i class="fas fa-credit-card me-2"></i>Add Fee Payment for {{ student.fullname }}</h4>
+        <div class="col-lg-7">
+            <div class="card shadow border-0 h-100">
+                <div class="card-header bg-gradient-primary text-white py-3 border-0" style="background: linear-gradient(135deg, #1E3C72, #2A5298);">
+                    <h5 class="mb-0 fw-bold"><i class="fas fa-credit-card me-2"></i>Process New Payment</h5>
                 </div>
-                <div class="card-body">
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <p><strong>Class:</strong> {{ student.current_class }}</p>
-                            <p><strong>Registration Number:</strong> {{ student.registration_number }}</p>
+                <div class="card-body p-4">
+                    <!-- Student Info Card -->
+                    <div class="d-flex align-items-center mb-4 p-3 rounded bg-light border-start border-4 border-primary shadow-sm">
+                        <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center me-3 shadow" style="width: 50px; height: 50px; font-size: 20px;">
+                            {{ student.fullname|slice:":1" }}
                         </div>
-                        <div class="col-md-6">
-                            <p><strong>Section:</strong> {{ student.section }}</p>
+                        <div class="flex-grow-1">
+                            <h5 class="mb-1 fw-bold text-dark">{{ student.fullname }}</h5>
+                            <div class="d-flex text-muted small">
+                                <span class="me-3"><i class="fas fa-id-card me-1"></i> {{ student.registration_number }}</span>
+                                <span class="me-3"><i class="fas fa-school me-1"></i> Class {{ student.current_class }}</span>
+                                <span><i class="fas fa-layer-group me-1"></i> Sec {{ student.section }}</span>
+                            </div>
                         </div>
                     </div>
 
-                    <form method="POST">
+                    <form method="POST" class="needs-validation" novalidate>
                         {% csrf_token %}
-                        <div class="mb-3">
-                            <label for="amount" class="form-label">Amount (₹)</label>
-                            <input type="number" class="form-control" id="amount" name="amount" required step="0.01" value="{{ total_pending|floatformat:2 }}">
+                        
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <label for="amount" class="form-label fw-bold text-muted mb-2">Payment Amount <span class="text-danger">*</span></label>
+                                <div class="input-group input-group-lg shadow-sm">
+                                    <span class="input-group-text bg-white border-end-0 text-success"><i class="fas fa-rupee-sign"></i></span>
+                                    <input type="number" class="form-control border-start-0 fw-bold text-success" id="amount" name="amount" required step="0.01" value="{{ total_pending|floatformat:2 }}" placeholder="0.00">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="payment_method" class="form-label fw-bold text-muted mb-2">Payment Mode <span class="text-danger">*</span></label>
+                                <select class="form-select form-select-lg shadow-sm" id="payment_method" name="payment_method" required onchange="toggleTransactionId()">
+                                    <option value="" selected disabled>Select Mode...</option>
+                                    <option value="Cash">Cash (In-person)</option>
+                                    <option value="Online">Online Transfer</option>
+                                    <option value="Bank Transfer">Bank Deposit / Cheque</option>
+                                </select>
+                            </div>
                         </div>
 
-                        <div class="mb-3">
-                            <label for="payment_method" class="form-label">Payment Method</label>
-                            <select class="form-select" id="payment_method" name="payment_method" required onchange="toggleTransactionId()">
-                                <option value="">Select Payment Method</option>
-                                <option value="Cash">Cash</option>
-                                <option value="Online">Online</option>
-                                <option value="Bank Transfer">Bank Transfer</option>
-                            </select>
+                        <div class="mb-4" id="transaction_id_div" style="display: none; transition: all 0.3s ease;">
+                            <label for="transaction_id" class="form-label fw-bold text-muted mb-2">Transaction Reference / UTR Number <span class="text-danger">*</span></label>
+                            <div class="input-group shadow-sm">
+                                <span class="input-group-text bg-white"><i class="fas fa-barcode"></i></span>
+                                <input type="text" class="form-control" id="transaction_id" name="transaction_id" placeholder="e.g. TXN123456789">
+                            </div>
                         </div>
 
-                        <div class="mb-3" id="transaction_id_div" style="display: none;">
-                            <label for="transaction_id" class="form-label">Transaction ID</label>
-                            <input type="text" class="form-control" id="transaction_id" name="transaction_id" placeholder="Enter transaction ID for online or bank transfer">
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <label for="fee_category" class="form-label fw-bold text-muted mb-2">Fund Category <span class="text-danger">*</span></label>
+                                <select class="form-select shadow-sm" id="fee_category" name="fee_category" required>
+                                    <option value="" selected disabled>Select Category...</option>
+                                    <option value="Regular">Academic / Regular Fee</option>
+                                    <option value="Transport">Transport / Bus Fee</option>
+                                    <option value="Library">Library Fee</option>
+                                    <option value="Laboratory">Laboratory Fee</option>
+                                    <option value="Hostel">Hostel Fee</option>
+                                    <option value="Other">Other Miscellaneous</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="fee_type" class="form-label fw-bold text-muted mb-2">Apply To Specific Due (Optional)</label>
+                                <select class="form-select shadow-sm" id="fee_type" name="fee_type">
+                                    <option value="all" selected>Apply to All Pending Balances</option>
+                                    {% for fee in pending_fees %}
+                                    <option value="{{ fee.id }}">{{ fee.fee_type }} (Due: ₹{{ fee.get_discounted_amount|floatformat:2 }})</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="alert alert-warning border-left-warning bg-light d-flex align-items-center mb-4">
+                            <i class="fas fa-info-circle text-warning fa-2x me-3"></i>
+                            <div class="small text-muted">
+                                Verify all details before submitting. Once processed, an official receipt will be generated and the student's ledger will be updated immediately.
+                            </div>
                         </div>
 
-                        <div class="mb-3">
-                            <label for="fee_category" class="form-label">Fee Category</label>
-                            <select class="form-select" id="fee_category" name="fee_category" required>
-                                <option value="">Select Fee Category</option>
-                                <option value="Regular">Regular Fee</option>
-                                <option value="Transport">Transport Fee</option>
-                                <option value="Library">Library Fee</option>
-                                <option value="Laboratory">Laboratory Fee</option>
-                                <option value="Other">Other</option>
-                            </select>
-                        </div>
+                        <hr class="my-4">
 
-                        <div class="mb-3">
-                            <label for="fee_type" class="form-label">Pay for Specific Fee (Optional)</label>
-                            <select class="form-select" id="fee_type" name="fee_type">
-                                <option value="all">Pay for all pending fees</option>
-                                {% for fee in pending_fees %}
-                                <option value="{{ fee.id }}">{{ fee.fee_type }} - ₹{{ fee.get_discounted_amount|floatformat:2 }}</option>
-                                {% endfor %}
-                            </select>
-                            <small class="text-muted">If you select a specific fee, the payment will be applied to that fee only.</small>
-                        </div>
-
-                        <div class="text-end">
-                            <a href="{% url 'student-detail' pk=student.id %}" class="btn btn-secondary">Cancel</a>
-                            <button type="submit" class="btn btn-primary">Submit Payment</button>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <a href="{% url 'fees:fee_list' %}" class="btn btn-light border px-4 shadow-sm text-secondary rounded-pill">
+                                <i class="fas fa-arrow-left me-2"></i> Cancel
+                            </a>
+                            <button type="submit" class="btn btn-primary px-5 shadow rounded-pill btn-lg d-flex align-items-center">
+                                <i class="fas fa-check-circle me-2"></i> Process Payment
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -144,6 +193,22 @@
         </div>
     </div>
 </div>
+
+<style>
+    .border-left-danger {
+        border-left: 4px solid #e74a3b !important;
+    }
+    .border-left-warning {
+        border-left: 4px solid #f6c23e !important;
+    }
+    .form-control:focus, .form-select:focus {
+        border-color: #1E3C72;
+        box-shadow: 0 0 0 0.25rem rgba(30, 60, 114, 0.25);
+    }
+    .card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+</style>
 {% endblock %}
 
 {% block extra_js %}
@@ -154,10 +219,10 @@
         const transactionIdInput = document.getElementById('transaction_id');
 
         if (paymentMethod === 'Online' || paymentMethod === 'Bank Transfer') {
-            transactionIdDiv.style.display = 'block';
+            $(transactionIdDiv).slideDown(300);
             transactionIdInput.required = true;
         } else {
-            transactionIdDiv.style.display = 'none';
+            $(transactionIdDiv).slideUp(300);
             transactionIdInput.required = false;
             transactionIdInput.value = '';
         }
@@ -166,6 +231,18 @@
     // Call the function on page load to handle initial state
     document.addEventListener('DOMContentLoaded', function() {
         toggleTransactionId();
+        
+        // Basic form validation
+        const forms = document.querySelectorAll('.needs-validation');
+        Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
     });
 </script>
 {% endblock %}
