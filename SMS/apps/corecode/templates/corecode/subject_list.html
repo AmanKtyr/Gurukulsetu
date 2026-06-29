@@ -723,7 +723,7 @@
 
       // Make AJAX call to assign subject
       $.ajax({
-        url: '/api/assign-subject/',
+        url: '/dashboard/api/assign-subject/',
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify({
@@ -816,7 +816,7 @@
         selectedClasses.forEach(function(classId) {
           // Make AJAX call to assign subject
           $.ajax({
-            url: '/api/assign-subject/',
+            url: '/dashboard/api/assign-subject/',
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify({
@@ -894,7 +894,7 @@
 
         // Make AJAX call to get class count and data
         $.ajax({
-          url: '/subject/' + subjectId + '/data/',
+          url: '/dashboard/subject/' + subjectId + '/data/',
           type: 'GET',
           success: function(data) {
             console.log('Received data for subject ID:', subjectId, data);
@@ -1143,7 +1143,7 @@
 
       // Make AJAX call to get classes
       $.ajax({
-        url: '/subject/' + subjectId + '/data/',
+        url: '/dashboard/subject/' + subjectId + '/data/',
         type: 'GET',
         success: function(data) {
           var classesHtml = '<div class="row">';

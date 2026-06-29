@@ -337,13 +337,15 @@
       if (classId) {
         // Fetch sections for this class
         $.ajax({
-          url: '/exams/api/get-sections/' + classId + '/',
+          url: '/student/api/class/' + classId + '/sections/',
           type: 'GET',
           success: function(data) {
             var options = '<option value="">-- All Sections --</option>';
-            $.each(data, function(index, section) {
-              options += '<option value="' + section.id + '">' + section.name + '</option>';
-            });
+            if (data.sections && data.sections.length > 0) {
+              $.each(data.sections, function(index, section) {
+                options += '<option value="' + section.id + '">' + section.name + '</option>';
+              });
+            }
             $('#section').html(options);
           },
           error: function(xhr, status, error) {

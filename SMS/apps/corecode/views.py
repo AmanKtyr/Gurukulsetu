@@ -1276,7 +1276,7 @@ def get_all_teachers(request):
     """API endpoint to get all teachers"""
     try:
         from apps.staffs.models import Staff
-        teachers = Staff.objects.filter(current_status='active').order_by('surname')
+        teachers = Staff.objects.filter(current_status='active').order_by('fullname')
         teachers_list = [{
             'id': teacher.id,
             'name': teacher.fullname

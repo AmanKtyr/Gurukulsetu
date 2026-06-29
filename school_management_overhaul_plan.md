@@ -4,10 +4,10 @@ This document outlines the detailed workflow to transform the Gurukulsetu SMS pr
 
 ---
 
-## 📋 Phase 1: Authentication & Layout Styling Fixes (Immediate Priority)
-- [ ] **Fix Login Page Checkbox Alignment:** Adjust the custom CSS in `login-page.css` and the HTML structure in `login.html` to align the "Remember Me" checkbox next to its label instead of rendering it as full-width and pushing the text to a new line.
-- [ ] **Sidebar Sub-menu Indentation:** Fix `sidebar-fix.css` to add proper indentation (e.g., 15-20px left margin/padding) for sub-menu items (under treeview lists) to establish a clear visual hierarchy.
-- [ ] **Dashboard Chart Data Fallback:** Ensure that if no database entries exist for attendance or fee collections, the chart logic in `IndexView` provides dummy but realistic-looking data, or renders a "No Data Available" placeholder message to prevent empty grids from appearing.
+## 📋 Phase 1: Authentication & Layout Styling Fixes (Completed)
+- [x] **Fix Login Page Checkbox Alignment:** Adjust the custom CSS in `login-page.css` and the HTML structure in `login.html` to align the "Remember Me" checkbox next to its label instead of rendering it as full-width and pushing the text to a new line.
+- [x] **Sidebar Sub-menu Indentation:** Fix `sidebar-fix.css` to add proper indentation (e.g., 15-20px left margin/padding) for sub-menu items (under treeview lists) to establish a clear visual hierarchy.
+- [x] **Dashboard Chart Data Fallback:** Ensure that if no database entries exist for attendance or fee collections, the chart logic in `IndexView` provides dummy but realistic-looking data, or renders a "No Data Available" placeholder message to prevent empty grids from appearing.
 
 ---
 

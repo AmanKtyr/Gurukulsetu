@@ -253,13 +253,30 @@ body.sidebar-collapse .main-sidebar:hover .nav-sidebar .nav-link p,
   transition: all 0.3s ease !important;
 }
 
+/* HTML, body, and wrapper overrides to force natural scrolling */
+html, body {
+  height: auto !important;
+  min-height: 100vh !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+
+.wrapper {
+  height: auto !important;
+  min-height: 100vh !important;
+  overflow-y: visible !important;
+  position: relative !important;
+}
+
 /* Fix for content wrapper */
 .content-wrapper {
   margin-left: 250px !important;
   width: calc(100% - 250px) !important;
-  padding-bottom: 60px !important;
+  padding-bottom: 100px !important; /* Extra padding to prevent footer overlapping content */
   min-height: calc(100vh - 60px) !important;
   transition: margin-left 0.3s ease-in-out, width 0.3s ease-in-out !important;
+  height: auto !important;
+  overflow: visible !important;
 }
 
 /* When sidebar is collapsed */
@@ -281,6 +298,7 @@ body.sidebar-collapse .content-wrapper,
   padding: 15px 20px !important;
   z-index: 999 !important;
   display: block !important;
+  margin-top: 20px !important;
 }
 
 /* Footer when sidebar is collapsed */

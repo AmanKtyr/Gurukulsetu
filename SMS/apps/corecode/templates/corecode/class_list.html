@@ -721,8 +721,8 @@
     // Load student counts, sections, and class teachers for each class
     loadClassData();
 
-    // Assign Teacher button click
-    $('.assign-teacher-btn').on('click', function() {
+    // Assign Teacher button click (delegated for dynamic content)
+    $(document).on('click', '.assign-teacher-btn', function() {
       var classId = $(this).data('class-id');
       var className = $(this).data('class-name');
 
@@ -741,8 +741,8 @@
       assignTeacherModal.show();
     });
 
-    // Manage Sections button click
-    $('.manage-sections-btn').on('click', function() {
+    // Manage Sections button click (delegated for dynamic content)
+    $(document).on('click', '.manage-sections-btn', function() {
       var classId = $(this).data('class-id');
       var className = $(this).data('class-name');
 
@@ -831,7 +831,7 @@
 
       // Make AJAX call to assign teacher
       $.ajax({
-        url: '/api/assign-class-teacher/',
+        url: '/dashboard/api/assign-class-teacher/',
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify({
@@ -878,7 +878,7 @@
 
       // Make AJAX call to get sections
       $.ajax({
-        url: '/api/get-sections/' + classId + '/',
+        url: '/dashboard/api/get-sections/' + classId + '/',
         type: 'GET',
         success: function(data) {
           if (data.sections && data.sections.length > 0) {
@@ -902,7 +902,7 @@
 
       // Make AJAX call to get teachers
       $.ajax({
-        url: '/api/teachers/',
+        url: '/dashboard/api/teachers/',
         type: 'GET',
         success: function(data) {
           if (data && data.length > 0) {
@@ -924,7 +924,7 @@
 
         // Make AJAX call to get student count and sections
         $.ajax({
-          url: '/class/' + classId + '/data/',
+          url: '/dashboard/class/' + classId + '/data/',
           type: 'GET',
           success: function(data) {
             // Update student count
@@ -956,7 +956,7 @@
     // Function to load class teacher
     function loadClassTeacher(classId, row) {
       $.ajax({
-        url: '/api/class/' + classId + '/teacher/',
+        url: '/dashboard/api/class/' + classId + '/teacher/',
         type: 'GET',
         success: function(data) {
           if (data.class_teacher) {
@@ -1066,7 +1066,7 @@
 
       // Make AJAX call to delete section
       $.ajax({
-        url: '/api/delete-section/' + sectionId + '/',
+        url: '/dashboard/api/delete-section/' + sectionId + '/',
         type: 'POST',
         headers: {
           'X-CSRFToken': $('input[name="csrfmiddlewaretoken"]').val()
@@ -1102,7 +1102,7 @@
 
       // Make AJAX call to delete section
       $.ajax({
-        url: '/api/delete-section/' + sectionId + '/',
+        url: '/dashboard/api/delete-section/' + sectionId + '/',
         type: 'POST',
         headers: {
           'X-CSRFToken': $('input[name="csrfmiddlewaretoken"]').val()
@@ -1147,7 +1147,7 @@
       $btn.prop('disabled', true);
 
       // Determine if this is an add or update operation
-      var url = sectionId ? '/api/update-section/' + sectionId + '/' : '/api/add-section/';
+      var url = sectionId ? '/dashboard/api/update-section/' + sectionId + '/' : '/dashboard/api/add-section/';
 
       // Make AJAX call to save section
       $.ajax({
@@ -1212,7 +1212,7 @@
 
       // Make AJAX call to get sections
       $.ajax({
-        url: '/api/class/' + classId + '/sections/',
+        url: '/dashboard/api/class/' + classId + '/sections/',
         type: 'GET',
         success: function(data) {
           if (data.sections && data.sections.length > 0) {
@@ -1247,7 +1247,7 @@
 
       // Make AJAX call to get sections
       $.ajax({
-        url: '/api/class/' + classId + '/sections/',
+        url: '/dashboard/api/class/' + classId + '/sections/',
         type: 'GET',
         success: function(data) {
           if (data.sections && data.sections.length > 0) {
@@ -1282,7 +1282,7 @@
 
       // Make AJAX call to get subjects
       $.ajax({
-        url: '/class/' + classId + '/data/',
+        url: '/dashboard/class/' + classId + '/data/',
         type: 'GET',
         success: function(data) {
           var subjectsHtml = '<div class="row">';
