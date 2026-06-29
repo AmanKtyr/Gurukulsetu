@@ -2,3 +2,10 @@ super admin
 
 Admin 
 Admin@#12
+
+
+
+college 
+
+ktyrcollege
+Admin@#12

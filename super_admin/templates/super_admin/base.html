@@ -62,9 +62,12 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{% url 'logout' %}">
-                        <i class="fas fa-sign-out-alt"></i> Logout
-                    </a>
+                    <form action="{% url 'logout' %}" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" style="background:none; border:none; padding:15px 20px; color:#fff; width:100%; text-align:left; cursor:pointer;" class="logout-btn">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </button>
+                    </form>
                 </li>
             </ul>
         </div>
