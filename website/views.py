@@ -11,7 +11,10 @@ def landing_page(request):
     """
     # If user is already authenticated, redirect to dashboard
     if request.user.is_authenticated:
-        return redirect('home')
+        if request.user.is_superuser:
+            return redirect('super_admin:dashboard')
+        # fallback if not superuser but authenticated
+        return redirect('students:dashboard')
 
     return render(request, 'website/landing_page.html')
 

@@ -37,8 +37,23 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
+    # Third Party
+    'widget_tweaks',
+    
+    # Existing Apps
     'super_admin',
     'website',
+    
+    # School Management Apps
+    'apps.students',
+    'apps.teachers',
+    'apps.academics',
+    'apps.finance',
+    'apps.transport',
+    'apps.hostel',
+    'apps.library',
+    'apps.communication',
 ]
 
 MIDDLEWARE = [
@@ -56,7 +71,7 @@ ROOT_URLCONF = 'gurukulsetu.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -117,6 +132,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATICFILES_DIRS = [
+    BASE_DIR / 'static'
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

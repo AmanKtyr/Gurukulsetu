@@ -1,0 +1,101 @@
+<nav class="navbar navbar-vertical navbar-expand-lg">
+  <div class="collapse navbar-collapse" id="navbarVerticalCollapse">
+    <div class="navbar-vertical-content">
+      <ul class="navbar-nav flex-column" id="navbarVerticalNav">
+        <li class="nav-item">
+          <p class="navbar-vertical-label">School Management</p>
+          <hr class="navbar-vertical-line"/>
+        </li>
+
+        <li class="nav-item">
+          <div class="nav-item-wrapper">
+            <a class="nav-link label-1" href="{% url 'students:dashboard' %}" role="button">
+              <div class="d-flex align-items-center">
+                <span class="nav-link-icon"><span data-feather="grid"></span></span>
+                <span class="nav-link-text-wrapper"><span class="nav-link-text">Students</span></span>
+              </div>
+            </a>
+          </div>
+        </li>
+
+        <li class="nav-item">
+          <div class="nav-item-wrapper">
+            <a class="nav-link label-1" href="{% url 'teachers:dashboard' %}" role="button">
+              <div class="d-flex align-items-center">
+                <span class="nav-link-icon"><span data-feather="grid"></span></span>
+                <span class="nav-link-text-wrapper"><span class="nav-link-text">Teachers</span></span>
+              </div>
+            </a>
+          </div>
+        </li>
+
+        <li class="nav-item">
+          <div class="nav-item-wrapper">
+            <a class="nav-link label-1" href="{% url 'academics:dashboard' %}" role="button">
+              <div class="d-flex align-items-center">
+                <span class="nav-link-icon"><span data-feather="grid"></span></span>
+                <span class="nav-link-text-wrapper"><span class="nav-link-text">Academics</span></span>
+              </div>
+            </a>
+          </div>
+        </li>
+
+        <li class="nav-item">
+          <div class="nav-item-wrapper">
+            <a class="nav-link label-1" href="{% url 'finance:dashboard' %}" role="button">
+              <div class="d-flex align-items-center">
+                <span class="nav-link-icon"><span data-feather="grid"></span></span>
+                <span class="nav-link-text-wrapper"><span class="nav-link-text">Finance</span></span>
+              </div>
+            </a>
+          </div>
+        </li>
+
+        <li class="nav-item">
+          <div class="nav-item-wrapper">
+            <a class="nav-link label-1" href="{% url 'transport:dashboard' %}" role="button">
+              <div class="d-flex align-items-center">
+                <span class="nav-link-icon"><span data-feather="grid"></span></span>
+                <span class="nav-link-text-wrapper"><span class="nav-link-text">Transport</span></span>
+              </div>
+            </a>
+          </div>
+        </li>
+
+        <li class="nav-item">
+          <div class="nav-item-wrapper">
+            <a class="nav-link label-1" href="{% url 'hostel:dashboard' %}" role="button">
+              <div class="d-flex align-items-center">
+                <span class="nav-link-icon"><span data-feather="grid"></span></span>
+                <span class="nav-link-text-wrapper"><span class="nav-link-text">Hostel</span></span>
+              </div>
+            </a>
+          </div>
+        </li>
+
+        <li class="nav-item">
+          <div class="nav-item-wrapper">
+            <a class="nav-link label-1" href="{% url 'library:dashboard' %}" role="button">
+              <div class="d-flex align-items-center">
+                <span class="nav-link-icon"><span data-feather="grid"></span></span>
+                <span class="nav-link-text-wrapper"><span class="nav-link-text">Library</span></span>
+              </div>
+            </a>
+          </div>
+        </li>
+
+        <li class="nav-item">
+          <div class="nav-item-wrapper">
+            <a class="nav-link label-1" href="{% url 'communication:dashboard' %}" role="button">
+              <div class="d-flex align-items-center">
+                <span class="nav-link-icon"><span data-feather="grid"></span></span>
+                <span class="nav-link-text-wrapper"><span class="nav-link-text">Communication</span></span>
+              </div>
+            </a>
+          </div>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>

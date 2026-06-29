@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en-US" dir="ltr" data-navigation-type="default" data-navbar-horizontal-shape="default">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<!-- ===============================================-->
+<!--    Document Title-->
+<!-- ===============================================-->
+<title>Phoenix</title>
+<!-- ===============================================-->
+<!--    Favicons-->
+<!-- ===============================================-->
+<link href="{% static 'assets/img/favicons/apple-touch-icon.png' %}" rel="apple-touch-icon" sizes="180x180"/>
+<link href="{% static 'assets/img/favicons/favicon-32x32.png' %}" rel="icon" sizes="32x32" type="image/png"/>
+<link href="{% static 'assets/img/favicons/favicon-16x16.png' %}" rel="icon" sizes="16x16" type="image/png"/>
+<link href="{% static 'assets/img/favicons/favicon.ico' %}" rel="shortcut icon" type="image/x-icon"/>
+<link href="{% static 'assets/img/favicons/manifest.json' %}" rel="manifest"/>
+<meta content="assets/img/favicons/mstile-150x150.png' %}" name="msapplication-TileImage"/>
+<meta content="#ffffff" name="theme-color"/>
+<script src="{% static 'vendors/simplebar/simplebar.min.js' %}"></script>
+<script src="{% static 'assets/js/config.js' %}"></script>
+<!-- ===============================================-->
+<!--    Stylesheets-->
+<!-- ===============================================-->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="{% static 'vendors/simplebar/simplebar.min.css' %}" rel="stylesheet"/>
+<link href="https://unicons.iconscout.com/release/v4.0.8/css/line.css' %}" rel="stylesheet"/>
+<link href="{% static 'assets/css/theme-rtl.min.css' %}" id="style-rtl" rel="stylesheet" type="text/css"/>
+<link href="{% static 'assets/css/theme.min.css' %}" id="style-default" rel="stylesheet" type="text/css"/>
+<link href="{% static 'assets/css/user-rtl.min.css' %}" id="user-style-rtl" rel="stylesheet" type="text/css"/>
+<link href="{% static 'assets/css/user.min.css' %}" id="user-style-default" rel="stylesheet" type="text/css"/>
+<script>
+      var phoenixIsRTL = window.config.config.phoenixIsRTL;
+      if (phoenixIsRTL) {
+        var linkDefault = document.getElementById('style-default');
+        var userLinkDefault = document.getElementById('user-style-default');
+        linkDefault.setAttribute('disabled', true);
+        userLinkDefault.setAttribute('disabled', true);
+        document.querySelector('html').setAttribute('dir', 'rtl');
+      } else {
+        var linkRTL = document.getElementById('style-rtl');
+        var userLinkRTL = document.getElementById('user-style-rtl');
+        linkRTL.setAttribute('disabled', true);
+        userLinkRTL.setAttribute('disabled', true);
+      }
+    </script>
+<link href="{% static 'vendors/leaflet/leaflet.css' %}" rel="stylesheet"/>
+<link href="{% static 'vendors/leaflet.markercluster/MarkerCluster.css' %}" rel="stylesheet"/>
+<link href="{% static 'vendors/leaflet.markercluster/MarkerCluster.Default.css' %}" rel="stylesheet"/>
+</head>
+<body>
+  <main class="main" id="top">
+    {% include 'partials/sidebar.html' %}
+    {% include 'partials/topbar.html' %}
+    
+    <div class="content">
+      {% block content %}
+      {% endblock %}
+      
+      {% include 'partials/footer.html' %}
+    </div>
+  </main>
+  
+  <script src="{% static 'vendors/popper/popper.min.js' %}"></script><script src="{% static 'vendors/bootstrap/bootstrap.min.js' %}"></script><script src="{% static 'vendors/anchorjs/anchor.min.js' %}"></script><script src="{% static 'vendors/is/is.min.js' %}"></script><script src="{% static 'vendors/fontawesome/all.min.js' %}"></script><script src="{% static 'vendors/lodash/lodash.min.js' %}"></script><script src="{% static 'vendors/list.js/list.min.js' %}"></script><script src="{% static 'vendors/feather-icons/feather.min.js' %}"></script><script src="{% static 'vendors/dayjs/dayjs.min.js' %}"></script><script src="{% static 'vendors/leaflet/leaflet.js' %}"></script><script src="{% static 'vendors/leaflet.markercluster/leaflet.markercluster.js' %}"></script><script src="{% static 'vendors/leaflet.tilelayer.colorfilter/leaflet-tilelayer-colorfilter.min.js' %}"></script><script src="{% static 'assets/js/phoenix.js' %}"></script><script src="{% static 'vendors/echarts/echarts.min.js' %}"></script><script src="{% static 'assets/js/dashboards/ecommerce-dashboard.js' %}"></script>
+</body>
+</html>
