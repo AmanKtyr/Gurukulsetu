@@ -3,11 +3,19 @@
         <div class="collapse navbar-collapse justify-content-between">
           <div class="navbar-logo">
             <button class="btn navbar-toggler navbar-toggler-humburger-icon hover-bg-transparent" type="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalCollapse" aria-controls="navbarVerticalCollapse" aria-expanded="false" aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span class="toggle-line"></span></span></button>
-            <a class="navbar-brand me-1 me-sm-3" href="index.html">
+            <a class="navbar-brand me-1 me-sm-3" href="#">
               <div class="d-flex align-items-center">
-                <div class="d-flex align-items-center"><img src=\"{% static 'assets/img/icons/logo.png' %}\" alt="Gurukulsetu" width="27" />
+                {% if request.college %}
+                  {% if request.college.logo %}
+                    <img src="{{ request.college.logo.url }}" alt="{{ request.college.name }}" height="32" style="max-width:120px; object-fit:contain;" />
+                  {% else %}
+                    <img src="{% static 'assets/img/icons/logo.png' %}" alt="{{ request.college.name }}" width="27" />
+                  {% endif %}
+                  <h5 class="logo-text ms-2 d-none d-sm-block" style="max-width:160px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;" title="{{ request.college.name }}">{{ request.college.name }}</h5>
+                {% else %}
+                  <img src="{% static 'assets/img/icons/Gurukul_Setu.png' %}" alt="Gurukulsetu" width="40" />
                   <h5 class="logo-text ms-2 d-none d-sm-block">Gurukulsetu</h5>
-                </div>
+                {% endif %}
               </div>
             </a>
           </div>
@@ -301,19 +309,27 @@
                 </div>
               </div>
             </li>
-            <li class="nav-item dropdown"><a class="nav-link lh-1 pe-0" id="navbarDropdownUser" href="index.html#!" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
-                <div class="avatar avatar-l ">
-                  <img class="rounded-circle " src=\"{% static 'assets/img/team/40x40/57.webp' %}\" alt="" />
+            <li class="nav-item dropdown"><a class="nav-link lh-1 pe-0" id="navbarDropdownUser" href="#" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
+                <div class="avatar avatar-l">
+                  {% if request.user.profile.profile_picture %}
+                    <img class="rounded-circle" src="{{ request.user.profile.profile_picture.url }}" alt="{{ request.user.get_full_name }}" />
+                  {% else %}
+                    <img class="rounded-circle" src="{% static 'assets/img/team/default_avatar.png' %}" alt="{{ request.user.get_full_name }}" />
+                  {% endif %}
                 </div>
               </a>
               <div class="dropdown-menu dropdown-menu-end navbar-dropdown-caret py-0 dropdown-profile shadow border" aria-labelledby="navbarDropdownUser">
                 <div class="card position-relative border-0">
                   <div class="card-body p-0">
                     <div class="text-center pt-4 pb-3">
-                      <div class="avatar avatar-xl ">
-                        <img class="rounded-circle " src=\"{% static 'assets/img/team/72x72/57.webp' %}\" alt="" />
+                      <div class="avatar avatar-xl">
+                        {% if request.user.profile.profile_picture %}
+                          <img class="rounded-circle" src="{{ request.user.profile.profile_picture.url }}" alt="{{ request.user.get_full_name }}" />
+                        {% else %}
+                          <img class="rounded-circle" src="{% static 'assets/img/team/default_avatar.png' %}" alt="{{ request.user.get_full_name }}" />
+                        {% endif %}
                       </div>
-                      <h6 class="mt-2 text-body-emphasis">Super Admin</h6>
+                      <h6 class="mt-2 text-body-emphasis">{{ request.user.get_full_name|default:request.user.username }}</h6>
                     </div>
                     <div class="mb-3 mx-3"><input class="form-control form-control-sm" id="statusUpdateInput" type="text" placeholder="Update your status" /></div>
                   </div>
