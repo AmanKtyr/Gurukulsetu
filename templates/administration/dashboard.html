@@ -1,0 +1,160 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="pb-5">
+  <div class="row g-4">
+    <div class="col-12 col-xxl-6">
+      <div class="mb-8">
+        <h2 class="mb-2">Administration Dashboard</h2>
+        <h5 class="text-700 fw-semi-bold">Here's what's happening at your institution today</h5>
+      </div>
+      
+      <!-- Stats Cards -->
+      <div class="row g-4 mb-4">
+        <!-- Students Card -->
+        <div class="col-12 col-sm-6 col-md-3">
+          <div class="card h-100 shadow-sm border-0 transition-hover">
+            <div class="card-body d-flex flex-column justify-content-between">
+              <div class="d-flex align-items-center justify-content-between mb-3">
+                <h6 class="text-700 mb-0">Total Students</h6>
+                <div class="icon-item icon-item-sm bg-primary-soft text-primary shadow-none">
+                  <span data-feather="users"></span>
+                </div>
+              </div>
+              <h3 class="mb-2 text-primary">1,423</h3>
+              <div class="d-flex align-items-center">
+                <span class="badge badge-phoenix fs--2 badge-phoenix-success"><span class="badge-label">+5.2%</span></span>
+                <span class="text-500 fs--2 ms-2">vs last month</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Teachers Card -->
+        <div class="col-12 col-sm-6 col-md-3">
+          <div class="card h-100 shadow-sm border-0 transition-hover">
+            <div class="card-body d-flex flex-column justify-content-between">
+              <div class="d-flex align-items-center justify-content-between mb-3">
+                <h6 class="text-700 mb-0">Active Staff</h6>
+                <div class="icon-item icon-item-sm bg-info-soft text-info shadow-none">
+                  <span data-feather="briefcase"></span>
+                </div>
+              </div>
+              <h3 class="mb-2 text-info">156</h3>
+              <div class="d-flex align-items-center">
+                <span class="badge badge-phoenix fs--2 badge-phoenix-success"><span class="badge-label">+2</span></span>
+                <span class="text-500 fs--2 ms-2">new hires</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Admissions Card -->
+        <div class="col-12 col-sm-6 col-md-3">
+          <div class="card h-100 shadow-sm border-0 transition-hover">
+            <div class="card-body d-flex flex-column justify-content-between">
+              <div class="d-flex align-items-center justify-content-between mb-3">
+                <h6 class="text-700 mb-0">Admissions</h6>
+                <div class="icon-item icon-item-sm bg-success-soft text-success shadow-none">
+                  <span data-feather="user-plus"></span>
+                </div>
+              </div>
+              <h3 class="mb-2 text-success">89</h3>
+              <div class="d-flex align-items-center">
+                <span class="badge badge-phoenix fs--2 badge-phoenix-success"><span class="badge-label">+12%</span></span>
+                <span class="text-500 fs--2 ms-2">this session</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Revenue Card -->
+        <div class="col-12 col-sm-6 col-md-3">
+          <div class="card h-100 shadow-sm border-0 transition-hover">
+            <div class="card-body d-flex flex-column justify-content-between">
+              <div class="d-flex align-items-center justify-content-between mb-3">
+                <h6 class="text-700 mb-0">Fee Collected</h6>
+                <div class="icon-item icon-item-sm bg-warning-soft text-warning shadow-none">
+                  <span data-feather="dollar-sign"></span>
+                </div>
+              </div>
+              <h3 class="mb-2 text-warning">₹ 2.4M</h3>
+              <div class="d-flex align-items-center">
+                <span class="badge badge-phoenix fs--2 badge-phoenix-success"><span class="badge-label">+4.1%</span></span>
+                <span class="text-500 fs--2 ms-2">vs last term</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Quick Actions and Alerts Row -->
+      <div class="row g-4 mb-4">
+        <div class="col-12 col-lg-6">
+          <div class="card h-100 shadow-sm border-0">
+            <div class="card-header border-bottom-0 pb-0">
+              <h5 class="mb-0">Quick Actions</h5>
+            </div>
+            <div class="card-body">
+              <div class="d-grid gap-2 grid-cols-2">
+                <a class="btn btn-outline-primary" href="#"><span data-feather="user-plus" class="me-2"></span>Add New User</a>
+                <a class="btn btn-outline-info" href="#"><span data-feather="settings" class="me-2"></span>System Settings</a>
+                <a class="btn btn-outline-success" href="#"><span data-feather="file-text" class="me-2"></span>Generate Reports</a>
+                <a class="btn btn-outline-warning" href="#"><span data-feather="bell" class="me-2"></span>Send Announcement</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-12 col-lg-6">
+          <div class="card h-100 shadow-sm border-0">
+            <div class="card-header border-bottom-0 pb-0">
+              <h5 class="mb-0">System Alerts</h5>
+            </div>
+            <div class="card-body">
+              <div class="d-flex align-items-center mb-3">
+                <div class="icon-item icon-item-sm bg-danger-soft text-danger me-3"><span data-feather="alert-triangle"></span></div>
+                <div class="flex-1">
+                  <h6 class="mb-0">Server Maintenance</h6>
+                  <p class="fs--1 text-500 mb-0">Scheduled for tonight at 2:00 AM.</p>
+                </div>
+              </div>
+              <div class="d-flex align-items-center mb-3">
+                <div class="icon-item icon-item-sm bg-warning-soft text-warning me-3"><span data-feather="database"></span></div>
+                <div class="flex-1">
+                  <h6 class="mb-0">Database Backup</h6>
+                  <p class="fs--1 text-500 mb-0">Last successful backup was 4 hours ago.</p>
+                </div>
+              </div>
+              <div class="d-flex align-items-center">
+                <div class="icon-item icon-item-sm bg-success-soft text-success me-3"><span data-feather="check-circle"></span></div>
+                <div class="flex-1">
+                  <h6 class="mb-0">System Health</h6>
+                  <p class="fs--1 text-500 mb-0">All systems are running perfectly.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<style>
+  .transition-hover {
+    transition: all 0.3s ease;
+  }
+  .transition-hover:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+  }
+  .grid-cols-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+</style>
+{% endblock %}

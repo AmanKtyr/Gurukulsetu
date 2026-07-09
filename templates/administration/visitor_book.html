@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="pb-5">
+  <div class="row g-4">
+    <div class="col-12">
+      <div class="mb-8">
+        <h2 class="mb-2">Visitor Book</h2>
+        <h5 class="text-700 fw-semi-bold">Track all visitors on campus</h5>
+      </div>
+      
+      <div class="card shadow-sm border-0">
+        <div class="card-header border-bottom-0 pt-4 pb-0 d-flex justify-content-between align-items-center">
+          <h5 class="mb-0">Visitor Log</h5>
+          <button class="btn btn-primary btn-sm"><span data-feather="plus" class="me-2"></span>Add Visitor</button>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-sm fs--1 mb-0">
+              <thead>
+                <tr>
+                  <th class="sort border-top border-200 ps-0 align-middle">NAME</th>
+                  <th class="sort border-top border-200 align-middle">PURPOSE</th>
+                  <th class="sort border-top border-200 align-middle">PHONE</th>
+                  <th class="sort border-top border-200 align-middle">DATE</th>
+                  <th class="sort border-top border-200 align-middle">IN TIME</th>
+                  <th class="sort border-top border-200 align-middle">OUT TIME</th>
+                  <th class="sort border-top border-200 text-end pe-0 align-middle">ACTIONS</th>
+                </tr>
+              </thead>
+              <tbody class="list">
+                {% for visitor in visitors %}
+                <tr>
+                  <td class="align-middle ps-0"><a class="fw-semi-bold" href="#">{{ visitor.name }}</a></td>
+                  <td class="align-middle">{{ visitor.purpose }}</td>
+                  <td class="align-middle">{{ visitor.phone }}</td>
+                  <td class="align-middle">{{ visitor.date }}</td>
+                  <td class="align-middle">
+                    <span class="badge badge-phoenix badge-phoenix-success">{{ visitor.in_time|default:"-" }}</span>
+                  </td>
+                  <td class="align-middle">
+                    <span class="badge badge-phoenix badge-phoenix-secondary">{{ visitor.out_time|default:"-" }}</span>
+                  </td>
+                  <td class="align-middle text-end pe-0">
+                    <button class="btn btn-link text-600 p-0 me-2"><span data-feather="edit"></span></button>
+                    <button class="btn btn-link text-danger p-0"><span data-feather="trash-2"></span></button>
+                  </td>
+                </tr>
+                {% empty %}
+                <tr>
+                  <td colspan="7" class="text-center py-4 text-500">No visitors found.</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

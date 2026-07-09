@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'website',
     
     # School Management Apps
+    'apps.administration',
     'apps.students',
     'apps.teachers',
     'apps.academics',

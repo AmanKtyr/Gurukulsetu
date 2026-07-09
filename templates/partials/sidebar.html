@@ -32,10 +32,10 @@
             <div class="parent-wrapper label-1">
               <ul class="nav collapse parent" data-bs-parent="#navbarVerticalCollapse" id="nv-front-office">
                 <li class="collapsed-nav-item-title d-none">Front Office</li>
-                <li class="nav-item"><a class="nav-link" href="#"><div class="d-flex align-items-center"><span class="nav-link-text">Admission Inquiries</span></div></a></li>
-                <li class="nav-item"><a class="nav-link" href="#"><div class="d-flex align-items-center"><span class="nav-link-text">Visitor Book</span></div></a></li>
-                <li class="nav-item"><a class="nav-link" href="#"><div class="d-flex align-items-center"><span class="nav-link-text">Phone Call Log</span></div></a></li>
-                <li class="nav-item"><a class="nav-link" href="#"><div class="d-flex align-items-center"><span class="nav-link-text">Complaints</span></div></a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'administration:inquiries' %}"><div class="d-flex align-items-center"><span class="nav-link-text">Admission Inquiries</span></div></a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'administration:visitor_book' %}"><div class="d-flex align-items-center"><span class="nav-link-text">Visitor Book</span></div></a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'administration:phone_call_log' %}"><div class="d-flex align-items-center"><span class="nav-link-text">Phone Call Log</span></div></a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'administration:complaints' %}"><div class="d-flex align-items-center"><span class="nav-link-text">Complaints</span></div></a></li>
               </ul>
             </div>
           </div>
